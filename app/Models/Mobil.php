@@ -8,4 +8,16 @@ use Illuminate\Database\Eloquent\Model;
 class Mobil extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'nama',
+        'tahun',
+        'plat',
+        'warna',
+        'kapasitas',
+        'fasilitas',
+        'gambar',
+    ];
+
+    
 }

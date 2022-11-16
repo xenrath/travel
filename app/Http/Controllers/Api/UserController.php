@@ -14,6 +14,9 @@ class UserController extends Controller
         $validator = Validator::make($request->all(), [
             'telp' => 'required',
             'password' => 'required',
+        ], [
+            'telp.required' => 'Nomor telepon tidak boleh kosong!',
+            'password.required' => 'Password tidak boleh kosong!',
         ]);
 
         if ($validator->fails()) {
