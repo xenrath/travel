@@ -16,24 +16,48 @@ class ProdukSeeder extends Seeder
     {
         $produks = [
             [
-                'mobil_id' => '1',
+                'nama' => 'Toyota Avanza',
+                'tahun' => '2018',
+                'plat' => 'G1234IJ',
+                'warna' => 'Hitam',
+                'kapasitas' => '4',
+                'fasilitas' => 'AC, Media Player',
+                'gambar' => '',
                 'sewa' => '350000',
-                'denda' => '350000'
+                'status' => true
             ],
             [
-                'mobil_id' => '2',
+                'nama' => 'Honda Mobilio',
+                'tahun' => '2019',
+                'plat' => 'G2345JK',
+                'warna' => 'Silver',
+                'kapasitas' => '4',
+                'fasilitas' => 'AC, Media Player',
+                'gambar' => '',
                 'sewa' => '350000',
-                'denda' => '350000'
+                'status' => true
             ],
             [
-                'mobil_id' => '3',
+                'nama' => 'Toyota Grand Innova',
+                'tahun' => '2020',
+                'plat' => 'G3456KL',
+                'warna' => 'Putih',
+                'kapasitas' => '4',
+                'fasilitas' => 'AC, Media Player',
+                'gambar' => '',
                 'sewa' => '400000',
-                'denda' => '400000'
+                'status' => true
             ],
             [
-                'mobil_id' => '4',
+                'nama' => 'Mitsubishi Xpander',
+                'tahun' => '2021',
+                'plat' => 'G4567LM',
+                'warna' => 'Silver',
+                'kapasitas' => '6',
+                'fasilitas' => 'AC',
+                'gambar' => '',
                 'sewa' => '450000',
-                'denda' => '450000'
+                'status' => true
             ],
         ];
 

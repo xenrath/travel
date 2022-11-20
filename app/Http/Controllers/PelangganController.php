@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
-class SopirController extends Controller
+class PelangganController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,9 +16,9 @@ class SopirController extends Controller
      */
     public function index()
     {
-        $users = User::where('role', 'sopir')->get();
+        $users = User::where('role', 'pelanggan')->get();
 
-        return view('user.sopir.index', compact('users'));
+        return view('user.pelanggan.index', compact('users'));
     }
 
     /**
@@ -28,7 +28,7 @@ class SopirController extends Controller
      */
     public function create()
     {
-        return view('user.sopir.create');
+        return view('user.pelanggan.create');
     }
 
     /**
@@ -49,7 +49,7 @@ class SopirController extends Controller
             'nik.required' => 'NIK tidak boleh kosong!',
             'nik.unique' => 'NIK sudah digunakan!',
             'nik.min' => 'NIK yang dimasukan salah!',
-            'nama.required' => 'Nama sopir tidak boleh kosong!',
+            'nama.required' => 'Nama pelanggan tidak boleh kosong!',
             'telp.required' => 'Nomor telepon tidak boleh kosong!',
             'telp.min' => 'Nomor telepon yang dimasukan salah!',
             'gender.required' => 'Jenis kelamin harus dipilih!',
@@ -71,11 +71,11 @@ class SopirController extends Controller
 
         User::create(array_merge($request->all(), [
             'password' => bcrypt($request->nik),
-            'role' => 'sopir',
+            'role' => 'pelanggan',
             'gambar' => $namagambar,
         ]));
 
-        return redirect('sopir')->with('status', 'Berhasil menambahkan Sopir');
+        return redirect('pelanggan')->with('status', 'Berhasil menambahkan pelanggan');
     }
 
     /**
@@ -88,7 +88,7 @@ class SopirController extends Controller
     {
         $user = User::findOrFail($id);
 
-        return view('user.sopir.show', compact('user'));
+        return view('user.pelanggan.show', compact('user'));
     }
 
     /**
@@ -101,7 +101,7 @@ class SopirController extends Controller
     {
         $user = User::findOrFail($id);
 
-        return view('user.sopir.edit', compact('user'));
+        return view('user.pelanggan.edit', compact('user'));
     }
 
     /**
@@ -123,7 +123,7 @@ class SopirController extends Controller
             'nik.required' => 'NIK tidak boleh kosong!',
             'nik.unique' => 'NIK sudah digunakan!',
             'nik.min' => 'NIK yang dimasukan salah!',
-            'nama.required' => 'Nama sopir tidak boleh kosong!',
+            'nama.required' => 'Nama pelanggan tidak boleh kosong!',
             'telp.required' => 'Nomor telepon tidak boleh kosong!',
             'telp.min' => 'Nomor telepon yang dimasukan salah!',
             'gender.required' => 'Jenis kelamin harus dipilih!',
@@ -155,7 +155,7 @@ class SopirController extends Controller
             'foto' => $namafoto,
         ]);
 
-        return redirect('sopir')->with('status', 'Berhasil memperbarui Sopir');
+        return redirect('pelanggan')->with('status', 'Berhasil memperbarui pelanggan');
     }
 
     /**
@@ -171,6 +171,6 @@ class SopirController extends Controller
         Storage::disk('local')->delete('public/uploads/' . $user->foto);
         $user->delete();
 
-        return back()->with('status', 'Berhasil menghapus Sopir');
+        return back()->with('status', 'Berhasil menghapus pelanggan');
     }
 }

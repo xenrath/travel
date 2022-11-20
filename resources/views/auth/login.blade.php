@@ -64,10 +64,10 @@
                   <form method="POST" action="{{ route('login') }}">
                     @csrf
                     <div class="mb-3">
-                      <label class="form-label" for="username">Username</label>
-                      <input class="form-control @error('username') is-invalid @enderror" id="username" type="username"
-                        value="{{ old('username') }}" />
-                      @error('username')
+                      <label class="form-label" for="telp">Username</label>
+                      <input class="form-control @error('telp') is-invalid @enderror" name="telp" id="telp" type="telp"
+                        value="{{ old('telp') }}" />
+                      @error('telp')
                       <span class="invalid-feedback" role="alert">{{ $message }}</span>
                       @enderror
                     </div>
@@ -75,7 +75,7 @@
                       <div class="d-flex justify-content-between">
                         <label class="form-label" for="password">Password</label>
                       </div>
-                      <input class="form-control @error('password') is-invalid @enderror" id="password" type="password"
+                      <input class="form-control @error('password') is-invalid @enderror" id="password" type="password" name="password"
                         value="{{ old('password') }}" />
                       @error('password')
                       <span class="invalid-feedback" role="alert">{{ $message }}</span>

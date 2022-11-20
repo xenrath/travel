@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
-    public function user_login(Request $request)
+    public function login(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'telp' => 'required',
@@ -43,14 +43,25 @@ class UserController extends Controller
         }
     }
 
-    public function user_register(Request $request)
+    public function register(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'nik' => 'required|unique:users',
+            'nik' => 'required|min:16|unique:users',
             'nama' => 'required',
             'telp' => 'required|unique:users',
             'gender' => 'required',
-            'password' => 'required|min:6|confirmed',
+            'password' => 'required|min:8|confirmed',
+        ], [
+            'nik.required' => 'NIK tidak boleh kosong!',
+            'nik.min' => 'Masukan NIK dengan benar!',
+            'nik.unique' => 'NIK sudah digunakan!',
+            'nama.required' => 'Nama tidak boleh kosong!',
+            'telp.required' => 'Nomor telepon tidak boleh kosong!',
+            'telp.unique' => 'Nomor telepon sudah digunakan!',
+            'gender.required' => 'Jenis kelamin harus dipilih!',
+            'password.required' => 'Password tidak boleh kosong!',
+            'password.min' => 'Password minimal 8 karakter!',
+            'password.confirmed' => 'Konfirmasi password tidak sesuai!',
         ]);
 
         if ($validator->fails()) {
@@ -65,11 +76,26 @@ class UserController extends Controller
         if ($user) {
             return response()->json([
                 'status' => TRUE,
-                'message' => 'Pendaftaran berhasil, silahkan lakukan verifikasi terlebih dahulu',
+                'message' => 'Pendaftaran berhasil',
                 'user' => $user
             ]);
         } else {
             return $this->error('Pendaftaran gagal, ' + $validator->errors()->all()[0]);
+        }
+    }
+
+    public function detail($id)
+    {
+        $user = User::where('id', $id)->first();
+
+        if ($user) {
+            return response()->json([
+                'status' => TRUE,
+                'message' => 'Berhasil menampilkan detail',
+                'user' => $user
+            ]);
+        } else {
+            return $this->error('Gagal menampilkan detail!');
         }
     }
 

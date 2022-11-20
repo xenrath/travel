@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -23,6 +24,10 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $admin = User::where('role', 'admin')->get();
+        $sopir = User::where('role', 'sopir')->get();
+        $pelanggan = User::where('role', 'pelanggan')->get();
+
+        return view('home', compact('admin', 'sopir', 'pelanggan'));
     }
 }

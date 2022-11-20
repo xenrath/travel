@@ -48,25 +48,25 @@ class UserSeeder extends Seeder
             ],
             [
                 'nik' => $this->generatorNik($num),
-                'nama' => 'Client1',
+                'nama' => 'pelanggan1',
                 // 'telp' => $this->generatorTelp($num),
-                'telp' => 'client1',
+                'telp' => 'pelanggan1',
                 'alamat' => 'Brebes',
                 'gender' => 'L',
-                'password' => bcrypt('client1'),
+                'password' => bcrypt('pelanggan1'),
                 'foto' => '',
-                'role' => 'client'
+                'role' => 'pelanggan'
             ],
             [
                 'nik' => $this->generatorNik($num),
-                'nama' => 'Client2',
+                'nama' => 'pelanggan2',
                 // 'telp' => $this->generatorTelp($num),
-                'telp' => 'client2',
+                'telp' => 'pelanggan2',
                 'alamat' => 'Slawi',
                 'gender' => 'P',
-                'password' => bcrypt('client2'),
+                'password' => bcrypt('pelanggan2'),
                 'foto' => '',
-                'role' => 'client'
+                'role' => 'pelanggan'
             ],
         ];
 

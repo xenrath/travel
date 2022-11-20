@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class AdminController extends Controller
@@ -13,7 +14,9 @@ class AdminController extends Controller
      */
     public function index()
     {
-        //
+        $users = User::where('role', 'admin')->get();
+
+        return view('user.admin.index', compact('users'));
     }
 
     /**
@@ -23,7 +26,7 @@ class AdminController extends Controller
      */
     public function create()
     {
-        //
+        return view('user.admin.create');
     }
 
     /**

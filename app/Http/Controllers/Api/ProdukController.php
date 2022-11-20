@@ -10,13 +10,28 @@ class ProdukController extends Controller
 {
     public function list()
     {
-        $produks = Produk::with('mobil')->get();
+        $produks = Produk::get();
 
         if ($produks) {
             return response()->json([
                 'status' => TRUE,
                 'message' => 'Berhasil menampilkan Produk',
                 'produks' => $produks
+            ]);
+        } else {
+            return $this->error('Produk tidak ditemukan!');
+        }
+    }
+
+    public function detail($id)
+    {
+        $produk = Produk::where('id', $id)->first();
+
+        if ($produk) {
+            return response()->json([
+                'status' => TRUE,
+                'message' => 'Berhasil menampilkan Produk',
+                'produk' => $produk
             ]);
         } else {
             return $this->error('Produk tidak ditemukan!');

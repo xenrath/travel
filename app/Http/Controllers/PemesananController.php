@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Mobil;
+use App\Models\Produk;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Validator;
 
-class SopirController extends Controller
+class PemesananController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,9 +16,9 @@ class SopirController extends Controller
      */
     public function index()
     {
-        $users = User::where('role', 'sopir')->get();
+        // $users = User::where('role', 'sopir')->get();
 
-        return view('user.sopir.index', compact('users'));
+        return view('pemesanan.index');
     }
 
     /**
@@ -28,7 +28,12 @@ class SopirController extends Controller
      */
     public function create()
     {
-        return view('user.sopir.create');
+        $users = User::where('role', 'pelanggan')->get();
+        $produks = Produk::whereHas('mobil', function ($query) {
+            $query->where('status', true);
+        })->get();
+
+        return view('pemesanan.create', compact('users', 'produks'));
     }
 
     /**
@@ -88,7 +93,7 @@ class SopirController extends Controller
     {
         $user = User::findOrFail($id);
 
-        return view('user.sopir.show', compact('user'));
+        return view('pemesanan.show', compact('user'));
     }
 
     /**
@@ -101,7 +106,7 @@ class SopirController extends Controller
     {
         $user = User::findOrFail($id);
 
-        return view('user.sopir.edit', compact('user'));
+        return view('pemesanan.edit', compact('user'));
     }
 
     /**

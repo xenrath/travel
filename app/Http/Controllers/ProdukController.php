@@ -44,7 +44,7 @@ class ProdukController extends Controller
      * @param  \App\Models\Merk  $merk
      * @return \Illuminate\Http\Response
      */
-    public function show(Merk $merk)
+    public function show($id)
     {
         //
     }
@@ -55,7 +55,7 @@ class ProdukController extends Controller
      * @param  \App\Models\Merk  $merk
      * @return \Illuminate\Http\Response
      */
-    public function edit(Merk $merk)
+    public function edit($id)
     {
         //
     }
@@ -67,7 +67,7 @@ class ProdukController extends Controller
      * @param  \App\Models\Merk  $merk
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Merk $merk)
+    public function update(Request $request, $id)
     {
         //
     }
@@ -78,8 +78,15 @@ class ProdukController extends Controller
      * @param  \App\Models\Merk  $merk
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Merk $merk)
+    public function destroy($id)
     {
         //
+    }
+
+    public function get_harga($id)
+    {
+        $harga = Produk::where('id', $id)->pluck('sewa')->first();
+
+        return $harga;
     }
 }
