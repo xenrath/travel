@@ -13,6 +13,8 @@ class Transaksi extends Model
         'pelanggan_id',
         'produk_id',
         'kategori',
+        'sopir_id',
+        'area',
         'tanggal',
         'lama',
         'harga',

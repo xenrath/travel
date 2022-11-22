@@ -73,6 +73,26 @@
         <li class="nav-item">
           <!-- label-->
           <div class="row navbar-vertical-label-wrapper mt-3 mb-2">
+            <div class="col-auto navbar-vertical-label">Menu Produk
+            </div>
+            <div class="col ps-0">
+              <hr class="mb-0 navbar-vertical-divider" />
+            </div>
+          </div>
+          <!-- parent pages-->
+          <a class="nav-link {{ request()->is('produk') ? 'active' : '' }}"
+            href="{{ url('produk') }}" role="button" aria-expanded="false">
+            <div class="d-flex align-items-center">
+              <span class="nav-link-icon">
+                <i class="fas fa-car"></i>
+              </span>
+              <span class="nav-link-text ps-1">Data Produk</span>
+            </div>
+          </a>
+        </li>
+        <li class="nav-item">
+          <!-- label-->
+          <div class="row navbar-vertical-label-wrapper mt-3 mb-2">
             <div class="col-auto navbar-vertical-label">Menu Pemesanan
             </div>
             <div class="col ps-0">
@@ -80,8 +100,8 @@
             </div>
           </div>
           <!-- parent pages-->
-          <a class="nav-link {{ request()->is('transaksi/create') ? 'active' : '' }}" href="{{ url('transaksi/create') }}"
-            role="button" aria-expanded="false">
+          <a class="nav-link {{ request()->is('transaksi/create') ? 'active' : '' }}"
+            href="{{ url('transaksi/create') }}" role="button" aria-expanded="false">
             <div class="d-flex align-items-center">
               <span class="nav-link-icon">
                 <i class="fas fa-shopping-cart"></i>
@@ -90,7 +110,8 @@
             </div>
           </a>
           <!-- parent pages-->
-          <a class="nav-link {{ request()->is('transaksi') ? 'active' : '' }}" href="{{ url('transaksi') }}" role="button" aria-expanded="false">
+          <a class="nav-link {{ request()->is('transaksi') ? 'active' : '' }}" href="{{ url('transaksi') }}"
+            role="button" aria-expanded="false">
             <div class="d-flex align-items-center">
               <span class="nav-link-icon">
                 <i class="fas fa-shopping-cart"></i>
@@ -112,7 +133,7 @@
           <a class="nav-link" href="{{ url('pemesanan') }}" role="button" aria-expanded="false">
             <div class="d-flex align-items-center">
               <span class="nav-link-icon">
-                <i class="fas fa-car"></i>
+                <i class="fas fa-clipboard-list"></i>
               </span>
               <span class="nav-link-text ps-1">Menunggu Konfirmasi</span>
             </div>
@@ -121,7 +142,7 @@
           <a class="nav-link" href="{{ url('pemesanan') }}" role="button" aria-expanded="false">
             <div class="d-flex align-items-center">
               <span class="nav-link-icon">
-                <i class="fas fa-car"></i>
+                <i class="fas fa-clipboard-list"></i>
               </span>
               <span class="nav-link-text ps-1">Dalam Peminjaman</span>
             </div>
@@ -131,7 +152,7 @@
             aria-expanded="false">
             <div class="d-flex align-items-center">
               <span class="nav-link-icon">
-                <i class="fas fa-car"></i>
+                <i class="fas fa-clipboard-list"></i>
               </span>
               <span class="nav-link-text ps-1">Selesai Dikembalikan</span>
             </div>

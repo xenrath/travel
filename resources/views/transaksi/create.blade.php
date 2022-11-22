@@ -83,11 +83,10 @@
           <option value="travel" {{ old('kategori')=='travel' ? 'selected' : '' }}>Travel</option>
         </select>
       </div>
-      <div class="layout-travel">
+      <div id="layout_travel" style="display: none">
         <div class="mb-3">
           <label class="form-label" for="sopir_id">Nama Sopir *</label>
-          <select class="form-select js-choice" id="sopir_id" size="1" name="sopir_id"
-            data-options="{'removeItemButton': true, 'placeholder': true}">
+          <select class="form-select" id="sopir_id" name="sopir_id">
             <option value="">- Pilih Sopir -</option>
             @foreach ($sopirs as $sopir)
             <option value="{{ $sopir->id }}" {{ old('sopir_id')==$sopir->id ? 'selected' : '' }}>{{ $sopir->nama }}
@@ -97,7 +96,7 @@
         </div>
         <div class="mb-3">
           <label class="form-label" for="tujuan">Tempat Tujuan *</label>
-          <input class="form-control" id="tujuan" name="tujuan" type="text" />
+          <input class="form-control" id="tujuan" name="tujuan" type="text" value="{{ old('tujuan') }}" />
           @error('tujuan')
           <span class="invalid-feedback" role="alert">{{ $message }}</span>
           @enderror
@@ -144,6 +143,7 @@
   var produk_id = document.getElementById('produk_id');
   var sewa = 0;
   var lamaValue = 0;
+  var isTravel = false;
   produk_id.addEventListener('change', function () {
     if (this.value != "") {
       $.ajax({
@@ -151,8 +151,10 @@
         type: "GET",
         success: function(data) {
           sewa = data;
-          if (lamaValue != 0) {
-            harga.value = sewa * lamaValue;
+          if (lamaValue != 0 && isTravel) {
+            harga.value = (sewa * lamaValue) + 250000;
+          } else if (lamaValue != 0) {
+            harga.value = sewa * lamaValue
           } else {
             harga.value = 0;
           }
@@ -166,10 +168,36 @@
   var harga = document.getElementById('harga');
   lama.addEventListener('change', function() {
     lamaValue = this.value;
-    if (sewa != 0) {
+    if (sewa != 0 && isTravel) {
+      harga.value = (sewa * lamaValue) + 250000;
+    } else if (sewa != 0) {
       harga.value = sewa * lamaValue;
     } else {
       harga.value = 0;
+    }
+  });
+  var kategori = document.getElementById('kategori');
+  var layout_travel = document.getElementById('layout_travel');
+  var sopir_id = document.getElementById('sopir_id');
+  var tujuan = document.getElementById('tujuan');
+  if (kategori.value == 'travel') {
+    layout_travel.style.display = 'inline';
+  }
+  kategori.addEventListener('change', function () {
+    if (this.value == 'travel') {
+      layout_travel.style.display = 'inline';
+      isTravel = true;
+      if (lamaValue != 0 && sewa != 0) {
+        harga.value = (sewa * lamaValue) + 250000;
+      }
+    } else {
+      layout_travel.style.display = 'none';
+      sopir_id.value = "";
+      tujuan.value = "";
+      isTravel = false;
+      if (lamaValue != 0 && sewa != 0) {
+        harga.value = sewa * lamaValue;
+      }
     }
   });
 </script>

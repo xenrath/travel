@@ -24,8 +24,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::post('login', [UserController::class, 'login']);
 Route::post('register', [UserController::class, 'register']);
 Route::get('user-detail/{id}', [UserController::class, 'detail']);
+Route::get('user-sopir', [UserController::class, 'sopir']);
 
 Route::get('produk-list', [ProdukController::class, 'list']);
 Route::get('produk-detail/{id}', [ProdukController::class, 'detail']);
 
 Route::post('transaksi-store', [TransaksiController::class, 'store']);
+Route::post('transaksi-upload/{id}', [TransaksiController::class, 'upload']);

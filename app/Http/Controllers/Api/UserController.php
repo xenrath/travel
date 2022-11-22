@@ -99,6 +99,24 @@ class UserController extends Controller
         }
     }
 
+    public function sopir()
+    {
+        $users = User::where([
+            ['role', 'sopir'],
+            ['status', true],
+        ])->get();
+
+        if ($users) {
+            return response()->json([
+                'status' => TRUE,
+                'message' => 'Berhasil menampilkan sopir',
+                'users' => $users
+            ]);
+        } else {
+            return $this->error('Gagal menampilkan sopir!');
+        }
+    }
+
     public function error($message)
     {
         return response()->json([

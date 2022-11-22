@@ -22,7 +22,7 @@ class ProdukSeeder extends Seeder
                 'warna' => 'Hitam',
                 'kapasitas' => '4',
                 'fasilitas' => 'AC, Media Player',
-                'gambar' => '',
+                'gambar' => 'produk/toyotaavanza2018hitam.jpg',
                 'sewa' => '350000',
                 'status' => true
             ],
@@ -33,7 +33,7 @@ class ProdukSeeder extends Seeder
                 'warna' => 'Silver',
                 'kapasitas' => '4',
                 'fasilitas' => 'AC, Media Player',
-                'gambar' => '',
+                'gambar' => 'produk/hondamobilio2019silver.jpg',
                 'sewa' => '350000',
                 'status' => true
             ],
@@ -44,7 +44,7 @@ class ProdukSeeder extends Seeder
                 'warna' => 'Putih',
                 'kapasitas' => '4',
                 'fasilitas' => 'AC, Media Player',
-                'gambar' => '',
+                'gambar' => 'produk/toyotagrandinnova2020putih.jpg',
                 'sewa' => '400000',
                 'status' => true
             ],
@@ -55,7 +55,7 @@ class ProdukSeeder extends Seeder
                 'warna' => 'Silver',
                 'kapasitas' => '6',
                 'fasilitas' => 'AC',
-                'gambar' => '',
+                'gambar' => 'produk/mitsubishixpander2021silver.jpg',
                 'sewa' => '450000',
                 'status' => true
             ],

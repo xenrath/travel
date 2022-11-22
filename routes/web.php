@@ -28,7 +28,7 @@ Route::get('/', [HomeController::class, 'index']);
 Route::resource('admin', AdminController::class);
 Route::resource('sopir', SopirController::class);
 Route::resource('pelanggan', PelangganController::class);
+Route::resource('produk', ProdukController::class);
 Route::resource('transaksi', TransaksiController::class);
-Route::resource('pemesanan', PemesananController::class);
 
 Route::get('get-harga/{id}', [ProdukController::class, 'get_harga']);

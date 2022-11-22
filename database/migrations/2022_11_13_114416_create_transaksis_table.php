@@ -19,11 +19,12 @@ class CreateTransaksisTable extends Migration
             $table->unsignedInteger('produk_id');
             $table->enum('kategori', ['rental', 'travel']);
             $table->unsignedInteger('sopir_id')->nullable();
-            $table->string('tujuan')->nullable();
+            $table->enum('area', ['dalam', 'luar'])->nullable();
             $table->string('tanggal');
             $table->string('lama');
             $table->string('harga');
             $table->enum('metode', ['cash', 'transfer']);
+            $table->string('bukti')->nullable();
             $table->enum('status', ['menunggu', 'proses', 'selesai']);
             $table->timestamps();
         });
