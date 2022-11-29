@@ -36,6 +36,7 @@
 
   <link href="{{ asset('falcon/public/vendors/choices/choices.min.css') }}" rel="stylesheet" />
   <link href="{{ asset('falcon/public/vendors/flatpickr/flatpickr.min.css') }}" rel="stylesheet" />
+  <link href="{{ asset('falcon/public/vendors/dropzone/dropzone.min.css') }}" rel="stylesheet">
   <link href="{{ asset('falcon/public/vendors/prism/prism-okaidia.css') }}" rel="stylesheet">
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"
@@ -90,6 +91,7 @@
   <script src="{{ asset('falcon/public/vendors/bootstrap/bootstrap.min.js') }}"></script>
   <script src="{{ asset('falcon/public/vendors/anchorjs/anchor.min.js') }}"></script>
   <script src="{{ asset('falcon/public/vendors/is/is.min.js') }}"></script>
+  <script src="{{ asset('falcon/public/vendors/dropzone/dropzone.min.js') }}"></script>
   <script src="{{ asset('falcon/public/vendors/echarts/echarts.min.js') }}"></script>
   <script src="{{ asset('falcon/public/vendors/fontawesome/all.min.js') }}"></script>
   <script src="{{ asset('falcon/public/vendors/lodash/lodash.min.js') }}"></script>

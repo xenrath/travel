@@ -28,6 +28,7 @@ Route::get('user-sopir', [UserController::class, 'sopir']);
 
 Route::get('produk-list', [ProdukController::class, 'list']);
 Route::get('produk-detail/{id}', [ProdukController::class, 'detail']);
+Route::post('produk-search', [ProdukController::class, 'search']);
 
 Route::post('transaksi-store', [TransaksiController::class, 'store']);
 Route::post('transaksi-upload/{id}', [TransaksiController::class, 'upload']);

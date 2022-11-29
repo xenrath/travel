@@ -13,38 +13,35 @@ class TransaksiController extends Controller
 {
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'pelanggan_id' => 'required',
-            'produk_id' => 'required',
-            'kategori' => 'required',
-            'tanggal' => 'required',
-            'lama' => 'required',
-        ], [
-            'pelanggan_id.required' => 'Pelanggan harus dipilih!',
-            'produk_id.required' => 'Mobil harus dipilih!',
-            'kategori.required' => 'Kategori harus dipilih!',
-            'tanggal.required' => 'Tanggal sewa harus diisi!',
-            'lama.required' => 'Lama sewa harus diisi!',
-        ]);
+        $produk = Produk::where('id', $request->produk_id)->first();
+        
+        if ($produk->kategori == "tour") {
+            $validator = Validator::make($request->all(), [
+                'pelanggan_id' => 'required',
+                'sopir_id' => 'required',
+                'tanggal' => 'required',
+                'lama' => 'required'
+            ], [
+                'pelanggan_id.required' => 'Pelanggan harus dipilih!',
+                'sopir_id.required' => 'Sopir harus dipilih!',
+                'tanggal.required' => 'Tanggal sewa harus diisi!',
+                'lama.required' => 'Lama sewa harus diisi!',
+            ]);
+        } else {
+            $validator = Validator::make($request->all(), [
+                'pelanggan_id' => 'required',
+                'tanggal' => 'required',
+                'lama' => 'required'
+            ], [
+                'pelanggan_id.required' => 'Pelanggan harus dipilih!',
+                'tanggal.required' => 'Tanggal sewa harus diisi!',
+                'lama.required' => 'Lama sewa harus diisi!',
+            ]);
+        }
 
         if ($validator->fails()) {
             $error = $validator->errors()->all();
             return $this->error($error[0]);
-        }
-
-        if ($request->kategori == "travel") {
-            $validator = Validator::make($request->all(), [
-                'sopir_id' => 'required',
-                'area' => 'required',
-            ], [
-                'sopir_id.required' => 'Sopir harus dipilih!',
-                'area.required' => 'Area harus dipilih!',
-            ]);
-
-            if ($validator->fails()) {
-                $error = $validator->errors()->all();
-                return $this->error($error[0]);
-            }
         }
 
         $transaksi = Transaksi::create(array_merge($request->all(), [

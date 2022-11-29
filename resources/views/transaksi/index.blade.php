@@ -36,32 +36,41 @@
         <thead class="bg-200 text-900">
           <tr>
             <th class="text-center">No.</th>
-            <th>Nama Pelanggan</th>
-            <th>Mobil</th>
-            <th>Kategori</th>
-            <th>Metode Pembayaran</th>
+            <th>Nama Mobil (Plat)</th>
+            <th>Kategori (Area)</th>
+            <th>Harga Sewa / hari</th>
+            <th>Gambar</th>
             <th class="text-center">Opsi</th>
           </tr>
         </thead>
         <tbody class="list">
-          @foreach ($transaksis as $key => $transaksi)
+          @forelse ($produks as $key => $produk)
           <tr>
-            <th class="text-center">{{ $transaksis->firstItem() + $key }}</th>
-            <th>{{ $transaksi->pelanggan->nama }}</th>
-            <th>{{ $transaksi->produk->nama }}</th>
-            {{-- <th>{{ date('d-m-Y', strtotime($transaksi->tanggal . '+ 5 days')) }}</th> --}}
-            <th>{{ ucfirst($transaksi->kategori) }}</th>
-            <th>{{ ucfirst($transaksi->metode) }}</th>
+            <th class="text-center">{{ $produks->firstItem() + $key }}</th>
+            <th>{{ $produk->mobil->nama }} ({{ $produk->mobil->plat }})</th>
+            <th>
+              @if ($produk->kategori == 'rental')
+              Rental
+              @else
+              Travel ({{ ucfirst($produk->area) }})
+              @endif
+            </th>
+            <th>@rupiah($produk->sewa)</th>
+            <th>
+              <img src="{{ asset('storage/uploads/' . $produk->mobil->gambar) }}" alt="{{ $produk->mobil->nama }}" width="160"
+                class="rounded">
+            </th>
             <th class="text-center">
-              <a href="{{ url('show') }}" class="btn btn-info btn-sm">
-                <i class="fas fa-eye"></i> Lihat
-              </a>
-              <a href="{{ url('show') }}" class="btn btn-secondary btn-sm">
-                <i class="fas fa-eye"></i> Perpanjang
+              <a href="{{ url('transaksi/create') }}" class="btn btn-primary btn-sm">
+                <i class="fas fa-check"></i> Pilih
               </a>
             </th>
           </tr>
-          @endforeach
+          @empty
+          <tr>
+            <td colspan="5" class="text-center">- Data tidak ditemukan -</td>
+          </tr>
+          @endforelse
         </tbody>
       </table>
     </div>

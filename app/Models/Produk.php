@@ -10,14 +10,20 @@ class Produk extends Model
     use HasFactory;
 
     protected $fillable = [
-        'nama',
-        'tahun',
-        'plat',
-        'warna',
-        'kapasitas',
-        'fasilitas',
-        'gambar',
+        'mobil_id',
+        'kategori',
+        'area',
         'sewa',
         'status'
     ];
+
+    public function mobil()
+    {
+        return $this->belongsTo(Mobil::class);
+    }
+    
+    public function transaksis()
+    {
+        return $this->hasMany(Transaksi::class);
+    }
 }

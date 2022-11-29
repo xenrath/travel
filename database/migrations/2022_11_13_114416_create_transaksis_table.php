@@ -15,11 +15,9 @@ class CreateTransaksisTable extends Migration
     {
         Schema::create('transaksis', function (Blueprint $table) {
             $table->id();
-            $table->unsignedInteger('pelanggan_id');
             $table->unsignedInteger('produk_id');
-            $table->enum('kategori', ['rental', 'travel']);
+            $table->unsignedInteger('pelanggan_id');
             $table->unsignedInteger('sopir_id')->nullable();
-            $table->enum('area', ['dalam', 'luar'])->nullable();
             $table->string('tanggal');
             $table->string('lama');
             $table->string('harga');

@@ -65,13 +65,13 @@
         </select>
       </div>
       <div class="mb-3">
-        <label class="form-label" for="nama">Mobil *</label>
+        <label class="form-label" for="produk_id">Produk *</label>
         <select class="form-select js-choice" id="produk_id" size="1" name="produk_id"
           data-options="{'removeItemButton': true, 'placeholder': true}">
-          <option value="">- Pilih Mobil -</option>
+          <option value="">- Pilih Produk -</option>
           @foreach ($produks as $produk)
           <option value="{{ $produk->id }}" {{ old('produk_id')==$produk->id ? 'selected' : '' }}>{{
-            $produk->nama }} (@rupiah($produk->sewa))</option>
+            $produk->mobil->nama }} (@rupiah($produk->sewa))</option>
           @endforeach
         </select>
       </div>
@@ -95,11 +95,12 @@
           </select>
         </div>
         <div class="mb-3">
-          <label class="form-label" for="tujuan">Tempat Tujuan *</label>
-          <input class="form-control" id="tujuan" name="tujuan" type="text" value="{{ old('tujuan') }}" />
-          @error('tujuan')
-          <span class="invalid-feedback" role="alert">{{ $message }}</span>
-          @enderror
+          <label class="form-label" for="area">Area *</label>
+          <select class="form-select" id="area" name="area">
+            <option value="">- Pilih Area -</option>
+            <option value="dalam" {{ old('lama')=='dalam' ? 'selected' : '' }}>Dalam Kota</option>
+            <option value="luar" {{ old('lama')=='luar' ? 'selected' : '' }}>Luar Kota</option>
+          </select>
         </div>
       </div>
       <div class="mb-3">
@@ -144,6 +145,7 @@
   var sewa = 0;
   var lamaValue = 0;
   var isTravel = false;
+  var isLuar = false;
   produk_id.addEventListener('change', function () {
     if (this.value != "") {
       $.ajax({
@@ -151,7 +153,9 @@
         type: "GET",
         success: function(data) {
           sewa = data;
-          if (lamaValue != 0 && isTravel) {
+          if (lamaValue != 0 && isTravel && isLuar) {
+            harga.value = (sewa * lamaValue) + 250000 + 100000;
+          } else if (lamaValue != 0 && isTravel) {
             harga.value = (sewa * lamaValue) + 250000;
           } else if (lamaValue != 0) {
             harga.value = sewa * lamaValue
@@ -168,7 +172,9 @@
   var harga = document.getElementById('harga');
   lama.addEventListener('change', function() {
     lamaValue = this.value;
-    if (sewa != 0 && isTravel) {
+    if (sewa != 0 && isTravel && isLuar) {
+      harga.value = (sewa * lamaValue) + 250000 + 100000;
+    } else if (sewa != 0 && isTravel) {
       harga.value = (sewa * lamaValue) + 250000;
     } else if (sewa != 0) {
       harga.value = sewa * lamaValue;
@@ -193,12 +199,26 @@
     } else {
       layout_travel.style.display = 'none';
       sopir_id.value = "";
-      tujuan.value = "";
+      area.value = "";
       isTravel = false;
       if (lamaValue != 0 && sewa != 0) {
         harga.value = sewa * lamaValue;
       }
     }
   });
+  var area = document.getElementById('area');
+  area.addEventListener('change', function () {
+    if (this.value == 'luar') {
+      isLuar = true;
+      if (lamaValue != 0 && sewa != 0) {
+        harga.value = (sewa * lamaValue) + 250000 + 100000;
+      }
+    } else {
+      isLuar = false;
+      if (lamaValue != 0 && sewa != 0) {
+        harga.value = (sewa * lamaValue) + 250000;
+      }
+    }
+  })
 </script>
 @endsection

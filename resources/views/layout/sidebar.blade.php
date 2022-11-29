@@ -80,7 +80,17 @@
             </div>
           </div>
           <!-- parent pages-->
-          <a class="nav-link {{ request()->is('produk') ? 'active' : '' }}"
+          <a class="nav-link {{ request()->is('mobil*') ? 'active' : '' }}"
+            href="{{ url('mobil') }}" role="button" aria-expanded="false">
+            <div class="d-flex align-items-center">
+              <span class="nav-link-icon">
+                <i class="fas fa-car"></i>
+              </span>
+              <span class="nav-link-text ps-1">Data Mobil</span>
+            </div>
+          </a>
+          <!-- parent pages-->
+          <a class="nav-link {{ request()->is('produk*') ? 'active' : '' }}"
             href="{{ url('produk') }}" role="button" aria-expanded="false">
             <div class="d-flex align-items-center">
               <span class="nav-link-icon">
@@ -100,8 +110,8 @@
             </div>
           </div>
           <!-- parent pages-->
-          <a class="nav-link {{ request()->is('transaksi/create') ? 'active' : '' }}"
-            href="{{ url('transaksi/create') }}" role="button" aria-expanded="false">
+          <a class="nav-link {{ request()->is('buat') || request()->is('buat/create') ? 'active' : '' }}"
+            href="{{ url('buat') }}" role="button" aria-expanded="false">
             <div class="d-flex align-items-center">
               <span class="nav-link-icon">
                 <i class="fas fa-shopping-cart"></i>
@@ -110,7 +120,7 @@
             </div>
           </a>
           <!-- parent pages-->
-          <a class="nav-link {{ request()->is('transaksi') ? 'active' : '' }}" href="{{ url('transaksi') }}"
+          <a class="nav-link {{ request()->is('transaksi/asa') ? 'active' : '' }}" href="{{ url('transaksi') }}"
             role="button" aria-expanded="false">
             <div class="d-flex align-items-center">
               <span class="nav-link-icon">
@@ -130,7 +140,7 @@
             </div>
           </div>
           <!-- parent pages-->
-          <a class="nav-link" href="{{ url('pemesanan') }}" role="button" aria-expanded="false">
+          <a class="nav-link {{ request()->is('transaksi/menunggu') ? 'active' : '' }}" href="{{ url('transaksi/menunggu') }}" role="button" aria-expanded="false">
             <div class="d-flex align-items-center">
               <span class="nav-link-icon">
                 <i class="fas fa-clipboard-list"></i>
@@ -139,7 +149,7 @@
             </div>
           </a>
           <!-- parent pages-->
-          <a class="nav-link" href="{{ url('pemesanan') }}" role="button" aria-expanded="false">
+          <a class="nav-link {{ request()->is('transaksi/proses') ? 'active' : '' }}" href="{{ url('transaksi/proses') }}" role="button" aria-expanded="false">
             <div class="d-flex align-items-center">
               <span class="nav-link-icon">
                 <i class="fas fa-clipboard-list"></i>
@@ -147,14 +157,24 @@
               <span class="nav-link-text ps-1">Dalam Peminjaman</span>
             </div>
           </a>
+        </li>
+        <li class="nav-item">
+          <!-- label-->
+          <div class="row navbar-vertical-label-wrapper mt-3 mb-2">
+            <div class="col-auto navbar-vertical-label">Menu Laporan
+            </div>
+            <div class="col ps-0">
+              <hr class="mb-0 navbar-vertical-divider" />
+            </div>
+          </div>
           <!-- parent pages-->
-          <a class="nav-link {{ request()->is('admin') ? 'active' : '' }}" href="{{ url('admin') }}" role="button"
+          <a class="nav-link {{ request()->is('transaksi/riwayat') ? 'active' : '' }}" href="{{ url('transaksi/riwayat') }}" role="button"
             aria-expanded="false">
             <div class="d-flex align-items-center">
               <span class="nav-link-icon">
                 <i class="fas fa-clipboard-list"></i>
               </span>
-              <span class="nav-link-text ps-1">Selesai Dikembalikan</span>
+              <span class="nav-link-text ps-1">Riwayat Peminjaman</span>
             </div>
           </a>
         </li>

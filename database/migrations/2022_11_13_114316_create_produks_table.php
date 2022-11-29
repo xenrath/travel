@@ -15,15 +15,10 @@ class CreateProduksTable extends Migration
     {
         Schema::create('produks', function (Blueprint $table) {
             $table->id();
-            $table->string('nama');
-            $table->string('tahun');
-            $table->string('plat');
-            $table->string('warna');
-            $table->string('kapasitas');
-            $table->string('fasilitas');
-            $table->string('gambar');
+            $table->unsignedInteger('mobil_id');
+            $table->enum('kategori', ['rental', 'tour']);
+            $table->enum('area', ['dalam', 'luar'])->nullable();
             $table->string('sewa');
-            $table->boolean('status')->default(false);
             $table->timestamps();
         });
     }
