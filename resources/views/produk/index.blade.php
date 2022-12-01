@@ -40,9 +40,9 @@
           <tr>
             <th class="text-center">No.</th>
             <th>Nama Mobil (Plat)</th>
-            <th>Kategori</th>
-            <th>Area</th>
+            <th>Kategori (Area)</th>
             <th>Harga Sewa / hari</th>
+            <th>Status</th>
             <th class="text-center">Opsi</th>
           </tr>
         </thead>
@@ -51,15 +51,20 @@
           <tr>
             <td class="text-center">{{ $loop->iteration }}</td>
             <td>{{ $produk->mobil->nama }} ({{ $produk->mobil->plat }})</td>
-            <td>{{ ucfirst($produk->kategori) }}</td>
             <td>
+              {{ ucfirst($produk->kategori) }}
               @if ($produk->kategori == 'tour')
-              {{ ucfirst($produk->area) }} Kota
-              @else
-              -
+              ({{ ucfirst($produk->area) }} Kota)
               @endif
             </td>
             <td>@rupiah($produk->sewa)</td>
+            <td>
+              @if ($produk->mobil->status)
+              <span class="badge fs--1 badge-soft-primary text-primary">Ada</span>
+              @else
+              <span class="badge fs--1 badge-soft-danger text-danger">Disewa</span>
+              @endif
+            </td>
             <td class="text-center">
               <div class="dropdown font-sans-serif position-static">
                 <button class="btn btn-link text-600 btn-sm dropdown-toggle btn-reveal" type="button"

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Mobil;
 use App\Models\Produk;
 use App\Models\Transaksi;
 use App\Models\User;
@@ -13,31 +14,17 @@ class TransaksiController extends Controller
 {
     public function store(Request $request)
     {
-        $produk = Produk::where('id', $request->produk_id)->first();
-        
-        if ($produk->kategori == "tour") {
-            $validator = Validator::make($request->all(), [
-                'pelanggan_id' => 'required',
-                'sopir_id' => 'required',
-                'tanggal' => 'required',
-                'lama' => 'required'
-            ], [
-                'pelanggan_id.required' => 'Pelanggan harus dipilih!',
-                'sopir_id.required' => 'Sopir harus dipilih!',
-                'tanggal.required' => 'Tanggal sewa harus diisi!',
-                'lama.required' => 'Lama sewa harus diisi!',
-            ]);
-        } else {
-            $validator = Validator::make($request->all(), [
-                'pelanggan_id' => 'required',
-                'tanggal' => 'required',
-                'lama' => 'required'
-            ], [
-                'pelanggan_id.required' => 'Pelanggan harus dipilih!',
-                'tanggal.required' => 'Tanggal sewa harus diisi!',
-                'lama.required' => 'Lama sewa harus diisi!',
-            ]);
-        }
+        $validator = Validator::make($request->all(), [
+            'pelanggan_id' => 'required',
+            'produk_id' => 'required',
+            'tanggal' => 'required',
+            'lama' => 'required'
+        ], [
+            'pelanggan_id.required' => 'Pelanggan harus dipilih!',
+            'produk_id.required' => 'Produk harus dipilih!',
+            'tanggal.required' => 'Tanggal sewa harus diisi!',
+            'lama.required' => 'Lama sewa harus diisi!',
+        ]);
 
         if ($validator->fails()) {
             $error = $validator->errors()->all();
@@ -50,18 +37,65 @@ class TransaksiController extends Controller
         ]));
 
         if ($transaksi) {
-            Produk::where('id', $request->produk_id)->update([
-                'status' => false
-            ]);
-            User::where('id', $request->sopir_id)->update([
-                'status' => false
-            ]);
             return response()->json([
-                'status' => TRUE,
+                'status' => true,
                 'message' => 'Berhasil membuat Peminjaman',
             ]);
         } else {
             $this->error('Gagal membuat Peminjaman!');
+        }
+    }
+
+    public function belumbayar($id)
+    {
+        $transaksis = Transaksi::where([
+            ['pelanggan_id', $id],
+            ['metode', 'transfer'],
+            ['bukti', null]
+        ])->get();
+
+        if (count($transaksis) > 0) {
+            return response()->json([
+                'status' => true,
+                'message' => 'Berhasil menampilkan transaksi',
+                'transaksis' => $transaksis
+            ]);
+        } else {
+            return $this->error('Gagal menampilkan transaksi!');
+        }
+    }
+
+    public function sudahbayar($id)
+    {
+        $transaksis = Transaksi::where([
+            ['pelanggan_id', $id],
+            ['metode', 'transfer'],
+            ['bukti', '!=', null]
+        ])->get();
+
+        if (count($transaksis) > 0) {
+            return response()->json([
+                'status' => true,
+                'message' => 'Berhasil menampilkan transaksi',
+                'transaksis' => $transaksis
+            ]);
+        } else {
+            return $this->error('Gagal menampilkan transaksi!');
+        }
+    }
+
+    public function detail($id)
+    {
+        $transaksi = Transaksi::where('id', $id)->first();
+
+        if ($transaksi) {
+            return response()->json([
+                'status' => true,
+                'message' => 'Berhasil menampilkan transaksi',
+                'transaksi' => $transaksi
+            ]);
+        } else {
+            return $this->error('Gagal menampilkan transaksi!');
         }
     }
 
@@ -82,13 +116,18 @@ class TransaksiController extends Controller
         $namabukti = 'bukti/' . date('mYdHs') . rand(1, 10) . '_' . $bukti;
         $request->bukti->storeAs('public/uploads/', $namabukti);
 
-        $transaksi = Transaksi::where('id', $id)->update([
+        $transaksi = Transaksi::where('id', $id);
+        $transaksi->update([
             'bukti' => $namabukti
         ]);
 
         if ($transaksi) {
+            $produk = Produk::where('id', $transaksi->first()->produk_id)->first();
+            Mobil::where('id', $produk->mobil_id)->update([
+                'status' => true
+            ]);
             return response()->json([
-                'status' => TRUE,
+                'status' => true,
                 'message' => 'Berhasil membayar transaksi',
             ]);
         } else {

@@ -31,4 +31,7 @@ Route::get('produk-detail/{id}', [ProdukController::class, 'detail']);
 Route::post('produk-search', [ProdukController::class, 'search']);
 
 Route::post('transaksi-store', [TransaksiController::class, 'store']);
+Route::get('transaksi-belumbayar/{id}', [TransaksiController::class, 'belumbayar']);
+Route::get('transaksi-sudahbayar/{id}', [TransaksiController::class, 'sudahbayar']);
+Route::get('transaksi-detail/{id}', [TransaksiController::class, 'detail']);
 Route::post('transaksi-upload/{id}', [TransaksiController::class, 'upload']);

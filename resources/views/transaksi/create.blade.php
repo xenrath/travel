@@ -70,20 +70,86 @@
           data-options="{'removeItemButton': true, 'placeholder': true}">
           <option value="">- Pilih Produk -</option>
           @foreach ($produks as $produk)
-          <option value="{{ $produk->id }}" {{ old('produk_id')==$produk->id ? 'selected' : '' }}>{{
-            $produk->mobil->nama }} (@rupiah($produk->sewa))</option>
+          <option value="{{ $produk->id }}" {{ old('produk_id')==$produk->id ? 'selected' : '' }}>
+            {{ $produk->mobil->nama }}
+            -
+            {{ ucfirst($produk->kategori) }}
+            @if ($produk->kategori == 'tour')
+            ({{ ucfirst($produk->area) }} Kota)
+            @endif
+          </option>
           @endforeach
         </select>
       </div>
-      <div class="mb-3">
-        <label class="form-label" for="kategori">Kategori *</label>
-        <select class="form-select" id="kategori" name="kategori">
-          <option value="">- Pilih Kategori -</option>
-          <option value="rental" {{ old('kategori')=='rental' ? 'selected' : '' }}>Rental</option>
-          <option value="travel" {{ old('kategori')=='travel' ? 'selected' : '' }}>Travel</option>
-        </select>
+      <div id="layout_produk" style="display: none">
+        <div class="p-3 border rounded mb-3">
+          <div class="row">
+            <div class="col-4">
+              <img id="gambar_mobil" class="rounded w-100">
+            </div>
+            <div class="col-8">
+              <table class="w-100">
+                <tr height="40">
+                  <td>
+                    <h5 class="fs-0">Mobil</h5>
+                  </td>
+                  <td>
+                    <h5 class="fs-0">:</h5>
+                  </td>
+                  <td class="text-end">
+                    <h5 class="fs-0" id="nama_mobil"></h5>
+                  </td>
+                </tr>
+                <tr height="40">
+                  <td>
+                    <h5 class="fs-0">Plat</h5>
+                  </td>
+                  <td>
+                    <h5 class="fs-0">:</h5>
+                  </td>
+                  <td class="text-end">
+                    <h5 class="fs-0" id="plat_mobil"></h5>
+                  </td>
+                </tr>
+                <tr height="40">
+                  <td>
+                    <h5 class="fs-0">Kategori</h5>
+                  </td>
+                  <td>
+                    <h5 class="fs-0">:</h5>
+                  </td>
+                  <td class="text-end">
+                    <h5 class="fs-0" id="kategori_produk" style="text-transform: capitalize"></h5>
+                  </td>
+                </tr>
+                <tr height="50" id="layout_area">
+                  <td>
+                    <h5 class="fs-0">Area</h5>
+                  </td>
+                  <td>
+                    <h5 class="fs-0">:</h5>
+                  </td>
+                  <td class="text-end">
+                    <h5 class="fs-0" id="area_produk" style="text-transform: capitalize"></h5>
+                  </td>
+                </tr>
+                <tr height="40">
+                  <td>
+                    <h5 class="fs-0">Harga Sewa / hari</h5>
+                  </td>
+                  <td>
+                    <h5 class="fs-0">:</h5>
+                  </td>
+                  <td class="text-end">
+                    <h5 class="fs-0" id="harga_produk"></h5>
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </div>
       </div>
-      <div id="layout_travel" style="display: none">
+      <div id="layout_tour" style="display: none">
         <div class="mb-3">
           <label class="form-label" for="sopir_id">Nama Sopir *</label>
           <select class="form-select" id="sopir_id" name="sopir_id">
@@ -92,14 +158,6 @@
             <option value="{{ $sopir->id }}" {{ old('sopir_id')==$sopir->id ? 'selected' : '' }}>{{ $sopir->nama }}
             </option>
             @endforeach
-          </select>
-        </div>
-        <div class="mb-3">
-          <label class="form-label" for="area">Area *</label>
-          <select class="form-select" id="area" name="area">
-            <option value="">- Pilih Area -</option>
-            <option value="dalam" {{ old('lama')=='dalam' ? 'selected' : '' }}>Dalam Kota</option>
-            <option value="luar" {{ old('lama')=='luar' ? 'selected' : '' }}>Luar Kota</option>
           </select>
         </div>
       </div>
@@ -142,48 +200,58 @@
 </div>
 <script>
   var produk_id = document.getElementById('produk_id');
+  var layout_produk = document.getElementById('layout_produk');
+  var gambar_mobil = document.getElementById('gambar_mobil');
+  var nama_mobil = document.getElementById('nama_mobil');
+  var plat_mobil = document.getElementById('plat_mobil');
+  var kategori_produk = document.getElementById('kategori_produk');
+  var layout_area = document.getElementById('layout_area');
+  var area_produk = document.getElementById('area_produk');
+  var harga_produk = document.getElementById('harga_produk');
+  var layout_tour = document.getElementById('layout_tour');
   var sewa = 0;
-  var lamaValue = 0;
-  var isTravel = false;
-  var isLuar = false;
+  var isTour = false;
   produk_id.addEventListener('change', function () {
     if (this.value != "") {
       $.ajax({
-        url: "{{ url('get-harga') }}" + "/" + this.value,
+        url: "{{ url('produk/detail') }}" + "/" + this.value,
         type: "GET",
-        success: function(data) {
-          sewa = data;
-          if (lamaValue != 0 && isTravel && isLuar) {
-            harga.value = (sewa * lamaValue) + 250000 + 100000;
-          } else if (lamaValue != 0 && isTravel) {
-            harga.value = (sewa * lamaValue) + 250000;
-          } else if (lamaValue != 0) {
-            harga.value = sewa * lamaValue
+        dataType: "json",
+        success: function(produk) {
+          layout_produk.style.display = 'inline';
+          console.log(produk);
+          gambar_mobil.src = "{{ asset('storage/uploads') }}" + "/" + produk.mobil.gambar;
+          gambar_mobil.alt = produk.mobil.nama;
+          nama_mobil.innerText = produk.mobil.nama;
+          plat_mobil.innerText = produk.mobil.plat;
+          kategori_produk.innerText = produk.kategori;
+          if (produk.kategori == 'rental') {
+            layout_area.style.display = 'none';
+            layout_tour.style.display = 'none';
           } else {
-            harga.value = 0;
+            layout_area.style.display = '';
+            area_produk.innerText = produk.area + " Kota";
+            layout_tour.style.display = 'inline';
           }
+          harga_produk.innerText = rupiah(produk.sewa, 'Rp');
+          sewa = produk.sewa;
         },
       });
     } else {
-      harga.value = 0;
+      layout_produk.style.display = 'none';
+      sewa = 0;
     }
   });
   var lama = document.getElementById('lama');
   var harga = document.getElementById('harga');
   lama.addEventListener('change', function() {
-    lamaValue = this.value;
-    if (sewa != 0 && isTravel && isLuar) {
-      harga.value = (sewa * lamaValue) + 250000 + 100000;
-    } else if (sewa != 0 && isTravel) {
-      harga.value = (sewa * lamaValue) + 250000;
-    } else if (sewa != 0) {
-      harga.value = sewa * lamaValue;
+    if (sewa != 0) {
+      harga.value = sewa * this.value;
     } else {
       harga.value = 0;
     }
   });
   var kategori = document.getElementById('kategori');
-  var layout_travel = document.getElementById('layout_travel');
   var sopir_id = document.getElementById('sopir_id');
   var tujuan = document.getElementById('tujuan');
   if (kategori.value == 'travel') {
@@ -220,5 +288,22 @@
       }
     }
   })
+
+  function rupiah(angka, prefix){
+    var number_string = angka.replace(/[^,\d]/g, '').toString(),
+    split   		= number_string.split(','),
+    sisa     		= split[0].length % 3,
+    rupiah     		= split[0].substr(0, sisa),
+    ribuan     		= split[0].substr(sisa).match(/\d{3}/gi);
+
+    // tambahkan titik jika yang di input sudah menjadi angka ribuan
+    if(ribuan){
+      separator = sisa ? '.' : '';
+      rupiah += separator + ribuan.join('.');
+    }
+
+    rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
+    return prefix == undefined ? rupiah : (rupiah ? 'Rp' + rupiah : '');
+  }
 </script>
 @endsection

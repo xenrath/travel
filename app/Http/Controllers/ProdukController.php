@@ -16,7 +16,9 @@ class ProdukController extends Controller
      */
     public function index()
     {
-        $produks = Produk::orderBy('status', 'DESC')->paginate(10);
+        $produks = Produk::whereHas('mobil', function ($query) {
+            $query->orderBy('status', 'DESC');
+        })->paginate(10);
 
         return view('produk.index', compact('produks'));
     }
@@ -179,6 +181,12 @@ class ProdukController extends Controller
         $produk->delete();
 
         return back()->with('status', 'Berhasil menghapus Produk');
+    }
+
+    public function detail($id)
+    {
+        $produk = Produk::where('id', $id)->with('mobil')->first();
+        return json_encode($produk);
     }
 
     public function get_harga($id)

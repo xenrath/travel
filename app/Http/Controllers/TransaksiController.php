@@ -18,7 +18,7 @@ class TransaksiController extends Controller
         // $transaksis = Transaksi::where('status', 'proses')->paginate(10);
 
         $produks = Produk::whereHas('mobil', function ($query) {
-            $query->where('status', true);            
+            $query->where('status', true);
         })->paginate(10);
 
         return view('transaksi.index', compact('produks'));
@@ -27,7 +27,9 @@ class TransaksiController extends Controller
     public function create()
     {
         $pelanggans = User::where('role', 'pelanggan')->get();
-        $produks = Produk::where('status', true)->get();
+        $produks = Produk::whereHas('mobil', function ($query) {
+            $query->where('status', true);
+        })->get();
         $sopirs = User::where('role', 'sopir')->get();
 
         return view('transaksi.create', compact('pelanggans', 'produks', 'sopirs'));
@@ -35,38 +37,37 @@ class TransaksiController extends Controller
 
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'pelanggan_id' => 'required',
-            'produk_id' => 'required',
-            'kategori' => 'required',
-            'tanggal' => 'required',
-            'lama' => 'required'
-        ], [
-            'pelanggan_id.required' => 'Pelanggan harus dipilih!',
-            'produk_id.required' => 'Mobil harus dipilih!',
-            'kategori.required' => 'Kategori harus dipilih!',
-            'tanggal.required' => 'Tanggal sewa harus diisi!',
-            'lama.required' => 'Lama sewa harus diisi!',
-        ]);
+        if ($request->kategori == "tour") {
+            $validator = Validator::make($request->all(), [
+                'pelanggan_id' => 'required',
+                'produk_id' => 'required',
+                'sopir_id' => 'required',
+                'tanggal' => 'required',
+                'lama' => 'required'
+            ], [
+                'pelanggan_id.required' => 'Pelanggan harus dipilih!',
+                'produk_id.required' => 'Mobil harus dipilih!',
+                'sopir_id.required' => 'Sopir harus dipilih!',
+                'tanggal.required' => 'Tanggal sewa harus diisi!',
+                'lama.required' => 'Lama sewa harus diisi!',
+            ]);
+        } else {
+            $validator = Validator::make($request->all(), [
+                'pelanggan_id' => 'required',
+                'produk_id' => 'required',
+                'tanggal' => 'required',
+                'lama' => 'required'
+            ], [
+                'pelanggan_id.required' => 'Pelanggan harus dipilih!',
+                'produk_id.required' => 'Mobil harus dipilih!',
+                'tanggal.required' => 'Tanggal sewa harus diisi!',
+                'lama.required' => 'Lama sewa harus diisi!',
+            ]);
+        }
 
         if ($validator->fails()) {
             $error = $validator->errors()->all();
             return back()->withInput()->with('error', $error);
-        }
-
-        if ($request->kategori == "travel") {
-            $validator = Validator::make($request->all(), [
-                'sopir_id' => 'required',
-                'area' => 'required',
-            ], [
-                'sopir_id.required' => 'Sopir harus dipilih!',
-                'area.required' => 'Area harus diisi!',
-            ]);
-
-            if ($validator->fails()) {
-                $error = $validator->errors()->all();
-                return back()->withInput()->with('error', $error);
-            }
         }
 
         Transaksi::create(array_merge($request->all(), [
@@ -74,7 +75,9 @@ class TransaksiController extends Controller
             'status' => 'proses'
         ]));
 
-        Produk::where('id', $request->produk_id)->update([
+        $produk = Produk::where('id', $request->produk_id)->first();
+
+        Mobil::where('id', $produk->mobil_id)->update([
             'status' => false
         ]);
 

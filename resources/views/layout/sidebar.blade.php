@@ -110,8 +110,8 @@
             </div>
           </div>
           <!-- parent pages-->
-          <a class="nav-link {{ request()->is('buat') || request()->is('buat/create') ? 'active' : '' }}"
-            href="{{ url('buat') }}" role="button" aria-expanded="false">
+          <a class="nav-link {{ request()->is('transaksi') || request()->is('transaksi/create') ? 'active' : '' }}"
+            href="{{ url('transaksi/create') }}" role="button" aria-expanded="false">
             <div class="d-flex align-items-center">
               <span class="nav-link-icon">
                 <i class="fas fa-shopping-cart"></i>

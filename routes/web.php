@@ -31,6 +31,8 @@ Route::resource('admin', AdminController::class);
 Route::resource('sopir', SopirController::class);
 Route::resource('pelanggan', PelangganController::class);
 Route::resource('mobil', MobilController::class);
+
+Route::get('produk/detail/{id}', [ProdukController::class, 'detail']);
 Route::resource('produk', ProdukController::class);
 
 Route::get('buat', [BuatController::class, 'index']);
