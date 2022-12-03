@@ -113,5 +113,10 @@
       </table>
     </div>
   </div>
+  <div class="card-footer py-0">
+    <div class="pagination float-end">
+      {{ $mobils->appends(Request::all())->links('pagination::bootstrap-4') }}
+    </div>
+  </div>
 </div>
 @endsection

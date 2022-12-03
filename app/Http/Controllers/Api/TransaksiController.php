@@ -52,7 +52,7 @@ class TransaksiController extends Controller
             ['pelanggan_id', $id],
             ['metode', 'transfer'],
             ['bukti', null]
-        ])->get();
+        ])->with('produk.mobil', 'pelanggan', 'sopir')->get();
 
         if (count($transaksis) > 0) {
             return response()->json([
@@ -71,7 +71,7 @@ class TransaksiController extends Controller
             ['pelanggan_id', $id],
             ['metode', 'transfer'],
             ['bukti', '!=', null]
-        ])->get();
+        ])->with('produk.mobil', 'pelanggan', 'sopir')->get();
 
         if (count($transaksis) > 0) {
             return response()->json([
@@ -86,7 +86,7 @@ class TransaksiController extends Controller
 
     public function detail($id)
     {
-        $transaksi = Transaksi::where('id', $id)->first();
+        $transaksi = Transaksi::where('id', $id)->with('produk.mobil', 'pelanggan', 'sopir')->first();
 
         if ($transaksi) {
             return response()->json([

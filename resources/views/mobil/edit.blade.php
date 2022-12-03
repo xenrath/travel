@@ -1,6 +1,6 @@
 @extends('layout.main')
 
-@section('title', 'Data Produk')
+@section('title', 'Data Mobil')
 
 @section('content')
 <div class="card mb-3">
@@ -11,7 +11,7 @@
   <div class="card-body position-relative">
     <div class="row">
       <div class="col-lg-8">
-        <h3>Data Produk</h3>
+        <h3>Data Mobil</h3>
         <p class="mb-0">Edit</p>
       </div>
     </div>
@@ -39,30 +39,30 @@
 @endif
 <div class="card">
   <div class="card-header">
-    <h5>Edit Produk</h5>
+    <h5>Edit Mobil</h5>
   </div>
-  <form action="{{ url('produk/' . $produk->id) }}" method="POST" enctype="multipart/form-data" autocomplete="off">
+  <form action="{{ url('mobil/' . $mobil->id) }}" method="POST" enctype="multipart/form-data" autocomplete="off">
     @csrf
     @method('put')
     <div class="card-body">
       <div class="mb-3">
         <label class="form-label" for="nama">Nama Mobil *</label>
-        <input class="form-control @error('nama') is-invalid @enderror" id="nama" name="nama" type="text"
-          placeholder="masukan nama mobil" value="{{ old('nama', $produk->nama) }}" />
+        <input class="form-control" id="nama" name="nama" type="text" placeholder="masukan nama mobil"
+          value="{{ old('nama', $mobil->nama) }}" />
       </div>
       <div class="row">
         <div class="col-md-6">
           <div class="mb-3">
             <label class="form-label" for="tahun">Tahun *</label>
-            <input class="form-control @error('tahun') is-invalid @enderror" id="tahun" name="tahun" type="year"
-              placeholder="masukan tahun keluaran" value="{{ old('tahun', $produk->tahun) }}" />
+            <input class="form-control" id="tahun" name="tahun" type="year" placeholder="masukan tahun keluaran"
+              value="{{ old('tahun', $mobil->tahun) }}" />
           </div>
         </div>
         <div class="col-md-6">
           <div class="mb-3">
             <label class="form-label" for="plat">Plat *</label>
-            <input class="form-control @error('plat') is-invalid @enderror" id="plat" name="plat" type="text"
-              placeholder="masukan plat mobil" value="{{ old('plat', $produk->plat) }}" />
+            <input class="form-control" id="plat" name="plat" type="text" placeholder="masukan plat mobil"
+              value="{{ old('plat', $mobil->plat) }}" />
           </div>
         </div>
       </div>
@@ -70,42 +70,28 @@
         <div class="col-md-6">
           <div class="mb-3">
             <label class="form-label" for="warna">Warna *</label>
-            <input class="form-control @error('warna') is-invalid @enderror" id="warna" name="warna" type="text"
-              placeholder="masukan warna mobil" value="{{ old('warna', $produk->warna) }}" />
+            <input class="form-control" id="warna" name="warna" type="text" placeholder="masukan warna mobil"
+              value="{{ old('warna', $mobil->warna) }}" />
           </div>
         </div>
         <div class="col-md-6">
           <div class="mb-3">
             <label class="form-label" for="kapasitas">Kapasitas *</label>
-            <input class="form-control @error('kapasitas') is-invalid @enderror" id="kapasitas" name="kapasitas"
-              type="number" placeholder="masukan kapasitas mobil"
+            <input class="form-control" id="kapasitas" name="kapasitas" type="number"
+              placeholder="masukan kapasitas mobil"
               oninput="this.value = !!this.value && Math.abs(this.value) >= 1 ? Math.abs(this.value) : null"
-              value="{{ old('kapasitas', $produk->kapasitas) }}" />
+              value="{{ old('kapasitas', $mobil->kapasitas) }}" />
           </div>
         </div>
       </div>
       <div class="mb-3">
         <label class="form-label" for="fasilitas">Fasilitas *</label>
-        <textarea class="form-control @error('fasilitas') is-invalid @enderror" id="fasilitas" name="fasilitas"
-          rows="3">{{ old('fasilitas', $produk->kapasitas) }}</textarea>
-        @error('fasilitas')
-        <span class="invalid-feedback" role="alert">{{ $message }}</span>
-        @enderror
+        <textarea class="form-control" id="fasilitas" name="fasilitas"
+          rows="3">{{ old('fasilitas', $mobil->fasilitas) }}</textarea>
       </div>
       <div class="mb-3">
-        <label class="form-label" for="gambar">Gambar</label>
-        <input class="form-control @error('gambar') is-invalid @enderror" id="gambar" name="gambar" type="file"
-          accept="image/*" />
-        @error('gambar')
-        <span class="invalid-feedback" role="alert">{{ $message }}</span>
-        @enderror
-      </div>
-      <div class="mb-3">
-        <label class="form-label" for="sewa">Harga Sewa *</label>
-        <input class="form-control @error('sewa') is-invalid @enderror" id="sewa" name="sewa"
-          type="number" placeholder="masukan harga sewa mobil"
-          oninput="this.value = !!this.value && Math.abs(this.value) >= 1 ? Math.abs(this.value) : null"
-          value="{{ old('sewa', $produk->sewa) }}" />
+        <label class="form-label" for="gambar">Gambar <small>(Kosongkan saja jika tidak ingin mengubah)</small></label>
+        <input class="form-control" id="gambar" name="gambar" type="file" accept="image/*" />
       </div>
     </div>
     <div class="card-footer text-end">

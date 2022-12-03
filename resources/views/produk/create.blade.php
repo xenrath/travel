@@ -49,33 +49,84 @@
         <select class="form-select js-choice" id="mobil_id" size="1" name="mobil_id"
           data-options="{'removeItemButton': true, 'placeholder': true}">
           <option value="">- Pilih Mobil -</option>
-          {{-- @foreach ($produks as $produk)
-          <option value="{{ $produk->id }}" {{ old('mobil_id')==$produk->id ? 'selected' : '' }}>{{
-            $produk->nama }} (@rupiah($produk->sewa))</option>
-          @endforeach --}}
+          @foreach ($mobils as $mobil)
+          <option value="{{ $mobil->id }}" {{ old('mobil_id')==$mobil->id ? 'selected' : '' }}>{{
+            $mobil->nama }}</option>
+          @endforeach
         </select>
       </div>
-      <div class="mb-3">
-        <label class="form-label" for="tahun">Tahun *</label>
-        <input class="form-control @error('tahun') is-invalid @enderror" id="tahun" name="tahun" type="year"
-          placeholder="masukan tahun keluaran" value="{{ old('tahun') }}" />
+      <div id="layout_mobil" style="display: none;">
+        <div class="p-3 border rounded mb-3">
+          <div class="row">
+            <div class="col-4">
+              <img id="gambar_mobil" class="rounded w-100">
+            </div>
+            <div class="col-8">
+              <table class="w-100">
+                <tr height="40">
+                  <td>
+                    <h5 class="fs-0">Mobil</h5>
+                  </td>
+                  <td>
+                    <h5 class="fs-0">:</h5>
+                  </td>
+                  <td class="text-end">
+                    <h5 class="fs-0" id="nama_mobil"></h5>
+                  </td>
+                </tr>
+                <tr height="40">
+                  <td>
+                    <h5 class="fs-0">Plat</h5>
+                  </td>
+                  <td>
+                    <h5 class="fs-0">:</h5>
+                  </td>
+                  <td class="text-end">
+                    <h5 class="fs-0" id="plat_mobil"></h5>
+                  </td>
+                </tr>
+                <tr height="40">
+                  <td>
+                    <h5 class="fs-0">Warna</h5>
+                  </td>
+                  <td>
+                    <h5 class="fs-0">:</h5>
+                  </td>
+                  <td class="text-end">
+                    <h5 class="fs-0" id="warna_mobil" style="text-transform: capitalize"></h5>
+                  </td>
+                </tr>
+                <tr height="50" id="layout_area">
+                  <td>
+                    <h5 class="fs-0">Kapasitas</h5>
+                  </td>
+                  <td>
+                    <h5 class="fs-0">:</h5>
+                  </td>
+                  <td class="text-end">
+                    <h5 class="fs-0" id="kapasitas_mobil" style="text-transform: capitalize"></h5>
+                  </td>
+                </tr>
+                <tr height="40">
+                  <td>
+                    <h5 class="fs-0">Fasilitas</h5>
+                  </td>
+                  <td>
+                    <h5 class="fs-0">:</h5>
+                  </td>
+                  <td class="text-end">
+                    <h5 class="fs-0" id="fasilitas_mobil"></h5>
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="mb-3">
-        <label class="form-label" for="plat">Plat *</label>
-        <input class="form-control @error('plat') is-invalid @enderror" id="plat" name="plat" type="text"
-          placeholder="masukan plat mobil" value="{{ old('plat') }}" />
-      </div>
-      <div class="mb-3">
-        <label class="form-label" for="warna">Warna *</label>
-        <input class="form-control @error('warna') is-invalid @enderror" id="warna" name="warna" type="text"
-          placeholder="masukan warna mobil" value="{{ old('warna') }}" />
-      </div>
-      <div class="mb-3">
-        <label class="form-label" for="kapasitas">Kapasitas *</label>
-        <input class="form-control @error('kapasitas') is-invalid @enderror" id="kapasitas" name="kapasitas"
-          type="number" placeholder="masukan kapasitas mobil"
-          oninput="this.value = !!this.value && Math.abs(this.value) >= 1 ? Math.abs(this.value) : null"
-          value="{{ old('kapasitas') }}" />
+      <div id="layout_empty">
+        <div class="p-5 border rounded mb-3 text-center">
+          <h5 class="fs-0">- pilih mobil terlebih dahulu -</h5>
+        </div>
       </div>
       <div class="mb-3">
         <label class="form-label" for="kategori">Kategori *</label>
@@ -85,55 +136,16 @@
           <option value="tour" {{ old('kategori')=='tour' ? 'selected' : '' }}>Tour</option>
         </select>
       </div>
-      <div class="mb-3">
-        <label class="form-label" for="fasilitas">Fasilitas *</label>
-        <textarea class="form-control @error('fasilitas') is-invalid @enderror" id="fasilitas" name="fasilitas"
-          rows="3">{{ old('fasilitas') }}</textarea>
-        @error('fasilitas')
-        <span class="invalid-feedback" role="alert">{{ $message }}</span>
-        @enderror
-      </div>
-      <div class="mb-3">
-        <label class="form-label" for="gambar">Gambar *</label>
-        <input class="form-control @error('gambar') is-invalid @enderror" id="gambar" name="gambar" type="file"
-          accept="image/*" />
-        @error('gambar')
-        <span class="invalid-feedback" role="alert">{{ $message }}</span>
-        @enderror
-      </div>
-      {{-- <div class="mb-3">
-        <div class="dropzone dropzone-single p-0" data-dropzone="data-dropzone"
-          data-options='{"url":"valid/url","maxFiles":1,"dictDefaultMessage":"Pilih atau pindahkan gambar kesini"}'>
-          <div class="fallback">
-            <input type="file" name="file" />
-          </div>
-          <div class="dz-preview dz-preview-single">
-            <div class="dz-preview-cover dz-complete">
-              <img class="dz-preview-img" src="{{ asset('falcon/public/assets/img/generic/image-file-2.png') }}"
-                alt="..." data-dz-thumbnail="" />
-              <a class="dz-remove text-danger" href="#!" data-dz-remove="data-dz-remove">
-                <span class="fas fa-times"></span>
-              </a>
-              <div class="dz-progress">
-                <span class="dz-upload" data-dz-uploadprogress=""></span>
-              </div>
-              <div class="dz-errormessage m-1">
-                <span data-dz-errormessage="data-dz-errormessage"></span>
-              </div>
-            </div>
-            <div class="dz-progress">
-              <span class="dz-upload" data-dz-uploadprogress=""></span>
-            </div>
-          </div>
-          <div class="dz-message" data-dz-message="data-dz-message">
-            <div class="dz-message-text">
-              <img class="me-2" src="{{ asset('falcon/public/assets/img/icons/cloud-upload.svg') }}" width="25"
-                alt="" />Pindahkan
-              gambar disini
-            </div>
-          </div>
+      <div class="layout_tour" style="display: none;">
+        <div class="mb-3">
+          <label class="form-label" for="area">Area *</label>
+          <select class="form-select" id="area" name="area">
+            <option value="">- Pilih -</option>
+            <option value="dalam" {{ old('area')=='dalam' ? 'selected' : '' }}>Dalam Kota</option>
+            <option value="luar" {{ old('area')=='luar' ? 'selected' : '' }}>Luar Kota</option>
+          </select>
         </div>
-      </div> --}}
+      </div>
       <div class="mb-3">
         <label class="form-label" for="sewa">Harga Sewa *</label>
         <input class="form-control @error('sewa') is-invalid @enderror" id="sewa" name="sewa" type="number"
@@ -152,4 +164,85 @@
     </div>
   </form>
 </div>
+<script>
+  var layout_mobil = document.getElementById('layout_mobil');
+  var layout_empty = document.getElementById('layout_empty');
+  var mobil_id = document.getElementById('mobil_id');
+  var gambar_mobil = document.getElementById('gambar_mobil');
+  var nama_mobil = document.getElementById('nama_mobil');
+  var plat_mobil = document.getElementById('plat_mobil');
+  var warna_mobil = document.getElementById('warna_mobil');
+  var kapasitas_mobil = document.getElementById('kapasitas_mobil');
+  var fasilitas_mobil = document.getElementById('fasilitas_mobil');
+
+  var kategori = document.getElementById('kategori');
+  var layout_tour = document.getElementById('layout_tour');
+  
+  mobil_id.addEventListener('change', function () {
+    if (this.value != "") {
+      $.ajax({
+        url: "{{ url('mobil/detail') }}" + "/" + this.value,
+        type: "GET",
+        dataType: "json",
+        success: function(mobil) {
+          layout_mobil.style.display = 'inline';
+          layout_empty.style.display = 'tour';
+          console.log(mobil);
+          gambar_mobil.src = "{{ asset('storage/uploads') }}" + "/" + mobil.gambar;
+          gambar_mobil.alt = mobil.nama;
+          nama_mobil.innerText = mobil.nama;
+          plat_mobil.innerText = mobil.plat;
+          warna_mobil.innerText = mobil.warna;
+          kapasitas_mobil.innerText = mobil.kapasitas + " Kursi";
+          fasilitas_mobil.innerText = mobil.fasilitas;
+        },
+      });
+    } else {
+      layout_mobil.style.display = 'none';
+      layout_empty.style.display = 'inline';
+    }
+  });
+
+  if (kategori.value == 'tour') {
+    layout_tour.style.display = 'inline';
+  }
+  kategori.addEventListener('change', function () {
+    if (this.value == 'tour') {
+      layout_tour.style.display = 'inline';
+    } else {
+      layout_tour.style.display = 'none';
+    }
+  });
+  var area = document.getElementById('area');
+  area.addEventListener('change', function () {
+    if (this.value == 'luar') {
+      isLuar = true;
+      if (lamaValue != 0 && sewa != 0) {
+        harga.value = (sewa * lamaValue) + 250000 + 100000;
+      }
+    } else {
+      isLuar = false;
+      if (lamaValue != 0 && sewa != 0) {
+        harga.value = (sewa * lamaValue) + 250000;
+      }
+    }
+  })
+
+  function rupiah(angka, prefix){
+    var number_string = angka.replace(/[^,\d]/g, '').toString(),
+    split   		= number_string.split(','),
+    sisa     		= split[0].length % 3,
+    rupiah     		= split[0].substr(0, sisa),
+    ribuan     		= split[0].substr(sisa).match(/\d{3}/gi);
+
+    // tambahkan titik jika yang di input sudah menjadi angka ribuan
+    if(ribuan){
+      separator = sisa ? '.' : '';
+      rupiah += separator + ribuan.join('.');
+    }
+
+    rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
+    return prefix == undefined ? rupiah : (rupiah ? 'Rp' + rupiah : '');
+  }
+</script>
 @endsection

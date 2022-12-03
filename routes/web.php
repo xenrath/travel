@@ -30,6 +30,8 @@ Route::get('/', [HomeController::class, 'index']);
 Route::resource('admin', AdminController::class);
 Route::resource('sopir', SopirController::class);
 Route::resource('pelanggan', PelangganController::class);
+
+Route::get('mobil/detail/{id}', [MobilController::class, 'detail']);
 Route::resource('mobil', MobilController::class);
 
 Route::get('produk/detail/{id}', [ProdukController::class, 'detail']);

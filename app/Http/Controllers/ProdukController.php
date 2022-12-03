@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Mobil;
 use App\Models\Produk;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -30,7 +31,9 @@ class ProdukController extends Controller
      */
     public function create()
     {
-        return view('produk.create');
+        $mobils = Mobil::get();
+
+        return view('produk.create', compact('mobils'));
     }
 
     /**
@@ -42,16 +45,12 @@ class ProdukController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'nama' => 'required',
-            'tahun' => 'required',
-            'plat' => 'required|unique:produks',
-            'warna' => 'required',
-            'kapasitas' => 'required',
-            'fasilitas' => 'required',
+            'mobil_id' => 'required',
+            'kategori' => 'required',
             'gambar' => 'required|image|mimes:jpeg,jpg,png|max:2048',
             'sewa' => 'required',
         ], [
-            'nama.required' => 'Nama mobil tidak boleh kosong!',
+            'mobil_id.required' => 'Mobil harus dipilih!',
             'tahun.required' => 'Tahun keluaran tidak boleh kosong!',
             'plat.required' => 'Plat tidak boleh kosong!',
             'plat.unique' => 'PLat sudah digunakan!',
