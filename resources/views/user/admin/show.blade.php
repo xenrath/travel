@@ -1,14 +1,8 @@
 @extends('layout.main')
 
-@section('title', 'Data Pelanggan')
+@section('title', 'Data Admin')
 
 @section('content')
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css"
-  integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
-  crossorigin="" />
-<script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"
-  integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og=="
-  crossorigin=""></script>
 <div class="card mb-3">
   <div class="bg-holder d-none d-lg-block bg-card"
     style="background-image:url({{ asset('falcon/public/assets/img/icons/spot-illustrations/corner-4.png') }});">
@@ -17,7 +11,7 @@
   <div class="card-body position-relative">
     <div class="row">
       <div class="col-lg-8">
-        <h3>Data Pelanggan</h3>
+        <h3>Data Admin</h3>
         <p class="mb-0">Lihat</p>
       </div>
     </div>
@@ -25,7 +19,7 @@
 </div>
 <div class="card">
   <div class="card-header">
-    <h5>Lihat Pelanggan</h5>
+    <h5>Lihat Admin</h5>
   </div>
   <div class="card-body">
     <div class="row">
@@ -33,8 +27,7 @@
         @if ($user->foto)
         <img src="{{ asset('storage/uploads/' . $user->foto) }}" alt="{{ $user->nama }}" class="w-100 rounded border">
         @else
-        <img src="{{ asset('falcon/public/assets/img/img-placeholder.jpg') }}" alt="{{ $user->nama }}"
-          class="w-100 rounded border">
+        <img src="{{ asset('falcon/public/assets/img/img-placeholder.jpg') }}" alt="{{ $user->nama }}" class="w-100 rounded border">
         @endif
       </div>
       <div class="col-md-6">
@@ -101,23 +94,6 @@
             </td>
           </tr>
         </table>
-      </div>
-    </div>
-    <div class="row mt-3">
-      <div class="col">
-        <div id="map" style="width:100%; height:400px;"></div>
-        <script>
-          // var location = {{ $result_lat_long }};
-            var map = L.map('map').setView([{{ $user->latitude }}, {{ $user->longitude }}], 18);
-            mapLink = '<a href="http://openstreetmap.org">OpenStreetMap</a>';
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-              attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            }).addTo(map);
-            L.marker([{{ $user->latitude }}, {{ $user->longitude }}])
-              .addTo(map)
-              .bindPopup("{{ $user->nama }}")
-              .openPopup();
-        </script>
       </div>
     </div>
   </div>

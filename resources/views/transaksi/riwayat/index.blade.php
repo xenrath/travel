@@ -48,7 +48,7 @@
             </button>
             <button type="button" class="btn btn-primary" onclick="print()" target="_blank">
               <i class="fas fa-print"></i> Print
-            </a>
+              </a>
           </div>
         </div>
       </form>
@@ -70,17 +70,21 @@
           <tr>
             <th class="text-center">{{ $transaksis->firstItem() + $key }}</th>
             <th>{{ $transaksi->pelanggan->nama }}</th>
-            <th>{{ $transaksi->produk->nama }}</th>
+            <th>{{ $transaksi->produk->mobil->nama }}</th>
             {{-- <th>{{ date('d-m-Y', strtotime($transaksi->tanggal . '+ 5 days')) }}</th> --}}
-            <th>{{ ucfirst($transaksi->kategori) }}</th>
-            <th>{{ ucfirst($transaksi->metode) }}
-              @if ($transaksi->metode == 'cash')
-              <i class="fas fa-money-bill-wave"></i>
+            <th>
+              @if ($transaksi->produk->kategori == 'rental')
+              Rental
               @else
-              <i class="far fa-credit-card"></i>
+              Tour ({{ ucfirst($transaksi->produk->area) }} Kota)
               @endif
             </th>
             <th>{{ date('d M Y', strtotime($transaksi->tanggal)) }}</th>
+            <th>
+              <a href="{{ url('transaksi/riwayat/' . $transaksi->id) }}" class="btn btn-info btn-sm">
+                <i class="fas fa-eye"></i> Lihat
+              </a>
+            </th>
           </tr>
           @empty
           <tr>

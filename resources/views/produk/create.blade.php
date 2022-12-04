@@ -136,7 +136,7 @@
           <option value="tour" {{ old('kategori')=='tour' ? 'selected' : '' }}>Tour</option>
         </select>
       </div>
-      <div class="layout_tour" style="display: none;">
+      <div id="layout_tour" style="display: none;">
         <div class="mb-3">
           <label class="form-label" for="area">Area *</label>
           <select class="form-select" id="area" name="area">
@@ -177,7 +177,32 @@
 
   var kategori = document.getElementById('kategori');
   var layout_tour = document.getElementById('layout_tour');
+  var area = document.getElementById('area');
   
+  if (mobil_id.value != "") {
+    if (mobil_id.value != "") {
+      $.ajax({
+        url: "{{ url('mobil/detail') }}" + "/" + mobil_id.value,
+        type: "GET",
+        dataType: "json",
+        success: function(mobil) {
+          layout_mobil.style.display = 'inline';
+          layout_empty.style.display = 'none';
+          console.log(mobil);
+          gambar_mobil.src = "{{ asset('storage/uploads') }}" + "/" + mobil.gambar;
+          gambar_mobil.alt = mobil.nama;
+          nama_mobil.innerText = mobil.nama;
+          plat_mobil.innerText = mobil.plat;
+          warna_mobil.innerText = mobil.warna;
+          kapasitas_mobil.innerText = mobil.kapasitas + " Kursi";
+          fasilitas_mobil.innerText = mobil.fasilitas;
+        },
+      });
+    } else {
+      layout_mobil.style.display = 'none';
+      layout_empty.style.display = 'inline';
+    }
+  }
   mobil_id.addEventListener('change', function () {
     if (this.value != "") {
       $.ajax({
@@ -186,7 +211,7 @@
         dataType: "json",
         success: function(mobil) {
           layout_mobil.style.display = 'inline';
-          layout_empty.style.display = 'tour';
+          layout_empty.style.display = 'none';
           console.log(mobil);
           gambar_mobil.src = "{{ asset('storage/uploads') }}" + "/" + mobil.gambar;
           gambar_mobil.alt = mobil.nama;
@@ -207,42 +232,13 @@
     layout_tour.style.display = 'inline';
   }
   kategori.addEventListener('change', function () {
-    if (this.value == 'tour') {
+    if (this.value == "tour") {
       layout_tour.style.display = 'inline';
+      area.value = "";
     } else {
       layout_tour.style.display = 'none';
+      area.value = "";
     }
   });
-  var area = document.getElementById('area');
-  area.addEventListener('change', function () {
-    if (this.value == 'luar') {
-      isLuar = true;
-      if (lamaValue != 0 && sewa != 0) {
-        harga.value = (sewa * lamaValue) + 250000 + 100000;
-      }
-    } else {
-      isLuar = false;
-      if (lamaValue != 0 && sewa != 0) {
-        harga.value = (sewa * lamaValue) + 250000;
-      }
-    }
-  })
-
-  function rupiah(angka, prefix){
-    var number_string = angka.replace(/[^,\d]/g, '').toString(),
-    split   		= number_string.split(','),
-    sisa     		= split[0].length % 3,
-    rupiah     		= split[0].substr(0, sisa),
-    ribuan     		= split[0].substr(sisa).match(/\d{3}/gi);
-
-    // tambahkan titik jika yang di input sudah menjadi angka ribuan
-    if(ribuan){
-      separator = sisa ? '.' : '';
-      rupiah += separator + ribuan.join('.');
-    }
-
-    rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
-    return prefix == undefined ? rupiah : (rupiah ? 'Rp' + rupiah : '');
-  }
 </script>
 @endsection

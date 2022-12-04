@@ -149,6 +149,11 @@
           </div>
         </div>
       </div>
+      <div id="layout_empty">
+        <div class="p-5 border rounded mb-3 text-center">
+          <h5 class="fs-0">- pilih produk terlebih dahulu -</h5>
+        </div>
+      </div>
       <div id="layout_tour" style="display: none">
         <div class="mb-3">
           <label class="form-label" for="sopir_id">Nama Sopir *</label>
@@ -199,8 +204,9 @@
   </form>
 </div>
 <script>
-  var produk_id = document.getElementById('produk_id');
   var layout_produk = document.getElementById('layout_produk');
+  var layout_empty = document.getElementById('layout_empty');
+  var produk_id = document.getElementById('produk_id');
   var gambar_mobil = document.getElementById('gambar_mobil');
   var nama_mobil = document.getElementById('nama_mobil');
   var plat_mobil = document.getElementById('plat_mobil');
@@ -211,6 +217,36 @@
   var layout_tour = document.getElementById('layout_tour');
   var sewa = 0;
   var isTour = false;
+  if (produk_id.value != "") {
+    $.ajax({
+      url: "{{ url('produk/detail') }}" + "/" + produk_id.value,
+      type: "GET",
+      dataType: "json",
+      success: function(produk) {
+        layout_produk.style.display = 'inline';
+        layout_empty.style.display = 'none';
+        gambar_mobil.src = "{{ asset('storage/uploads') }}" + "/" + produk.mobil.gambar;
+        gambar_mobil.alt = produk.mobil.nama;
+        nama_mobil.innerText = produk.mobil.nama;
+        plat_mobil.innerText = produk.mobil.plat;
+        kategori_produk.innerText = produk.kategori;
+        if (produk.kategori == 'rental') {
+          layout_area.style.display = 'none';
+          layout_tour.style.display = 'none';
+        } else {
+          layout_area.style.display = '';
+          area_produk.innerText = produk.area + " Kota";
+          layout_tour.style.display = 'inline';
+        }
+        harga_produk.innerText = rupiah(produk.sewa, 'Rp');
+        sewa = produk.sewa;
+      },
+    });
+  } else {
+    layout_produk.style.display = 'none';
+    layout_empty.style.display = 'inline';
+    sewa = 0;
+  }
   produk_id.addEventListener('change', function () {
     if (this.value != "") {
       $.ajax({
@@ -219,7 +255,7 @@
         dataType: "json",
         success: function(produk) {
           layout_produk.style.display = 'inline';
-          console.log(produk);
+          layout_empty.style.display = 'none';
           gambar_mobil.src = "{{ asset('storage/uploads') }}" + "/" + produk.mobil.gambar;
           gambar_mobil.alt = produk.mobil.nama;
           nama_mobil.innerText = produk.mobil.nama;
@@ -239,6 +275,7 @@
       });
     } else {
       layout_produk.style.display = 'none';
+      layout_empty.style.display = 'inline';
       sewa = 0;
     }
   });

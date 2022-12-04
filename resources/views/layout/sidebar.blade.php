@@ -40,7 +40,7 @@
             </div>
           </div>
           <!-- parent pages-->
-          <a class="nav-link {{ request()->is('admin') ? 'active' : '' }}" href="{{ url('admin') }}" role="button"
+          <!-- <a class="nav-link {{ request()->is('admin*') ? 'active' : '' }}" href="{{ url('admin') }}" role="button"
             aria-expanded="false">
             <div class="d-flex align-items-center">
               <span class="nav-link-icon">
@@ -48,9 +48,9 @@
               </span>
               <span class="nav-link-text ps-1">Data Admin</span>
             </div>
-          </a>
+          </a> -->
           <!-- parent pages-->
-          <a class="nav-link {{ request()->is('sopir') ? 'active' : '' }}" href="{{ url('sopir') }}" role="button"
+          <a class="nav-link {{ request()->is('sopir*') ? 'active' : '' }}" href="{{ url('sopir') }}" role="button"
             aria-expanded="false">
             <div class="d-flex align-items-center">
               <span class="nav-link-icon">
@@ -60,7 +60,7 @@
             </div>
           </a>
           <!-- parent pages-->
-          <a class="nav-link {{ request()->is('pelanggan') ? 'active' : '' }}" href="{{ url('pelanggan') }}"
+          <a class="nav-link {{ request()->is('pelanggan*') ? 'active' : '' }}" href="{{ url('pelanggan') }}"
             role="button" aria-expanded="false">
             <div class="d-flex align-items-center">
               <span class="nav-link-icon">
@@ -80,8 +80,8 @@
             </div>
           </div>
           <!-- parent pages-->
-          <a class="nav-link {{ request()->is('mobil*') ? 'active' : '' }}"
-            href="{{ url('mobil') }}" role="button" aria-expanded="false">
+          <a class="nav-link {{ request()->is('mobil*') ? 'active' : '' }}" href="{{ url('mobil') }}" role="button"
+            aria-expanded="false">
             <div class="d-flex align-items-center">
               <span class="nav-link-icon">
                 <i class="fas fa-car"></i>
@@ -90,8 +90,8 @@
             </div>
           </a>
           <!-- parent pages-->
-          <a class="nav-link {{ request()->is('produk*') ? 'active' : '' }}"
-            href="{{ url('produk') }}" role="button" aria-expanded="false">
+          <a class="nav-link {{ request()->is('produk*') ? 'active' : '' }}" href="{{ url('produk') }}" role="button"
+            aria-expanded="false">
             <div class="d-flex align-items-center">
               <span class="nav-link-icon">
                 <i class="fas fa-car"></i>
@@ -140,7 +140,8 @@
             </div>
           </div>
           <!-- parent pages-->
-          <a class="nav-link {{ request()->is('transaksi/menunggu') ? 'active' : '' }}" href="{{ url('transaksi/menunggu') }}" role="button" aria-expanded="false">
+          <a class="nav-link {{ request()->is('transaksi/menunggu') ? 'active' : '' }}"
+            href="{{ url('transaksi/menunggu') }}" role="button" aria-expanded="false">
             <div class="d-flex align-items-center">
               <span class="nav-link-icon">
                 <i class="fas fa-clipboard-list"></i>
@@ -149,7 +150,8 @@
             </div>
           </a>
           <!-- parent pages-->
-          <a class="nav-link {{ request()->is('transaksi/proses') ? 'active' : '' }}" href="{{ url('transaksi/proses') }}" role="button" aria-expanded="false">
+          <a class="nav-link {{ request()->is('transaksi/proses') ? 'active' : '' }}"
+            href="{{ url('transaksi/proses') }}" role="button" aria-expanded="false">
             <div class="d-flex align-items-center">
               <span class="nav-link-icon">
                 <i class="fas fa-clipboard-list"></i>
@@ -168,13 +170,42 @@
             </div>
           </div>
           <!-- parent pages-->
-          <a class="nav-link {{ request()->is('transaksi/riwayat') ? 'active' : '' }}" href="{{ url('transaksi/riwayat') }}" role="button"
-            aria-expanded="false">
+          <a class="nav-link {{ request()->is('transaksi/riwayat') ? 'active' : '' }}"
+            href="{{ url('transaksi/riwayat') }}" role="button" aria-expanded="false">
             <div class="d-flex align-items-center">
               <span class="nav-link-icon">
                 <i class="fas fa-clipboard-list"></i>
               </span>
               <span class="nav-link-text ps-1">Riwayat Peminjaman</span>
+            </div>
+          </a>
+        </li>
+        <li class="nav-item">
+          <!-- label-->
+          <div class="row navbar-vertical-label-wrapper mt-3 mb-2">
+            <div class="col-auto navbar-vertical-label">Menu Rekening
+            </div>
+            <div class="col ps-0">
+              <hr class="mb-0 navbar-vertical-divider" />
+            </div>
+          </div>
+          <!-- parent pages-->
+          <a class="nav-link {{ request()->is('rekening*') ? 'active' : '' }}" href="{{ url('rekening') }}"
+            role="button" aria-expanded="false">
+            <div class="d-flex align-items-center">
+              <span class="nav-link-icon">
+                <i class="fas fa-credit-card"></i>
+              </span>
+              <span class="nav-link-text ps-1">Data Rekening</span>
+            </div>
+          </a>
+          <a class="nav-link {{ request()->is('invoice*') ? 'active' : '' }}" href="{{ url('invoice') }}"
+            role="button" aria-expanded="false">
+            <div class="d-flex align-items-center">
+              <span class="nav-link-icon">
+                <i class="fas fa-credit-card"></i>
+              </span>
+              <span class="nav-link-text ps-1">Invoice</span>
             </div>
           </a>
         </li>

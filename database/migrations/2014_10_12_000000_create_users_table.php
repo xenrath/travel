@@ -17,10 +17,12 @@ class CreateUsersTable extends Migration
             $table->id();
             $table->string('nik')->unique();
             $table->string('nama');
-            $table->string('telp')->unique();
-            $table->text('alamat')->nullable();
-            $table->enum('gender', ['L', 'P']);
+            $table->string('telp')->unique(); 
             $table->string('password');
+            $table->enum('gender', ['L', 'P']);
+            $table->string('latitude')->nullable();
+            $table->string('longitude')->nullable();
+            $table->text('alamat')->nullable();
             $table->string('foto')->nullable();
             $table->enum('role', ['admin', 'sopir', 'pelanggan']);
             $table->boolean('status')->default(true);

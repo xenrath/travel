@@ -42,20 +42,18 @@
   <table style="width: 100%;" class="table-1" cellspacing="0" cellpadding="8">
     <tr>
       <th class="th-1">No.</th>
-      <th class="th-1 text-left">Tanggal</th>
-      <th class="th-1 text-left">Nama Pelanggan</th>
-      <th class="th-1 text-left">Mobil</th>
-      <th class="th-1 text-left">Kategori</th>
-      <th class="th-1 text-left">Lama</th>
+      <th class="th-1" style="text-align: left">Tanggal</th>
+      <th class="th-1" style="text-align: left">Nama Pelanggan</th>
+      <th class="th-1" style="text-align: left">Mobil</th>
+      <th class="th-1" style="text-align: left">Kategori</th>
     </tr>
     @foreach ($transaksis as $transaksi)
     <tr>
       <td class="td-1 text-center">{{ $loop->iteration }}</td>
-      <td class="td-1">{{ date('d-m-Y', strtotime($transaksi->tanggal)) }}</td>
+      <td class="td-1">{{ date('d M Y', strtotime($transaksi->tanggal)) }}</td>
       <td class="td-1">{{ $transaksi->pelanggan->nama }}</td>
-      <td class="td-1">{{ $transaksi->produk->nama }}</td>
-      <td class="td-1">{{ ucfirst($transaksi->kategori) }}</td>
-      <td class="td-1">{{ $transaksi->lama }} Hari</td>
+      <td class="td-1">{{ $transaksi->produk->mobil->nama }}</td>
+      <td class="td-1">{{ ucfirst($transaksi->produk->kategori) }}</td>
     </tr>
     @endforeach
   </table>

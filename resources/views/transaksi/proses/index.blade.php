@@ -48,9 +48,15 @@
           <tr>
             <th class="text-center">{{ $transaksis->firstItem() + $key }}</th>
             <th>{{ $transaksi->pelanggan->nama }}</th>
-            <th>{{ $transaksi->produk->nama }}</th>
+            <th>{{ $transaksi->produk->mobil->nama }}</th>
             {{-- <th>{{ date('d-m-Y', strtotime($transaksi->tanggal . '+ 5 days')) }}</th> --}}
-            <th>{{ ucfirst($transaksi->kategori) }}</th>
+            <th>
+              @if ($transaksi->produk->kategori == 'rental')
+              Rental
+              @else
+              Tour ({{ ucfirst($transaksi->produk->area) }} Kota)
+              @endif
+            </th>
             <th>{{ ucfirst($transaksi->metode) }}
               @if ($transaksi->metode == 'cash')
               <i class="fas fa-money-bill-wave"></i>
@@ -59,7 +65,7 @@
               @endif
             </th>
             <th class="text-center">
-              <a href="{{ url('transaksi/' . $transaksi->id) }}" class="btn btn-info btn-sm">
+              <a href="{{ url('transaksi/proses/' . $transaksi->id) }}" class="btn btn-info btn-sm">
                 <i class="fas fa-eye"></i> Lihat
               </a>
               <a href="" class="btn btn-success btn-sm" data-bs-toggle="modal"
@@ -84,8 +90,7 @@
                     </div>
                     <div class="modal-footer">
                       <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Batal</button>
-                      <a class="btn btn-primary"
-                        href="{{ url('transaksi/selesai/' . $transaksi->id) }}">Ya</a>
+                      <a class="btn btn-primary" href="{{ url('transaksi/selesai/' . $transaksi->id) }}">Ya</a>
                     </div>
                   </div>
                 </div>

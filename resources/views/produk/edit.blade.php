@@ -45,65 +45,95 @@
     @csrf
     @method('put')
     <div class="card-body">
+      <div class="p-3 border rounded mb-3">
+        <div class="row">
+          <div class="col-4">
+            <img src="{{ asset('storage/uploads/' . $produk->mobil->gambar) }}" class="rounded w-100"
+              alt="{{ $produk->mobil->nama }}">
+          </div>
+          <div class="col-8">
+            <table class="w-100">
+              <tr height="40">
+                <td>
+                  <h5 class="fs-0">Mobil</h5>
+                </td>
+                <td>
+                  <h5 class="fs-0">:</h5>
+                </td>
+                <td class="text-end">
+                  <h5 class="fs-0">{{ $produk->mobil->nama }}</h5>
+                </td>
+              </tr>
+              <tr height="40">
+                <td>
+                  <h5 class="fs-0">Plat</h5>
+                </td>
+                <td>
+                  <h5 class="fs-0">:</h5>
+                </td>
+                <td class="text-end">
+                  <h5 class="fs-0">{{ $produk->mobil->plat }}</h5>
+                </td>
+              </tr>
+              <tr height="40">
+                <td>
+                  <h5 class="fs-0">Warna</h5>
+                </td>
+                <td>
+                  <h5 class="fs-0">:</h5>
+                </td>
+                <td class="text-end">
+                  <h5 class="fs-0">{{ $produk->mobil->warna }}</h5>
+                </td>
+              </tr>
+              <tr height="50">
+                <td>
+                  <h5 class="fs-0">Kapasitas</h5>
+                </td>
+                <td>
+                  <h5 class="fs-0">:</h5>
+                </td>
+                <td class="text-end">
+                  <h5 class="fs-0">{{ $produk->mobil->kapasitas }} Kursi</h5>
+                </td>
+              </tr>
+              <tr height="40">
+                <td>
+                  <h5 class="fs-0">Fasilitas</h5>
+                </td>
+                <td>
+                  <h5 class="fs-0">:</h5>
+                </td>
+                <td class="text-end">
+                  <h5 class="fs-0">{{ $produk->mobil->fasilitas }}</h5>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
       <div class="mb-3">
-        <label class="form-label" for="nama">Nama Mobil *</label>
-        <input class="form-control @error('nama') is-invalid @enderror" id="nama" name="nama" type="text"
-          placeholder="masukan nama mobil" value="{{ old('nama', $produk->nama) }}" />
+        <label class="form-label" for="kategori">Kategori *</label>
+        <select class="form-select" id="kategori" name="kategori">
+          <option value="">- Pilih -</option>
+          <option value="rental" {{ old('kategori', $produk->kategori)=='rental' ? 'selected' : '' }}>Rental</option>
+          <option value="tour" {{ old('kategori', $produk->kategori)=='tour' ? 'selected' : '' }}>Tour</option>
+        </select>
       </div>
-      <div class="row">
-        <div class="col-md-6">
-          <div class="mb-3">
-            <label class="form-label" for="tahun">Tahun *</label>
-            <input class="form-control @error('tahun') is-invalid @enderror" id="tahun" name="tahun" type="year"
-              placeholder="masukan tahun keluaran" value="{{ old('tahun', $produk->tahun) }}" />
-          </div>
+      <div id="layout_tour" style="display: none;">
+        <div class="mb-3">
+          <label class="form-label" for="area">Area *</label>
+          <select class="form-select" id="area" name="area">
+            <option value="">- Pilih -</option>
+            <option value="dalam" {{ old('area', $produk->area)=='dalam' ? 'selected' : '' }}>Dalam Kota</option>
+            <option value="luar" {{ old('area', $produk->area)=='luar' ? 'selected' : '' }}>Luar Kota</option>
+          </select>
         </div>
-        <div class="col-md-6">
-          <div class="mb-3">
-            <label class="form-label" for="plat">Plat *</label>
-            <input class="form-control @error('plat') is-invalid @enderror" id="plat" name="plat" type="text"
-              placeholder="masukan plat mobil" value="{{ old('plat', $produk->plat) }}" />
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-6">
-          <div class="mb-3">
-            <label class="form-label" for="warna">Warna *</label>
-            <input class="form-control @error('warna') is-invalid @enderror" id="warna" name="warna" type="text"
-              placeholder="masukan warna mobil" value="{{ old('warna', $produk->warna) }}" />
-          </div>
-        </div>
-        <div class="col-md-6">
-          <div class="mb-3">
-            <label class="form-label" for="kapasitas">Kapasitas *</label>
-            <input class="form-control @error('kapasitas') is-invalid @enderror" id="kapasitas" name="kapasitas"
-              type="number" placeholder="masukan kapasitas mobil"
-              oninput="this.value = !!this.value && Math.abs(this.value) >= 1 ? Math.abs(this.value) : null"
-              value="{{ old('kapasitas', $produk->kapasitas) }}" />
-          </div>
-        </div>
-      </div>
-      <div class="mb-3">
-        <label class="form-label" for="fasilitas">Fasilitas *</label>
-        <textarea class="form-control @error('fasilitas') is-invalid @enderror" id="fasilitas" name="fasilitas"
-          rows="3">{{ old('fasilitas', $produk->kapasitas) }}</textarea>
-        @error('fasilitas')
-        <span class="invalid-feedback" role="alert">{{ $message }}</span>
-        @enderror
-      </div>
-      <div class="mb-3">
-        <label class="form-label" for="gambar">Gambar</label>
-        <input class="form-control @error('gambar') is-invalid @enderror" id="gambar" name="gambar" type="file"
-          accept="image/*" />
-        @error('gambar')
-        <span class="invalid-feedback" role="alert">{{ $message }}</span>
-        @enderror
       </div>
       <div class="mb-3">
         <label class="form-label" for="sewa">Harga Sewa *</label>
-        <input class="form-control @error('sewa') is-invalid @enderror" id="sewa" name="sewa"
-          type="number" placeholder="masukan harga sewa mobil"
+        <input class="form-control @error('sewa') is-invalid @enderror" id="sewa" name="sewa" type="number"
+          placeholder="masukan harga sewa mobil"
           oninput="this.value = !!this.value && Math.abs(this.value) >= 1 ? Math.abs(this.value) : null"
           value="{{ old('sewa', $produk->sewa) }}" />
       </div>
@@ -118,4 +148,22 @@
     </div>
   </form>
 </div>
+<script>
+  var kategori = document.getElementById('kategori');
+  var layout_tour = document.getElementById('layout_tour');
+  var area = document.getElementById('area');
+
+  if (kategori.value == 'tour') {
+    layout_tour.style.display = 'inline';
+  }
+  kategori.addEventListener('change', function () {
+    if (this.value == "tour") {
+      layout_tour.style.display = 'inline';
+      area.value = "";
+    } else {
+      layout_tour.style.display = 'none';
+      area.value = "";
+    }
+  });
+</script>
 @endsection

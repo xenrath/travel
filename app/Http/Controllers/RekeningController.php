@@ -2,13 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Mobil;
-use App\Models\Produk;
+use App\Models\Rekening;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Validator;
 
-class ProdukController extends Controller
+class RekeningController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,11 +14,9 @@ class ProdukController extends Controller
      */
     public function index()
     {
-        $produks = Produk::whereHas('mobil', function ($query) {
-            $query->orderBy('status', 'DESC');
-        })->paginate(6);
+        $rekenings = Rekening::get();
 
-        return view('produk.index', compact('produks'));
+        return view('rekening.index', compact('rekenings'));
     }
 
     /**
@@ -31,9 +26,7 @@ class ProdukController extends Controller
      */
     public function create()
     {
-        $mobils = Mobil::get();
-
-        return view('produk.create', compact('mobils'));
+        return view('mobil.create');
     }
 
     /**
@@ -44,38 +37,40 @@ class ProdukController extends Controller
      */
     public function store(Request $request)
     {
-        if ($request->kategori == "tour") {
-            $validator = Validator::make($request->all(), [
-                'mobil_id' => 'required',
-                'kategori' => 'required',
-                'area' => 'required',
-                'sewa' => 'required',
-            ], [
-                'mobil_id.required' => 'Mobil harus dipilih!',
-                'kategori.required' => 'Kategori harus dipilih!',
-                'area.required' => 'Area harus dipilih!',
-                'sewa.required' => 'Harga sewa harus diisi!',
-            ]);
-        } else {
-            $validator = Validator::make($request->all(), [
-                'mobil_id' => 'required',
-                'kategori' => 'required',
-                'sewa' => 'required',
-            ], [
-                'mobil_id.required' => 'Mobil harus dipilih!',
-                'kategori.required' => 'Kategori harus dipilih!',
-                'sewa.required' => 'Harga sewa harus diisi!',
-            ]);
-        }
+        $validator = Validator::make($request->all(), [
+            'nama' => 'required',
+            'tahun' => 'required',
+            'plat' => 'required|unique:mobils',
+            'warna' => 'required',
+            'kapasitas' => 'required',
+            'fasilitas' => 'required',
+            'gambar' => 'required|image|mimes:jpeg,jpg,png|max:2048',
+        ], [
+            'nama.required' => 'Nama mobil tidak boleh kosong!',
+            'tahun.required' => 'Tahun keluaran tidak boleh kosong!',
+            'plat.required' => 'Plat tidak boleh kosong!',
+            'plat.unique' => 'Plat sudah digunakan!',
+            'warna.required' => 'Warna tidak boleh kosong!',
+            'kapasitas.required' => 'Kapasitas tidak boleh kosong!',
+            'fasilitas.required' => 'Fasilitas tidak boleh kosong!',
+            'gambar.required' => 'Gambar tidak boleh kosong!',
+            'gambar.image' => 'Gambar harus berformat jpeg, jpg, png!',
+        ]);
 
         if ($validator->fails()) {
             $error = $validator->errors()->all();
             return back()->withInput()->with('status', $error);
         }
 
-        Produk::create($request->all());
+        $gambar = str_replace(' ', '', $request->gambar->getClientOriginalName());
+        $namagambar = 'mobil/' . date('mYdHs') . rand(1, 10) . '_' . $gambar;
+        $request->gambar->storeAs('public/uploads/', $namagambar);
 
-        return redirect('produk')->with('status', 'Berhasil menambahkan Produk');
+        Mobil::create(array_merge($request->all(), [
+            'gambar' => $namagambar
+        ]));
+
+        return redirect('mobil')->with('status', 'Berhasil menambahkan Mobil');
     }
 
     /**
@@ -97,9 +92,9 @@ class ProdukController extends Controller
      */
     public function edit($id)
     {
-        $produk = Produk::findOrFail($id);
+        $mobil = Mobil::findOrFail($id);
 
-        return view('produk.edit', compact('produk'));
+        return view('mobil.edit', compact('mobil'));
     }
 
     /**
@@ -114,22 +109,20 @@ class ProdukController extends Controller
         $validator = Validator::make($request->all(), [
             'nama' => 'required',
             'tahun' => 'required',
-            'plat' => 'required|unique:produks',
+            'plat' => 'required|unique:mobils,plat,' . $id . ',id',
             'warna' => 'required',
             'kapasitas' => 'required',
             'fasilitas' => 'required',
             'gambar' => 'nullable|image|mimes:jpeg,jpg,png|max:2048',
-            'sewa' => 'required',
         ], [
             'nama.required' => 'Nama mobil tidak boleh kosong!',
             'tahun.required' => 'Tahun keluaran tidak boleh kosong!',
             'plat.required' => 'Plat tidak boleh kosong!',
-            'plat.unique' => 'PLat sudah digunakan!',
+            'plat.unique' => 'Plat sudah digunakan!',
             'warna.required' => 'Warna tidak boleh kosong!',
             'kapasitas.required' => 'Kapasitas tidak boleh kosong!',
             'fasilitas.required' => 'Fasilitas tidak boleh kosong!',
             'gambar.image' => 'Gambar harus berformat jpeg, jpg, png!',
-            'sewa.required' => 'Harga sewa tidak boleh kosong!',
         ]);
 
         if ($validator->fails()) {
@@ -137,18 +130,18 @@ class ProdukController extends Controller
             return back()->withInput()->with('status', $error);
         }
 
-        $produk = Produk::findOrFail($id);
+        $mobil = Mobil::findOrFail($id);
 
         if ($request->gambar) {
-            Storage::disk('local')->delete('public/uploads/' . $produk->gambar);
+            Storage::disk('local')->delete('public/uploads/' . $mobil->gambar);
             $gambar = str_replace(' ', '', $request->gambar->getClientOriginalName());
-            $namagambar = 'produk/' . date('mYdHs') . rand(1, 10) . '_' . $gambar;
+            $namagambar = 'mobil/' . date('mYdHs') . rand(1, 10) . '_' . $gambar;
             $request->gambar->storeAs('public/uploads/', $namagambar);
         } else {
-            $namagambar = $produk->gambar;
+            $namagambar = $mobil->gambar;
         }
 
-        Produk::where('id', $id)->update([
+        Mobil::where('id', $id)->update([
             'nama' => $request->nama,
             'tahun' => $request->tahun,
             'plat' => $request->plat,
@@ -156,10 +149,9 @@ class ProdukController extends Controller
             'kapasitas' => $request->kapasitas,
             'fasilitas' => $request->fasilitas,
             'gambar' => $namagambar,
-            'sewa' => $request->sewa,
         ]);
 
-        return redirect('produk')->with('status', 'Berhasil memperbarui Produk');
+        return redirect('mobil')->with('status', 'Berhasil memperbarui Mobil');
     }
 
     /**
@@ -170,24 +162,11 @@ class ProdukController extends Controller
      */
     public function destroy($id)
     {
-        $produk = Produk::findOrFail($id);
+        $mobil = Mobil::findOrFail($id);
 
-        Storage::disk('local')->delete('public/uploads/' . $produk->foto);
-        $produk->delete();
+        Storage::disk('local')->delete('public/uploads/' . $mobil->foto);
+        $mobil->delete();
 
-        return back()->with('status', 'Berhasil menghapus Produk');
-    }
-
-    public function detail($id)
-    {
-        $produk = Produk::where('id', $id)->with('mobil')->first();
-        return json_encode($produk);
-    }
-
-    public function get_harga($id)
-    {
-        $harga = Produk::where('id', $id)->pluck('sewa')->first();
-
-        return $harga;
+        return back()->with('status', 'Berhasil menghapus Mobil');
     }
 }

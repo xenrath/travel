@@ -12,7 +12,7 @@
     <div class="row">
       <div class="col-lg-8">
         <h3>Data Pelanggan</h3>
-        <p class="mb-0">Tambah</p>
+        <p class="mb-0">Ubah</p>
       </div>
     </div>
   </div>
@@ -41,44 +41,58 @@
   <div class="card-header">
     <h5>Tambah Pelanggan</h5>
   </div>
-  <form action="{{ url('pelanggan') }}" method="POST" enctype="multipart/form-data" autocomplete="off">
+  <form action="{{ url('pelanggan/' . $user->id) }}" method="POST" enctype="multipart/form-data" autocomplete="off">
     @csrf
+    @method('put')
     <div class="card-body">
       <div class="mb-3">
         <label class="form-label" for="nik">NIK *</label>
-        <input class="form-control" id="nik" name="nik" type="text" placeholder="masukan nik" value="{{ old('nik') }}"
-          maxlength="16" />
+        <input class="form-control @error('nik') is-invalid @enderror" id="nik" name="nik" type="text"
+          placeholder="masukan nik" value="{{ old('nik', $user->nik) }}" maxlength="16" />
+        @error('nik')
+        <span class="invalid-feedback" role="alert">{{ $message }}</span>
+        @enderror
       </div>
       <div class="mb-3">
         <label class="form-label" for="nama">Nama Lengkap *</label>
-        <input class="form-control" id="nama" name="nama" type="text"
+        <input class="form-control @error('nama') is-invalid @enderror" id="nama" name="nama" type="text"
           onkeypress="return ((event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122) || (event.charCode == 32))"
-          placeholder="masukan nama lengkap" value="{{ old('nama') }}" />
+          placeholder="masukan nama lengkap" value="{{ old('nama', $user->nama) }}" />
+        @error('nama')
+        <span class="invalid-feedback" role="alert">{{ $message }}</span>
+        @enderror
       </div>
       <div class="mb-3">
         <label class="form-label" for="telp">Nomor Telepon *</label>
         <div class="input-group">
           <span class="input-group-text" id="basic-addon1">+62</span>
-          <input class="form-control" id="telp" name="telp" type="text"
+          <input class="form-control @error('telp') is-invalid @enderror" id="telp" name="telp" type="text"
             onkeypress="return event.charCode >= 48 && event.charCode <= 57" maxlength="12" placeholder="masukan telp"
-            value="{{ old('telp') }}" />
+            value="{{ old('telp', $user->telp) }}" />
+          @error('telp')
+          <span class="invalid-feedback" role="alert">{{ $message }}</span>
+          @enderror
         </div>
       </div>
       <div class="mb-3">
         <label class="form-label" for="alamat">Alamat</label>
-        <textarea class="form-control" id="alamat" name="alamat" rows="3">{{ old('alamat') }}</textarea>
+        <textarea class="form-control @error('alamat') is-invalid @enderror" id="alamat" name="alamat"
+          rows="3">{{ old('alamat', $user->alamat) }}</textarea>
+        @error('alamat')
+        <span class="invalid-feedback" role="alert">{{ $message }}</span>
+        @enderror
       </div>
       <div class="mb-3">
         <label class="form-label">Jenis Kelamin *</label>
         <div class="">
           <div class="form-check form-check-inline">
-            <input class="form-check-input" id="L" type="radio" name="gender" value="L" {{ old('gender')=='L'
-              ? 'checked' : '' }} />
+            <input class="form-check-input" id="L" type="radio" name="gender" value="L" {{ old('gender',
+              $user->gender)=='L' ? 'checked' : '' }} />
             <label class="form-check-label" for="L">Laki-laki</label>
           </div>
           <div class="form-check form-check-inline">
-            <input class="form-check-input" id="P" type="radio" name="gender" value="P" {{ old('gender')=='P'
-              ? 'checked' : '' }} />
+            <input class="form-check-input" id="P" type="radio" name="gender" value="P" {{ old('gender',
+              $user->gender)=='P' ? 'checked' : '' }} />
             <label class="form-check-label" for="P">Perempuan</label>
           </div>
         </div>

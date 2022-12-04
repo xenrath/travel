@@ -40,12 +40,44 @@
             <td class="text-center">{{ $loop->iteration }}</td>
             <td>{{ $user->nama }}</td>
             <td class="text-center">
-              <a href="" class="btn btn-warning btn-sm">
+              <a href="{{ url('admin/' . $user->id) }}" class="btn btn-info btn-sm">
+                <i class="fas fa-eye"></i> Lihat
+              </a>
+              <a href="{{ url('admin/' . $user->id . '/edit') }}" class="btn btn-warning btn-sm">
                 <i class="fas fa-pen"></i> Edit
               </a>
-              <a href="" class="btn btn-danger btn-sm">
+              <a href="" class="btn btn-danger btn-sm" data-bs-toggle="modal"
+                data-bs-target="#modalHapus{{ $user->id }}">
                 <i class="fas fa-trash"></i> Hapus
               </a>
+              <div class="modal fade" id="modalHapus{{ $user->id }}" data-bs-keyboard="false" data-bs-backdrop="static"
+                tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog mt-6" role="document">
+                  <div class="modal-content border-0">
+                    <div class="position-absolute top-0 end-0 mt-3 me-3 z-index-1">
+                      <button class="btn-close btn btn-sm btn-circle d-flex flex-center transition-base"
+                        data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body p-0">
+                      <div class="bg-light rounded-top-lg py-3 ps-4 pe-6 text-start">
+                        <h4 class="mb-3">Hapus</h4>
+                        <h5 class="fs-0 fw-normal">Yakin hapus pelanggan
+                          <strong>{{ $user->nama }}?</strong>
+                        </h5>
+                      </div>
+                    </div>
+                    <div class="modal-footer">
+                      <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Batal</button>
+                      <button class="btn btn-primary" type="button"
+                        onclick="event.preventDefault(); document.getElementById('delete{{ $user->id }}').submit();">Hapus</button>
+                      <form action="{{ url('pelanggan/' . $user->id) }}" method="POST" id="delete{{ $user->id }}">
+                        @csrf
+                        @method('delete')
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </td>
           </tr>
           @endforeach

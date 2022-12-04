@@ -1,8 +1,9 @@
 @extends('layout.main')
 
-@section('title', 'Data Pelanggan')
+@section('title', 'Data Admin')
 
-@section('content')pelanggan class="card mb-3">
+@section('content')
+<div class="card mb-3">
   <div class="bg-holder d-none d-lg-block bg-card"
     style="background-image:url({{ asset('falcon/public/assets/img/icons/spot-illustrations/corner-4.png') }});">
   </div>
@@ -10,9 +11,10 @@
   <div class="card-body position-relative">
     <div class="row">
       <div class="col-lg-8">
-        <h3>Data Pelanggan</h3>
+        <h3>Data Admin</h3>
         <p class="mb-0">Ubah</p>
-      </div>pelanggandiv>
+      </div>
+    </div>
   </div>
 </div>
 @if (session('status'))
@@ -37,9 +39,9 @@
 @endif
 <div class="card">
   <div class="card-header">
-    <h5>Tambah Pelanggan</h5>
+    <h5>Tambah Admin</h5>
   </div>
-  <form action="{{ url('pelanggan/' . $user->id) }}" method="POST" enctype="multipart/form-data" autocomplete="off">
+  <form action="{{ url('admin/' . $user->id) }}" method="POST" enctype="multipart/form-data" autocomplete="off">
     @csrf
     @method('put')
     <div class="card-body">
@@ -84,11 +86,13 @@
         <label class="form-label">Jenis Kelamin *</label>
         <div class="">
           <div class="form-check form-check-inline">
-            <input class="form-check-input" id="L" type="radio" name="gender" value="L" {{ old('gender', $user->gender)=='L' ? 'checked' : '' }} />
+            <input class="form-check-input" id="L" type="radio" name="gender" value="L" {{ old('gender',
+              $user->gender)=='L' ? 'checked' : '' }} />
             <label class="form-check-label" for="L">Laki-laki</label>
           </div>
           <div class="form-check form-check-inline">
-            <input class="form-check-input" id="P" type="radio" name="gender" value="P" {{ old('gender', $user->gender)=='P' ? 'checked' : '' }} />
+            <input class="form-check-input" id="P" type="radio" name="gender" value="P" {{ old('gender',
+              $user->gender)=='P' ? 'checked' : '' }} />
             <label class="form-check-label" for="P">Perempuan</label>
           </div>
         </div>

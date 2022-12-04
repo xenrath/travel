@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\ProdukController;
+use App\Http\Controllers\Api\RekeningController;
 use App\Http\Controllers\Api\TransaksiController;
 use App\Http\Controllers\Api\UserController;
 use Illuminate\Http\Request;
@@ -25,6 +26,8 @@ Route::post('login', [UserController::class, 'login']);
 Route::post('register', [UserController::class, 'register']);
 Route::get('user-detail/{id}', [UserController::class, 'detail']);
 Route::get('user-sopir', [UserController::class, 'sopir']);
+Route::post('user/u_password/{id}', [UserController::class, 'u_password']);
+Route::post('user/u_profile/{id}', [UserController::class, 'u_profile']);
 
 Route::get('produk-list', [ProdukController::class, 'list']);
 Route::get('produk-detail/{id}', [ProdukController::class, 'detail']);
@@ -35,3 +38,5 @@ Route::get('transaksi-belumbayar/{id}', [TransaksiController::class, 'belumbayar
 Route::get('transaksi-sudahbayar/{id}', [TransaksiController::class, 'sudahbayar']);
 Route::get('transaksi-detail/{id}', [TransaksiController::class, 'detail']);
 Route::post('transaksi-upload/{id}', [TransaksiController::class, 'upload']);
+
+Route::get('rekening-list', [RekeningController::class, 'list']);

@@ -117,14 +117,14 @@ class TransaksiController extends Controller
         $request->bukti->storeAs('public/uploads/', $namabukti);
 
         $transaksi = Transaksi::where('id', $id);
-        $transaksi->update([
+        $upload = $transaksi->update([
             'bukti' => $namabukti
         ]);
 
-        if ($transaksi) {
+        if ($upload) {
             $produk = Produk::where('id', $transaksi->first()->produk_id)->first();
             Mobil::where('id', $produk->mobil_id)->update([
-                'status' => true
+                'status' => false
             ]);
             return response()->json([
                 'status' => true,

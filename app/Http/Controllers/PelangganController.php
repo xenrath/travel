@@ -87,8 +87,16 @@ class PelangganController extends Controller
     public function show($id)
     {
         $user = User::findOrFail($id);
+        
+        $result = [
+            ['nama' => $user->name],
+            ['latitude' => $user->latitude],
+            ['longitude' => $user->longitude],
+        ];
 
-        return view('user.pelanggan.show', compact('user'));
+        $result_lat_long = json_encode($result);
+
+        return view('user.pelanggan.show', compact('user', 'result_lat_long'));
     }
 
     /**

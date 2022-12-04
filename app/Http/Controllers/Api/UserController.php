@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
@@ -51,6 +52,9 @@ class UserController extends Controller
             'telp' => 'required|unique:users',
             'gender' => 'required',
             'password' => 'required|min:8|confirmed',
+            'latitude' => 'required',
+            'longitude' => 'required',
+            'alamat' => 'required',
         ], [
             'nik.required' => 'NIK tidak boleh kosong!',
             'nik.min' => 'Masukan NIK dengan benar!',
@@ -62,6 +66,9 @@ class UserController extends Controller
             'password.required' => 'Password tidak boleh kosong!',
             'password.min' => 'Password minimal 8 karakter!',
             'password.confirmed' => 'Konfirmasi password tidak sesuai!',
+            'latitude.required' => 'Masukan alamat dengan benar!',
+            'longitude.required' => 'Masukan alamat dengan benar!',
+            'alamat.required' => 'Masukan alamat dengan benar!',
         ]);
 
         if ($validator->fails()) {
@@ -114,6 +121,89 @@ class UserController extends Controller
             ]);
         } else {
             return $this->error('Gagal menampilkan sopir!');
+        }
+    }
+
+    public function u_password(Request $request, $id)
+    {
+        $validator = Validator::make($request->all(), [
+            'password' => 'required|min:6|confirmed'
+        ], [
+            'password.required' => 'Password tidak boleh kosong!',
+            'password.min' => 'Password minimal 6 karakter!',
+            'password.confirmed' => 'Konfirmasi password tidak sesuai!',
+        ]);
+        if ($validator->fails()) {
+            $error = $validator->errors()->all();
+            return $this->error($error[0]);
+        }
+        $user = User::where('id', $id)
+            ->update([
+                'password' => bcrypt($request->password)
+            ]);
+        if ($user) {
+            return response()->json([
+                'status' => TRUE,
+                'message' => 'Password berhasil diperbarui',
+            ]);
+        } else {
+            return $this->error('Password gagal diperbarui');
+        }
+    }
+
+    public function u_profile(Request $request, $id)
+    {
+        $validator = Validator::make($request->all(), [
+            'nik' => 'required|min:16|unique:users,nik,' . $id . ',id',
+            'nama' => 'required',
+            'telp' => 'required|unique:users,telp,' . $id . ',id',
+            'gender' => 'required',
+            'latitude' => 'required',
+            'longitude' => 'required',
+            'alamat' => 'required',
+            'foto' => 'required|image|mimes:jpeg,jpg,png|max:2048'
+        ], [
+            'nik.required' => 'NIK tidak boleh kosong!',
+            'nik.min' => 'Masukan NIK dengan benar!',
+            'nik.unique' => 'NIK sudah digunakan!',
+            'nama.required' => 'Nama tidak boleh kosong!',
+            'telp.required' => 'Nomor telepon tidak boleh kosong!',
+            'telp.unique' => 'Nomor telepon sudah digunakan!',
+            'gender.required' => 'Jenis kelamin harus dipilih!',
+            'latitude.required' => 'Masukan alamat dengan benar!',
+            'longitude.required' => 'Masukan alamat dengan benar!',
+            'alamat.required' => 'Masukan alamat dengan benar!',
+            'foto.required' => 'Foto harus ditambahkan!',
+        ]);
+
+        if ($validator->fails()) {
+            $error = $validator->errors()->all();
+            return $this->error($error[0]);
+        }
+
+        Storage::disk('local')->delete('public/uploads/' . $request->foto);
+        $foto = str_replace(' ', '', $request->foto->getClientOriginalName());
+        $namafoto = 'users/' . date('mYdHs') . rand(1, 10) . '_' . $foto;
+        $request->foto->storeAs('public/uploads/', $namafoto);
+
+        $user = User::where('id', $id)->update([
+            'nik' => $request->nik,
+            'nama' => $request->nama,
+            'telp' => $request->telp,
+            'gender' => $request->gender,
+            'latitude' => $request->latitude,
+            'longitude' => $request->longitude,
+            'alamat' => $request->alamat,
+            'foto' => $namafoto
+        ]);
+
+        if ($user) {
+            return response()->json([
+                'status' => TRUE,
+                'message' => 'Profile berhasil diperbarui'
+            ]);
+        } else {
+            return $this->error('Profile gagal diperbarui');
         }
     }
 

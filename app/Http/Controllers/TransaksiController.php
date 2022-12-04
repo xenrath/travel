@@ -30,14 +30,19 @@ class TransaksiController extends Controller
         $produks = Produk::whereHas('mobil', function ($query) {
             $query->where('status', true);
         })->get();
-        $sopirs = User::where('role', 'sopir')->get();
+        $sopirs = User::where([
+            ['role', 'sopir'],
+            ['status', true]
+        ])->get();
 
         return view('transaksi.create', compact('pelanggans', 'produks', 'sopirs'));
     }
 
     public function store(Request $request)
     {
-        if ($request->kategori == "tour") {
+        $produk = Produk::where('id', $request->produk_id)->first();
+
+        if ($produk && $produk->kategori == "tour") {
             $validator = Validator::make($request->all(), [
                 'pelanggan_id' => 'required',
                 'produk_id' => 'required',
@@ -81,6 +86,12 @@ class TransaksiController extends Controller
             'status' => false
         ]);
 
+        if ($request->sopir_id) {
+            User::where('id', $request->sopir_id)->update([
+                'status' => false
+            ]);
+        }
+
         return back()->with('success', 'Berhasil membuat Peminjaman');
     }
 
@@ -112,7 +123,14 @@ class TransaksiController extends Controller
     {
         $transaksis = Transaksi::where('status', 'menunggu')->orderBy('id', 'DESC')->paginate(10);
 
-        return view('transaksi.menunggu', compact('transaksis'));
+        return view('transaksi.menunggu.index', compact('transaksis'));
+    }
+
+    public function menunggu_detail($id)
+    {
+        $transaksi = Transaksi::where('id', $id)->with('produk')->first();
+
+        return view('transaksi.menunggu.detail', compact('transaksi'));
     }
 
     public function konfirmasi($id)
@@ -128,14 +146,34 @@ class TransaksiController extends Controller
     {
         $transaksis = Transaksi::where('status', 'proses')->orderBy('id', 'DESC')->paginate(10);
 
-        return view('transaksi.proses', compact('transaksis'));
+        return view('transaksi.proses.index', compact('transaksis'));
+    }
+
+    public function proses_detail($id)
+    {
+        $transaksi = Transaksi::where('id', $id)->with('produk')->first();
+
+        return view('transaksi.proses.detail', compact('transaksi'));
     }
 
     public function selesai($id)
     {
-        Transaksi::where('id', $id)->update([
+        $transaksi = Transaksi::where('id', $id)->first();
+        
+        $transaksi->update([
             'status' => 'selesai'
         ]);
+
+        $produk = Produk::where('id', $transaksi->produk_id)->first();
+
+        if ($produk->kategori == 'tour') {
+            Mobil::where('id', $produk->mobil_id)->update([
+                'status' => true
+            ]);
+            User::where('id', $transaksi->sopir_id)->update([
+                'status' => true
+            ]);
+        }
 
         return back()->with('success', 'Berhasil menyelesaikan Peminjaman');
     }
@@ -158,7 +196,14 @@ class TransaksiController extends Controller
             $transaksis = Transaksi::where('status', 'selesai')->orderBy('id', 'DESC')->paginate(10);
         }
 
-        return view('transaksi.riwayat', compact('transaksis'));
+        return view('transaksi.riwayat.index', compact('transaksis'));
+    }
+
+    public function riwayat_detail($id)
+    {
+        $transaksi = Transaksi::where('id', $id)->with('produk')->first();
+
+        return view('transaksi.riwayat.detail', compact('transaksi'));
     }
 
     public function print(Request $request)
@@ -179,7 +224,14 @@ class TransaksiController extends Controller
             $transaksis = Transaksi::where('status', 'selesai')->orderBy('id', 'DESC')->paginate(10);
         }
 
-        $pdf = PDF::loadview('transaksi.print', compact('transaksis'));
+        $pdf = PDF::loadview('transaksi.riwayat.cetak', compact('transaksis'));
+
+        return $pdf->stream('Cetak PDF');
+    }
+
+    public function invoice()
+    {
+        $pdf = PDF::loadview('transaksi.invoice');
 
         return $pdf->stream('Cetak PDF');
     }

@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             ProdukSeeder::class,
             MobilSeeder::class,
+            RekeningSeeder::class
         ]);
     }
 }
