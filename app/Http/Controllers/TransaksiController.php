@@ -231,7 +231,8 @@ class TransaksiController extends Controller
 
     public function invoice()
     {
-        $pdf = PDF::loadview('transaksi.invoice');
+        $transaksi = Transaksi::where('id', '2')->first();
+        $pdf = PDF::loadview('transaksi.invoice', compact('transaksi'));
 
         return $pdf->stream('Cetak PDF');
     }

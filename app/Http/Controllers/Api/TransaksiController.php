@@ -135,6 +135,13 @@ class TransaksiController extends Controller
         }
     }
 
+    public function invoice($id)
+    {
+        $transaksi = Transaksi::where('id', $id)->first();
+
+        return view('transaksi.invoice', compact('transaksi'));
+    }
+
     public function error($message)
     {
         return response()->json([

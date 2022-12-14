@@ -153,38 +153,70 @@ class UserController extends Controller
 
     public function u_profile(Request $request, $id)
     {
-        $validator = Validator::make($request->all(), [
-            'nik' => 'required|min:16|unique:users,nik,' . $id . ',id',
-            'nama' => 'required',
-            'telp' => 'required|unique:users,telp,' . $id . ',id',
-            'gender' => 'required',
-            'latitude' => 'required',
-            'longitude' => 'required',
-            'alamat' => 'required',
-            'foto' => 'required|image|mimes:jpeg,jpg,png|max:2048'
-        ], [
-            'nik.required' => 'NIK tidak boleh kosong!',
-            'nik.min' => 'Masukan NIK dengan benar!',
-            'nik.unique' => 'NIK sudah digunakan!',
-            'nama.required' => 'Nama tidak boleh kosong!',
-            'telp.required' => 'Nomor telepon tidak boleh kosong!',
-            'telp.unique' => 'Nomor telepon sudah digunakan!',
-            'gender.required' => 'Jenis kelamin harus dipilih!',
-            'latitude.required' => 'Masukan alamat dengan benar!',
-            'longitude.required' => 'Masukan alamat dengan benar!',
-            'alamat.required' => 'Masukan alamat dengan benar!',
-            'foto.required' => 'Foto harus ditambahkan!',
-        ]);
+        $user = User::where('id', $id)->first();
+
+        if ($user->foto) {
+            $validator = Validator::make($request->all(), [
+                'nik' => 'required|min:16|unique:users,nik,' . $id . ',id',
+                'nama' => 'required',
+                'telp' => 'required|unique:users,telp,' . $id . ',id',
+                'gender' => 'required',
+                'latitude' => 'required',
+                'longitude' => 'required',
+                'alamat' => 'required',
+                'foto' => 'nullable|image|mimes:jpeg,jpg,png|max:2048'
+            ], [
+                'nik.required' => 'NIK tidak boleh kosong!',
+                'nik.min' => 'Masukan NIK dengan benar!',
+                'nik.unique' => 'NIK sudah digunakan!',
+                'nama.required' => 'Nama tidak boleh kosong!',
+                'telp.required' => 'Nomor telepon tidak boleh kosong!',
+                'telp.unique' => 'Nomor telepon sudah digunakan!',
+                'gender.required' => 'Jenis kelamin harus dipilih!',
+                'latitude.required' => 'Masukan alamat dengan benar!',
+                'longitude.required' => 'Masukan alamat dengan benar!',
+                'alamat.required' => 'Masukan alamat dengan benar!',
+                'foto.image' => 'Foto harus berformat jpeg, jpg, png!'
+            ]);
+        } else {
+            $validator = Validator::make($request->all(), [
+                'nik' => 'required|min:16|unique:users,nik,' . $id . ',id',
+                'nama' => 'required',
+                'telp' => 'required|unique:users,telp,' . $id . ',id',
+                'gender' => 'required',
+                'latitude' => 'required',
+                'longitude' => 'required',
+                'alamat' => 'required',
+                'foto' => 'required|image|mimes:jpeg,jpg,png|max:2048'
+            ], [
+                'nik.required' => 'NIK tidak boleh kosong!',
+                'nik.min' => 'Masukan NIK dengan benar!',
+                'nik.unique' => 'NIK sudah digunakan!',
+                'nama.required' => 'Nama tidak boleh kosong!',
+                'telp.required' => 'Nomor telepon tidak boleh kosong!',
+                'telp.unique' => 'Nomor telepon sudah digunakan!',
+                'gender.required' => 'Jenis kelamin harus dipilih!',
+                'latitude.required' => 'Masukan alamat dengan benar!',
+                'longitude.required' => 'Masukan alamat dengan benar!',
+                'alamat.required' => 'Masukan alamat dengan benar!',
+                'foto.required' => 'Foto harus ditambahkan!',
+                'foto.image' => 'Foto harus berformat jpeg, jpg, png!'
+            ]);
+        }
 
         if ($validator->fails()) {
             $error = $validator->errors()->all();
             return $this->error($error[0]);
         }
 
-        Storage::disk('local')->delete('public/uploads/' . $request->foto);
-        $foto = str_replace(' ', '', $request->foto->getClientOriginalName());
-        $namafoto = 'users/' . date('mYdHs') . rand(1, 10) . '_' . $foto;
-        $request->foto->storeAs('public/uploads/', $namafoto);
+        if ($request->foto) {
+            Storage::disk('local')->delete('public/uploads/' . $user->foto);
+            $foto = str_replace(' ', '', $request->foto->getClientOriginalName());
+            $namafoto = 'users/' . date('mYdHs') . rand(1, 10) . '_' . $foto;
+            $request->foto->storeAs('public/uploads/', $namafoto);
+        } else {
+            $namafoto = $user->foto;
+        }
 
         $user = User::where('id', $id)->update([
             'nik' => $request->nik,

@@ -10,7 +10,9 @@ class ProdukController extends Controller
 {
     public function list()
     {
-        $produks = Produk::with('mobil')->get();
+        $produks = Produk::whereHas('mobil', function ($query) {
+            $query->where('status', true);
+        })->with('mobil')->get();
 
         if ($produks) {
             return response()->json([
