@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Rekening;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 
 class RekeningController extends Controller
 {
@@ -26,7 +28,7 @@ class RekeningController extends Controller
      */
     public function create()
     {
-        return view('mobil.create');
+        return view('rekening.create');
     }
 
     /**
@@ -38,21 +40,15 @@ class RekeningController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
+            'bank' => 'required',
             'nama' => 'required',
-            'tahun' => 'required',
-            'plat' => 'required|unique:mobils',
-            'warna' => 'required',
-            'kapasitas' => 'required',
-            'fasilitas' => 'required',
+            'nomor' => 'required|unique:rekenings',
             'gambar' => 'required|image|mimes:jpeg,jpg,png|max:2048',
         ], [
-            'nama.required' => 'Nama mobil tidak boleh kosong!',
-            'tahun.required' => 'Tahun keluaran tidak boleh kosong!',
-            'plat.required' => 'Plat tidak boleh kosong!',
-            'plat.unique' => 'Plat sudah digunakan!',
-            'warna.required' => 'Warna tidak boleh kosong!',
-            'kapasitas.required' => 'Kapasitas tidak boleh kosong!',
-            'fasilitas.required' => 'Fasilitas tidak boleh kosong!',
+            'bank.required' => 'Bank tidak boleh kosong!',
+            'nama.required' => 'Nama rekening tidak boleh kosong!',
+            'nomor.required' => 'Nomor rekening tidak boleh kosong!',
+            'nomor.unique' => 'Nomor rekening sudah digunakan!',
             'gambar.required' => 'Gambar tidak boleh kosong!',
             'gambar.image' => 'Gambar harus berformat jpeg, jpg, png!',
         ]);
@@ -63,14 +59,14 @@ class RekeningController extends Controller
         }
 
         $gambar = str_replace(' ', '', $request->gambar->getClientOriginalName());
-        $namagambar = 'mobil/' . date('mYdHs') . rand(1, 10) . '_' . $gambar;
+        $namagambar = 'rekening/' . date('mYdHs') . rand(1, 10) . '_' . $gambar;
         $request->gambar->storeAs('public/uploads/', $namagambar);
 
-        Mobil::create(array_merge($request->all(), [
+        Rekening::create(array_merge($request->all(), [
             'gambar' => $namagambar
         ]));
 
-        return redirect('mobil')->with('status', 'Berhasil menambahkan Mobil');
+        return redirect('rekening')->with('status', 'Berhasil menambahkan Rekening');
     }
 
     /**
@@ -92,9 +88,9 @@ class RekeningController extends Controller
      */
     public function edit($id)
     {
-        $mobil = Mobil::findOrFail($id);
+        $rekening = Rekening::findOrFail($id);
 
-        return view('mobil.edit', compact('mobil'));
+        return view('rekening.edit', compact('rekening'));
     }
 
     /**
@@ -107,21 +103,15 @@ class RekeningController extends Controller
     public function update(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
+            'bank' => 'required',
             'nama' => 'required',
-            'tahun' => 'required',
-            'plat' => 'required|unique:mobils,plat,' . $id . ',id',
-            'warna' => 'required',
-            'kapasitas' => 'required',
-            'fasilitas' => 'required',
+            'nomor' => 'required|unique:rekenings,nomor,' . $id,
             'gambar' => 'nullable|image|mimes:jpeg,jpg,png|max:2048',
         ], [
-            'nama.required' => 'Nama mobil tidak boleh kosong!',
-            'tahun.required' => 'Tahun keluaran tidak boleh kosong!',
-            'plat.required' => 'Plat tidak boleh kosong!',
-            'plat.unique' => 'Plat sudah digunakan!',
-            'warna.required' => 'Warna tidak boleh kosong!',
-            'kapasitas.required' => 'Kapasitas tidak boleh kosong!',
-            'fasilitas.required' => 'Fasilitas tidak boleh kosong!',
+            'bank.required' => 'Bank tidak boleh kosong!',
+            'nama.required' => 'Nama rekening tidak boleh kosong!',
+            'nomor.required' => 'Nomor rekening tidak boleh kosong!',
+            'nomor.unique' => 'Nomor rekening sudah digunakan!',
             'gambar.image' => 'Gambar harus berformat jpeg, jpg, png!',
         ]);
 
@@ -130,28 +120,25 @@ class RekeningController extends Controller
             return back()->withInput()->with('status', $error);
         }
 
-        $mobil = Mobil::findOrFail($id);
+        $rekening = Rekening::findOrFail($id);
 
         if ($request->gambar) {
-            Storage::disk('local')->delete('public/uploads/' . $mobil->gambar);
+            Storage::disk('local')->delete('public/uploads/' . $rekening->gambar);
             $gambar = str_replace(' ', '', $request->gambar->getClientOriginalName());
-            $namagambar = 'mobil/' . date('mYdHs') . rand(1, 10) . '_' . $gambar;
+            $namagambar = 'rekening/' . date('mYdHs') . rand(1, 10) . '_' . $gambar;
             $request->gambar->storeAs('public/uploads/', $namagambar);
         } else {
-            $namagambar = $mobil->gambar;
+            $namagambar = $rekening->gambar;
         }
 
-        Mobil::where('id', $id)->update([
+        Rekening::where('id', $id)->update([
+            'bank' => $request->bank,
             'nama' => $request->nama,
-            'tahun' => $request->tahun,
-            'plat' => $request->plat,
-            'warna' => $request->warna,
-            'kapasitas' => $request->kapasitas,
-            'fasilitas' => $request->fasilitas,
+            'nomor' => $request->nomor,
             'gambar' => $namagambar,
         ]);
 
-        return redirect('mobil')->with('status', 'Berhasil memperbarui Mobil');
+        return redirect('rekening')->with('status', 'Berhasil memperbarui Rekening');
     }
 
     /**
@@ -162,11 +149,11 @@ class RekeningController extends Controller
      */
     public function destroy($id)
     {
-        $mobil = Mobil::findOrFail($id);
+        $rekening = Rekening::findOrFail($id);
 
-        Storage::disk('local')->delete('public/uploads/' . $mobil->foto);
-        $mobil->delete();
+        Storage::disk('local')->delete('public/uploads/' . $rekening->foto);
+        $rekening->delete();
 
-        return back()->with('status', 'Berhasil menghapus Mobil');
+        return back()->with('status', 'Berhasil menghapus Rekening');
     }
 }

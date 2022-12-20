@@ -1,6 +1,6 @@
 @extends('layout.main')
 
-@section('title', 'Data Mobil')
+@section('title', 'Data Rekening')
 
 @section('content')
 <div class="card mb-3">
@@ -11,7 +11,7 @@
   <div class="card-body position-relative">
     <div class="row">
       <div class="col-lg-8">
-        <h3>Data Mobil</h3>
+        <h3>Data Rekening</h3>
         <p class="mb-0">Tambah</p>
       </div>
     </div>
@@ -39,65 +39,45 @@
 @endif
 <div class="card">
   <div class="card-header">
-    <h5>Tambah Mobil</h5>
+    <h5>Tambah Rekening</h5>
   </div>
-  <form action="{{ url('mobil') }}" method="POST" enctype="multipart/form-data" autocomplete="off">
+  <form action="{{ url('rekening') }}" method="POST" enctype="multipart/form-data" autocomplete="off">
     @csrf
     <div class="card-body">
-      <div class="mb-3">
-        <label class="form-label" for="nama">Nama Mobil *</label>
-        <input class="form-control @error('nama') is-invalid @enderror" id="nama" name="nama" type="text"
-          placeholder="masukan nama mobil" value="{{ old('nama') }}" />
-      </div>
       <div class="row">
         <div class="col-md-6">
           <div class="mb-3">
-            <label class="form-label" for="tahun">Tahun *</label>
-            <input class="form-control @error('tahun') is-invalid @enderror" id="tahun" name="tahun" type="year"
-              placeholder="masukan tahun keluaran" value="{{ old('tahun') }}" />
+            <label class="form-label" for="bank">Bank *</label>
+            <input class="form-control @error('bank') is-invalid @enderror" id="bank" name="bank" type="text"
+              placeholder="masukan bank" value="{{ old('bank') }}" />
           </div>
         </div>
         <div class="col-md-6">
           <div class="mb-3">
-            <label class="form-label" for="plat">Plat *</label>
-            <input class="form-control @error('plat') is-invalid @enderror" id="plat" name="plat" type="text"
-              placeholder="masukan plat mobil" value="{{ old('plat') }}" />
+            <label class="form-label" for="nama">Nama Rekening *</label>
+            <input class="form-control @error('nama') is-invalid @enderror" id="nama" name="nama" type="year"
+              placeholder="masukan nama rekening" value="{{ old('nama') }}" />
           </div>
         </div>
       </div>
       <div class="row">
         <div class="col-md-6">
           <div class="mb-3">
-            <label class="form-label" for="warna">Warna *</label>
-            <input class="form-control @error('warna') is-invalid @enderror" id="warna" name="warna" type="text"
-              placeholder="masukan warna mobil" value="{{ old('warna') }}" />
+            <label class="form-label" for="nomor">Nomor Rekening *</label>
+            <input class="form-control @error('nomor') is-invalid @enderror" id="nomor" name="nomor" type="text"
+              placeholder="masukan nomor rekening" value="{{ old('nomor') }}" />
           </div>
         </div>
         <div class="col-md-6">
           <div class="mb-3">
-            <label class="form-label" for="kapasitas">Kapasitas *</label>
-            <input class="form-control @error('kapasitas') is-invalid @enderror" id="kapasitas" name="kapasitas"
-              type="number" placeholder="masukan kapasitas mobil"
-              oninput="this.value = !!this.value && Math.abs(this.value) >= 1 ? Math.abs(this.value) : null"
-              value="{{ old('kapasitas') }}" />
+            <label class="form-label" for="gambar">Gambar Bank * <small>(ukuran 16:9)</small></label>
+            <input class="form-control @error('gambar') is-invalid @enderror" id="gambar" name="gambar" type="file"
+              accept="image/*" />
+            @error('gambar')
+            <span class="invalid-feedback" role="alert">{{ $message }}</span>
+            @enderror
           </div>
         </div>
-      </div>
-      <div class="mb-3">
-        <label class="form-label" for="fasilitas">Fasilitas *</label>
-        <textarea class="form-control @error('fasilitas') is-invalid @enderror" id="fasilitas" name="fasilitas"
-          rows="3">{{ old('fasilitas') }}</textarea>
-        @error('fasilitas')
-        <span class="invalid-feedback" role="alert">{{ $message }}</span>
-        @enderror
-      </div>
-      <div class="mb-3">
-        <label class="form-label" for="gambar">Gambar *</label>
-        <input class="form-control @error('gambar') is-invalid @enderror" id="gambar" name="gambar" type="file"
-          accept="image/*" />
-        @error('gambar')
-        <span class="invalid-feedback" role="alert">{{ $message }}</span>
-        @enderror
       </div>
     </div>
     <div class="card-footer text-end">

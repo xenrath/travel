@@ -7,6 +7,7 @@ use App\Http\Controllers\MobilController;
 use App\Http\Controllers\PelangganController;
 use App\Http\Controllers\PemesananController;
 use App\Http\Controllers\ProdukController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RekeningController;
 use App\Http\Controllers\SopirController;
 use App\Http\Controllers\TransaksiController;
@@ -28,6 +29,8 @@ Auth::routes();
 
 Route::get('/', [HomeController::class, 'index']);
 
+Route::resource('profile', ProfileController::class);
+
 Route::resource('admin', AdminController::class);
 Route::resource('sopir', SopirController::class);
 Route::resource('pelanggan', PelangganController::class);
@@ -44,7 +47,7 @@ Route::post('buat/store/{id}', [BuatController::class, 'store']);
 
 Route::get('transaksi/menunggu', [TransaksiController::class, 'menunggu']);
 Route::get('transaksi/menunggu/{id}', [TransaksiController::class, 'menunggu_detail']);
-Route::get('transaksi/konfirmasi/{id}', [TransaksiController::class, 'konfirmasi']);
+Route::post('transaksi/konfirmasi/{id}', [TransaksiController::class, 'konfirmasi']);
 
 Route::get('transaksi/proses', [TransaksiController::class, 'proses']);
 Route::get('transaksi/proses/{id}', [TransaksiController::class, 'proses_detail']);

@@ -26,6 +26,13 @@
   <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
 </div>
 @endif
+@if (session('error'))
+<div class="alert alert-danger border-2 d-flex align-items-center" role="alert">
+  <div class="bg-danger me-3 icon-item"><span class="fas fa-times-circle text-white fs-3"></span></div>
+  <p class="mb-0 flex-1">{{ session('error') }}</p>
+  <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+@endif
 <div class="card">
   <div class="card-header">
     <h5 class="float-start">Tabel Pemesanan</h5>
@@ -80,19 +87,30 @@
                       <button class="btn-close btn btn-sm btn-circle d-flex flex-center transition-base"
                         data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div class="modal-body p-0">
-                      <div class="bg-light rounded-top-lg py-3 ps-4 pe-6 text-start">
-                        <h4 class="mb-3">Konfirmasi</h4>
-                        <h5 class="fs-0 fw-normal">Yakin konfirmasi peminjaman dari
-                          <strong>{{ $transaksi->pelanggan->nama }}?</strong>
-                        </h5>
+                    <form action="{{ url('transaksi/konfirmasi/' . $transaksi->id) }}" method="post">
+                      @csrf
+                      <div class="modal-body p-0">
+                        <div class="bg-light rounded-top-lg py-3 px-4 text-start">
+                          <h4 class="mb-3">Konfirmasi</h4>
+                          <h5 class="fs-0 fw-normal mb-3">Yakin konfirmasi peminjaman dari
+                            <strong>{{ $transaksi->pelanggan->nama }}?</strong>
+                          </h5>
+                          @if ($transaksi->produk->kategori != 'tour')
+                          <label class="form-label" for="sopir_id">Pilih Sopir *</label>
+                          <select class="form-select" id="sopir_id" name="sopir_id">
+                            <option value="">- Pilih -</option>
+                            @foreach ($sopirs as $sopir)
+                            <option value="{{ $sopir->id }}">{{ $sopir->nama }}</option>
+                            @endforeach
+                          </select>
+                          @endif
+                        </div>
                       </div>
-                    </div>
-                    <div class="modal-footer">
-                      <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Batal</button>
-                      <a class="btn btn-primary"
-                        href="{{ url('transaksi/konfirmasi/' . $transaksi->id) }}">Konfirmasi</a>
-                    </div>
+                      <div class="modal-footer">
+                        <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Batal</button>
+                        <button class="btn btn-primary" type="submit">Konfirmasi</a>
+                      </div>
+                    </form>
                   </div>
                 </div>
               </div>

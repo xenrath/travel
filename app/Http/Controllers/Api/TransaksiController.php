@@ -84,6 +84,24 @@ class TransaksiController extends Controller
         }
     }
 
+    public function selesai($id)
+    {
+        $transaksis = Transaksi::where([
+            ['pelanggan_id', $id],
+            ['status', 'selesai'],
+        ])->with('produk.mobil', 'pelanggan', 'sopir')->get();
+
+        if (count($transaksis) > 0) {
+            return response()->json([
+                'status' => true,
+                'message' => 'Berhasil menampilkan transaksi',
+                'transaksis' => $transaksis
+            ]);
+        } else {
+            return $this->error('Gagal menampilkan transaksi!');
+        }
+    }
+
     public function detail($id)
     {
         $transaksi = Transaksi::where('id', $id)->with('produk.mobil', 'pelanggan', 'sopir')->first();

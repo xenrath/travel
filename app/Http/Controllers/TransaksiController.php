@@ -122,8 +122,12 @@ class TransaksiController extends Controller
     public function menunggu()
     {
         $transaksis = Transaksi::where('status', 'menunggu')->orderBy('id', 'DESC')->paginate(10);
+        $sopirs = User::where([
+            ['role', 'sopir'],
+            ['status', true]
+        ])->get();
 
-        return view('transaksi.menunggu.index', compact('transaksis'));
+        return view('transaksi.menunggu.index', compact('transaksis', 'sopirs'));
     }
 
     public function menunggu_detail($id)
@@ -133,11 +137,32 @@ class TransaksiController extends Controller
         return view('transaksi.menunggu.detail', compact('transaksi'));
     }
 
-    public function konfirmasi($id)
+    public function konfirmasi(Request $request, $id)
     {
+        $transaksi = Transaksi::where('id', $id)->first();
+
+        if ($transaksi->produk->kategori == 'tour') {
+            $validator = Validator::make($request->all(), [
+                'sopir_id' => 'required',
+            ], [
+                'sopir_id.required' => 'Sopir harus dipilih!',
+            ]);
+
+            if ($validator->fails()) {
+                $error = $validator->errors()->all();
+                return back()->withInput()->with('error', $error[0]);
+            }
+        }
+
         Transaksi::where('id', $id)->update([
             'status' => 'proses'
         ]);
+
+        if ($transaksi->produk->kategori == 'tour') {
+            User::where('id', $request->sopir_id)->update([
+                'status' => false
+            ]);
+        }
 
         return back()->with('success', 'Berhasil mengkonfirmasi Peminjaman');
     }
@@ -159,7 +184,7 @@ class TransaksiController extends Controller
     public function selesai($id)
     {
         $transaksi = Transaksi::where('id', $id)->first();
-        
+
         $transaksi->update([
             'status' => 'selesai'
         ]);

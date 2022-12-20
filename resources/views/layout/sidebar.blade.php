@@ -120,7 +120,7 @@
             </div>
           </a>
           <!-- parent pages-->
-          <a class="nav-link {{ request()->is('transaksi/asa') ? 'active' : '' }}" href="{{ url('transaksi') }}"
+          <!-- <a class="nav-link {{ request()->is('transaksi/asa') ? 'active' : '' }}" href="{{ url('transaksi') }}"
             role="button" aria-expanded="false">
             <div class="d-flex align-items-center">
               <span class="nav-link-icon">
@@ -128,7 +128,7 @@
               </span>
               <span class="nav-link-text ps-1">Perpanjang</span>
             </div>
-          </a>
+          </a> -->
         </li>
         <li class="nav-item">
           <!-- label-->
@@ -197,15 +197,6 @@
                 <i class="fas fa-credit-card"></i>
               </span>
               <span class="nav-link-text ps-1">Data Rekening</span>
-            </div>
-          </a>
-          <a class="nav-link {{ request()->is('invoice*') ? 'active' : '' }}" href="{{ url('invoice') }}"
-            role="button" aria-expanded="false">
-            <div class="d-flex align-items-center">
-              <span class="nav-link-icon">
-                <i class="fas fa-credit-card"></i>
-              </span>
-              <span class="nav-link-text ps-1">Invoice</span>
             </div>
           </a>
         </li>
