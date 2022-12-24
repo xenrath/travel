@@ -155,7 +155,7 @@ class TransaksiController extends Controller
         }
 
         Transaksi::where('id', $id)->update([
-            'status' => 'selesai'
+            'status' => 'proses'
         ]);
 
         if ($transaksi->produk->kategori == 'tour') {
