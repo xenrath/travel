@@ -37,10 +37,12 @@
           <div class="col-md-4 mb-3">
             <input class="form-control" id="tanggal_awal" name="tanggal_awal" type="date"
               value="{{ Request::get('tanggal_awal') }}" />
+            <label for="tanggal_awal">(Tanggal Awal)</label>
           </div>
           <div class="col-md-4 mb-3">
             <input class="form-control" id="tanggal_akhir" name="tanggal_akhir" type="date"
               value="{{ Request::get('tanggal_akhir') }}" />
+            <label for="tanggal_awal">(Tanggal Akhir)</label>
           </div>
           <div class="col-md-4">
             <button type="button" class="btn btn-outline-primary me-2" onclick="cari()">

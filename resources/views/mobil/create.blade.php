@@ -1,6 +1,6 @@
 @extends('layout.main')
 
-@section('title', 'Data Mobil')
+@section('title', 'Tambah Mobil')
 
 @section('content')
 <div class="card mb-3">

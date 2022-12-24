@@ -1,6 +1,6 @@
 @extends('layout.main')
 
-@section('title', 'Data Peminjaman')
+@section('title', 'Buat Peminjaman')
 
 @section('content')
 <div class="card mb-3">
@@ -188,14 +188,14 @@
         <label class="form-label" for="lama">Lama Peminjaman *</label>
         <input class="form-control" id="lama" name="lama" type="number" value="{{ old('lama') }}" />
       </div>
-      {{-- <div class="mb-3">
+      <div class="mb-3" style="display: none;">
         <label class="form-label" for="harga">Harga <span class="fw-light">(pilih mobil dan lama
             peminjaman)</span></label>
         <input class="form-control" id="harga" name="harga" type="text" value="{{ old('harga', '0') }}" readonly />
         @error('harga')
         <span class="invalid-feedback" role="alert">{{ $message }}</span>
         @enderror
-      </div> --}}
+      </div>
       <div class="mb-3" style="display: none">
         <button type="button" id="btnKonfirmasi" class="btn btn-primary me-1" data-bs-toggle="modal"
           data-bs-target="#modalKonfirmasi">Modal
@@ -389,6 +389,7 @@
     var total = document.getElementById('total');
     if (lama.value != 0 && sewa != 0) {
       v_total = lama.value * sewa;
+      harga.value = v_total;
       total.textContent = rupiah("" + v_total, 'Rp');
       document.getElementById('btnKonfirmasi').click();
     } else {

@@ -1,6 +1,6 @@
 @extends('layout.main')
 
-@section('title', 'Data Pelanggan')
+@section('title', 'Lihat Pelanggan')
 
 @section('content')
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css"
