@@ -153,7 +153,7 @@
         <input class="form-control datetimepicker" id="datepicker" name="tanggal" type="text" placeholder="d/m/y"
           data-options="{'disableMobile':true}" data-id="minDateToday" value="{{ old('tanggal') }}" />
       </div>
-      <div class="mb-3">
+      {{-- <div class="mb-3">
         <label class="form-label" for="lama">Lama Peminjaman *</label>
         <select class="form-select" id="lama" name="lama">
           <option value="">- Pilih -</option>
@@ -165,6 +165,10 @@
           <option value="6" {{ old('lama')=='6' ? 'selected' : '' }}>6 Hari</option>
           <option value="7" {{ old('lama')=='7' ? 'selected' : '' }}>7 Hari</option>
         </select>
+      </div> --}}
+      <div class="mb-3">
+        <label class="form-label" for="lama">Lama Peminjaman *</label>
+        <input class="form-control" id="lama" name="lama" type="text" value="{{ old('lama') }}" />
       </div>
       <div class="mb-3">
         <label class="form-label" for="harga">Harga <span class="fw-light">(pilih mobil dan lama

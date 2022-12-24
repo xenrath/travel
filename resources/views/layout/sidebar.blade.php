@@ -140,7 +140,7 @@
             </div>
           </div>
           <!-- parent pages-->
-          <a class="nav-link {{ request()->is('transaksi/menunggu') ? 'active' : '' }}"
+          <a class="nav-link {{ request()->is('transaksi/menunggu*') ? 'active' : '' }}"
             href="{{ url('transaksi/menunggu') }}" role="button" aria-expanded="false">
             <div class="d-flex align-items-center">
               <span class="nav-link-icon">
@@ -150,7 +150,7 @@
             </div>
           </a>
           <!-- parent pages-->
-          <a class="nav-link {{ request()->is('transaksi/proses') ? 'active' : '' }}"
+          <a class="nav-link {{ request()->is('transaksi/proses*') ? 'active' : '' }}"
             href="{{ url('transaksi/proses') }}" role="button" aria-expanded="false">
             <div class="d-flex align-items-center">
               <span class="nav-link-icon">
@@ -170,7 +170,7 @@
             </div>
           </div>
           <!-- parent pages-->
-          <a class="nav-link {{ request()->is('transaksi/riwayat') ? 'active' : '' }}"
+          <a class="nav-link {{ request()->is('transaksi/riwayat*') ? 'active' : '' }}"
             href="{{ url('transaksi/riwayat') }}" role="button" aria-expanded="false">
             <div class="d-flex align-items-center">
               <span class="nav-link-icon">

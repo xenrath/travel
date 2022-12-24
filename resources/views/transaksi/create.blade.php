@@ -50,7 +50,7 @@
   <div class="card-header">
     <h5>Tambah Peminjaman</h5>
   </div>
-  <form action="{{ url('transaksi') }}" method="POST" autocomplete="off">
+  <form action="{{ url('transaksi') }}" method="POST" id="form_transaksi" autocomplete="off">
     @csrf
     <div class="card-body">
       <div class="mb-3">
@@ -171,7 +171,7 @@
         <input class="form-control datetimepicker" id="datepicker" name="tanggal" type="text" placeholder="d/m/y"
           data-options="{'disableMobile':true}" data-id="minDateToday" value="{{ old('tanggal') }}" />
       </div>
-      <div class="mb-3">
+      {{-- <div class="mb-3">
         <label class="form-label" for="lama">Lama Peminjaman *</label>
         <select class="form-select" id="lama" name="lama">
           <option value="">- Pilih -</option>
@@ -183,25 +183,79 @@
           <option value="6" {{ old('lama')=='6' ? 'selected' : '' }}>6 Hari</option>
           <option value="7" {{ old('lama')=='7' ? 'selected' : '' }}>7 Hari</option>
         </select>
-      </div>
+      </div> --}}
       <div class="mb-3">
+        <label class="form-label" for="lama">Lama Peminjaman *</label>
+        <input class="form-control" id="lama" name="lama" type="number" value="{{ old('lama') }}" />
+      </div>
+      {{-- <div class="mb-3">
         <label class="form-label" for="harga">Harga <span class="fw-light">(pilih mobil dan lama
             peminjaman)</span></label>
         <input class="form-control" id="harga" name="harga" type="text" value="{{ old('harga', '0') }}" readonly />
         @error('harga')
         <span class="invalid-feedback" role="alert">{{ $message }}</span>
         @enderror
+      </div> --}}
+      <div class="mb-3" style="display: none">
+        <button type="button" id="btnKonfirmasi" class="btn btn-primary me-1" data-bs-toggle="modal"
+          data-bs-target="#modalKonfirmasi">Modal
+          Konfirmasi</button>
+        <button type="button" id="btnGagal" class="btn btn-danger" data-bs-toggle="modal"
+          data-bs-target="#modalGagal">Modal
+          Konfirmasi</button>
       </div>
     </div>
     <div class="card-footer text-end">
       <button class="btn btn-secondary me-1" type="reset">
         <i class="fas fa-undo"></i> Reset
       </button>
-      <button class="btn btn-primary" type="submit">
+      <button class="btn btn-primary" type="button" onclick="konfirmasi()">
         <i class="fas fa-save"></i> Simpan
       </button>
     </div>
   </form>
+</div>
+<div class="modal fade" id="modalKonfirmasi" data-bs-keyboard="false" data-bs-backdrop="static" tabindex="-1"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content border-0">
+      <div class="position-absolute top-0 end-0 mt-3 me-3 z-index-1">
+        <button class="btn-close btn btn-sm btn-circle d-flex flex-center transition-base" data-bs-dismiss="modal"
+          aria-label="Close"></button>
+      </div>
+      <div class="modal-body p-0">
+        <div class="bg-light rounded-top-lg py-3 ps-4 pe-6 text-start">
+          <h4 class="mb-3">Konfirmasi</h4>
+          <h5 class="fs-0 fw-normal">Harga yang harus dibayar sejumlah <strong id="total"></strong></h5>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Tidak</button>
+        <button class="btn btn-primary" type="button"
+          onclick="event.preventDefault(); document.getElementById('form_transaksi').submit();">Ya</a>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="modalGagal" data-bs-keyboard="false" data-bs-backdrop="static" tabindex="-1"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content border-0">
+      <div class="position-absolute top-0 end-0 mt-3 me-3 z-index-1">
+        <button class="btn-close btn btn-sm btn-circle d-flex flex-center transition-base" data-bs-dismiss="modal"
+          aria-label="Close"></button>
+      </div>
+      <div class="modal-body p-0">
+        <div class="bg-light rounded-top-lg py-3 ps-4 pe-6 text-start">
+          <h4 class="mb-3">Error!</h4>
+          <h5 class="fs-0 fw-normal">Lengkapi data terlebih dahulu!</h5>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Tutup</button>
+      </div>
+    </div>
+  </div>
 </div>
 <script>
   var layout_produk = document.getElementById('layout_produk');
@@ -281,13 +335,13 @@
   });
   var lama = document.getElementById('lama');
   var harga = document.getElementById('harga');
-  lama.addEventListener('change', function() {
-    if (sewa != 0) {
-      harga.value = sewa * this.value;
-    } else {
-      harga.value = 0;
-    }
-  });
+  // lama.addEventListener('change', function() {
+  //   if (sewa != 0) {
+  //     harga.value = sewa * this.value;
+  //   } else {
+  //     harga.value = 0;
+  //   }
+  // });
   var kategori = document.getElementById('kategori');
   var sopir_id = document.getElementById('sopir_id');
   var tujuan = document.getElementById('tujuan');
@@ -325,6 +379,22 @@
       }
     }
   })
+  
+  var modalKonfirmasi = document.getElementById('modalKonfirmasi');
+  var alert_konfirmasi = document.getElementById('alert_konfirmasi');
+  var alert_gagal = document.getElementById('alert_gagal');
+
+  function konfirmasi() {
+    var form_transaksi = document.getElementById('form_transaksi');
+    var total = document.getElementById('total');
+    if (lama.value != 0 && sewa != 0) {
+      v_total = lama.value * sewa;
+      total.textContent = rupiah("" + v_total, 'Rp');
+      document.getElementById('btnKonfirmasi').click();
+    } else {
+      document.getElementById('btnGagal').click();
+    }
+  }
 
   function rupiah(angka, prefix){
     var number_string = angka.replace(/[^,\d]/g, '').toString(),

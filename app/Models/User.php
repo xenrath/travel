@@ -19,6 +19,9 @@ class User extends Authenticatable
         'alamat',
         'gender',
         'password',
+        'latitude',
+        'longitude',
+        'alamat',
         'foto',
         'role'
     ];

@@ -95,7 +95,7 @@
                           <h5 class="fs-0 fw-normal mb-3">Yakin konfirmasi peminjaman dari
                             <strong>{{ $transaksi->pelanggan->nama }}?</strong>
                           </h5>
-                          @if ($transaksi->produk->kategori != 'tour')
+                          @if ($transaksi->produk->kategori == 'tour')
                           <label class="form-label" for="sopir_id">Pilih Sopir *</label>
                           <select class="form-select" id="sopir_id" name="sopir_id">
                             <option value="">- Pilih -</option>
