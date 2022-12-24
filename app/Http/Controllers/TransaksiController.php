@@ -159,6 +159,9 @@ class TransaksiController extends Controller
         ]);
 
         if ($transaksi->produk->kategori == 'tour') {
+            Transaksi::where('id', $id)->update([
+                'sopir_id' => $request->sopir_id
+            ]);
             User::where('id', $request->sopir_id)->update([
                 'status' => false
             ]);
