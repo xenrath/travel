@@ -123,8 +123,8 @@
       <td class="td" width="120" style="vertical-align: top">Bukti Pembayaran</td>
       <td class="td" style="text-align: center; width: 10px; vertical-align: top">:</td>
       <td class="td">
-        <img src="{{ asset('storage/uploads/' . $transaksi->produk->mobil->gambar) }}"
-          alt="{{ $transaksi->produk->mobil->nama }}" style="height: 180px;">
+        <img src="{{ asset('storage/uploads/' . $transaksi->bukti) }}"
+          alt="{{ $transaksi->pelanggan->nama }} - {{ $transaksi->produk->mobil->nama }}" style="height: 180px;">
       </td>
     </tr>
     @endif

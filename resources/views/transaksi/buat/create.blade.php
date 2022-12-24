@@ -185,6 +185,105 @@
     </div>
   </form>
 </div>
+<div class="modal fade" id="modalBarang" tabindex="-1" role="dialog" aria-labelledby="modalBarang" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h6 class="m-0 font-weight-bold">Pilih Pinjaman Barang</h6>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row mb-3">
+          <div class="col-6">
+            <p class="mt-2 text-wrap">Jumlah : <strong id="countChecked">0</strong></p>
+          </div>
+          <div class="col-6 text-right">
+            <button type="button" class="btn btn-warning btn-sm mt-1 text-white" id="uncheckAll">Uncheck
+              Semua</button>
+            <button type="button" class="btn btn-primary btn-sm mt-1 text-white ml-1" id="addItem">Masukan
+              Barang</button>
+          </div>
+        </div>
+        <ul class="nav nav-pills nav-fill" id="myTab" role="tablist">
+          <li class="nav-item border rounded mr-1">
+            <a class="nav-link active" id="barang-tab" data-toggle="tab" href="#barang" role="tab"
+              aria-controls="barang" aria-selected="true">
+              <span class="font-weight-bold">Barang</span>
+            </a>
+          </li>
+          <li class="nav-item border rounded ml-1">
+            <a class="nav-link" id="bahan-tab" data-toggle="tab" href="#bahan" role="tab" aria-controls="bahan"
+              aria-selected="false">
+              <span class="font-weight-bold">Bahan</span>
+            </a>
+          </li>
+        </ul>
+        <div class="tab-content w-100 mt-3" id="myTabContent">
+          <div class="tab-pane fade show active" id="barang" role="tabpanel" aria-labelledby="barang-tab">
+            <div class="table-responsive">
+              <table class="table table-hover" id="table-1">
+                <thead>
+                  <tr>
+                    <th class="text-center">#</th>
+                    <th>Kode Barang</th>
+                    <th>Nama Barang</th>
+                    <th class="text-center">Jumlah Stok</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @foreach($barangs as $barang)
+                  <tr>
+                    <td class="text-center pb-4">
+                      <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="checkboxId" value="{{ $barang->id }}">
+                      </div>
+                    </td>
+                    <td>{{ $barang->kode }}</td>
+                    <td>{{ $barang->nama }}</td>
+                    <td class="text-center">{{ $barang->stok }} {{ $barang->satuan->singkatan }}</td>
+                  </tr>
+                  @endforeach
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="tab-pane fade" id="bahan" role="tabpanel" aria-labelledby="bahan-tab">
+            <div class="table-responsive">
+              <table class="table table-hover" id="table-2">
+                <thead>
+                  <tr>
+                    <th class="text-center">#</th>
+                    <th>Kode Bahan</th>
+                    <th>Nama Bahan</th>
+                    <th class="text-center">Jumlah Stok</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @forelse ($bahans as $bahan)
+                  <tr>
+                    <td class="text-center pb-4">
+                      <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="checkboxId" value="{{ $bahan->id }}">
+                      </div>
+                    </td>
+                    <td>{{ $bahan->kode }}</td>
+                    <td>{{ $bahan->nama }}</td>
+                    <td class="text-center">{{ $bahan->stok }} {{ $bahan->satuan->singkatan }}</td>
+                  </tr>
+                  @empty
+                  <td class="text-center" colspan="4">- Data bahan habis pakai kosong -</td>
+                  @endforelse
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 <script>
   var lama = document.getElementById('lama');
   var harga = document.getElementById('harga');

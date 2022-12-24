@@ -51,6 +51,7 @@ class TransaksiController extends Controller
         $transaksis = Transaksi::where([
             ['pelanggan_id', $id],
             ['metode', 'transfer'],
+            ['status', 'menunggu'],
             ['bukti', null]
         ])->with('produk.mobil', 'pelanggan', 'sopir')->get();
 
@@ -70,6 +71,7 @@ class TransaksiController extends Controller
         $transaksis = Transaksi::where([
             ['pelanggan_id', $id],
             ['metode', 'transfer'],
+            ['status', '!=', 'selesai'],
             ['bukti', '!=', null]
         ])->with('produk.mobil', 'pelanggan', 'sopir')->get();
 
