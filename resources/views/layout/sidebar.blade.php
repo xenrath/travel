@@ -10,8 +10,6 @@
     </div>
     <a class="navbar-brand" href="{{ url('/') }}">
       <div class="d-flex align-items-center py-3">
-        <img class="me-2" src="{{ asset('falcon/public/assets/img/icons/spot-illustrations/falcon.png') }}" alt=""
-          width="40" />
         <span class="font-sans-serif">Trans Jtb</span>
       </div>
     </a>
