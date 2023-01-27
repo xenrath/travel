@@ -103,6 +103,7 @@
         </table>
       </div>
     </div>
+    @if ($user->latitude)
     <div class="row mt-3">
       <div class="col">
         <div id="map" style="width:100%; height:400px;"></div>
@@ -120,6 +121,7 @@
         </script>
       </div>
     </div>
+    @endif
   </div>
 </div>
 @endsection

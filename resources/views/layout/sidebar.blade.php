@@ -1,4 +1,4 @@
-<nav class="navbar navbar-light navbar-vertical navbar-expand-xl navbar-card">
+<nav class="navbar navbar-light navbar-vertical navbar-expand-xl navbar-vibrant">
   <div class="d-flex align-items-center">
     <div class="toggle-icon-wrapper">
       <button class="btn navbar-toggler-humburger-icon navbar-vertical-toggle" data-bs-toggle="tooltip"
@@ -12,7 +12,7 @@
       <div class="d-flex align-items-center py-3">
         <img class="me-2" src="{{ asset('falcon/public/assets/img/icons/spot-illustrations/falcon.png') }}" alt=""
           width="40" />
-        <span class="font-sans-serif">Travel</span>
+        <span class="font-sans-serif">Trans Jtb</span>
       </div>
     </a>
   </div>

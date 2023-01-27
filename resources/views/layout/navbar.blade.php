@@ -10,7 +10,7 @@
     <div class="d-flex align-items-center">
       <img class="me-2" src="{{ asset('falcon/public/assets/img/icons/spot-illustrations/falcon.png') }}" alt=""
         width="40" />
-      <span class="font-sans-serif">Travel</span>
+      <span class="font-sans-serif">Trans Jtb</span>
     </div>
   </a>
   <ul class="navbar-nav align-items-center d-none d-lg-block">

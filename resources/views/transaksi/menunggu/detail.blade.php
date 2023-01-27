@@ -150,8 +150,10 @@
       </div>
       <div class="modal-body p-0">
         <div class="bg-light rounded-top-lg text-center p-3">
+          @if ($transaksi->bukti)
           <img src="{{ asset('storage/uploads/' . $transaksi->bukti) }}" alt="{{ $transaksi->pelanggan->nama }}"
             class="w-100 rounded border">
+          @endif
         </div>
       </div>
       <div class="modal-footer">

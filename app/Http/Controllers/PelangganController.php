@@ -53,7 +53,7 @@ class PelangganController extends Controller
             'telp.required' => 'Nomor telepon tidak boleh kosong!',
             'telp.min' => 'Nomor telepon yang dimasukan salah!',
             'gender.required' => 'Jenis kelamin harus dipilih!',
-            'gambar.image' => 'Gambar harus berformat jpeg, jpg, png!',
+            'foto.image' => 'Foto harus berformat jpeg, jpg, png!',
         ]);
 
         if ($validator->fails()) {
@@ -61,18 +61,18 @@ class PelangganController extends Controller
             return back()->withInput()->with('status', $error);
         }
 
-        if ($request->gambar) {
-            $gambar = str_replace(' ', '', $request->gambar->getClientOriginalName());
-            $namagambar = 'user/' . date('mYdHs') . rand(1, 10) . '_' . $gambar;
-            $request->gambar->storeAs('public/uploads/', $namagambar);
+        if ($request->foto) {
+            $foto = str_replace(' ', '', $request->foto->getClientOriginalName());
+            $namafoto = 'user/' . date('mYdHs') . rand(1, 10) . '_' . $foto;
+            $request->foto->storeAs('public/uploads/', $namafoto);
         } else {
-            $namagambar = "";
+            $namafoto = "";
         }
 
         User::create(array_merge($request->all(), [
             'password' => bcrypt($request->nik),
             'role' => 'pelanggan',
-            'gambar' => $namagambar,
+            'foto' => $namafoto,
         ]));
 
         return redirect('pelanggan')->with('status', 'Berhasil menambahkan pelanggan');

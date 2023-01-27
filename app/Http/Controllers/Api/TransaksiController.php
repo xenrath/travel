@@ -146,9 +146,6 @@ class TransaksiController extends Controller
 
         if ($upload) {
             $produk = Produk::where('id', $transaksi->first()->produk_id)->first();
-            Mobil::where('id', $produk->mobil_id)->update([
-                'status' => false
-            ]);
             return response()->json([
                 'status' => true,
                 'message' => 'Berhasil membayar transaksi',

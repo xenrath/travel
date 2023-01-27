@@ -75,7 +75,7 @@
         <div class="col-md-6">
           <div class="mb-3">
             <label class="form-label" for="gambar">
-              Gambar Bank *
+              Gambar Bank
               <small>(Ukuran 16:9 | Kosongkan saja jika tidak ingin mengubah)</small>
             </label>
             <input class="form-control @error('gambar') is-invalid @enderror" id="gambar" name="gambar" type="file"

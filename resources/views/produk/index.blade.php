@@ -47,9 +47,9 @@
           </tr>
         </thead>
         <tbody class="list">
-          @foreach ($produks as $produk)
+          @foreach ($produks as $key => $produk)
           <tr>
-            <td class="text-center">{{ $loop->iteration }}</td>
+            <td class="text-center">{{ $produks->firstItem() + $key }}</td>
             <td>{{ $produk->mobil->nama }} ({{ $produk->mobil->plat }})</td>
             <td>
               {{ ucfirst($produk->kategori) }}
@@ -91,8 +91,7 @@
                   <div class="modal-body p-0">
                     <div class="bg-light rounded-top-lg py-3 ps-4 pe-6 text-start">
                       <h4 class="mb-3">Hapus</h4>
-                      <h5 class="fs-0 fw-normal">Yakin hapus produk
-                        <strong>{{ $produk->nama }}?</strong>
+                      <h5 class="fs-0 fw-normal">Yakin hapus produk?</strong>
                       </h5>
                     </div>
                   </div>
