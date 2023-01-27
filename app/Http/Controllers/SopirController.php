@@ -152,6 +152,7 @@ class SopirController extends Controller
             'password' => bcrypt($request->nik),
             'telp' => $request->telp,
             'gender' => $request->gender,
+            'alamat' => $request->alamat,
             'foto' => $namafoto,
         ]);
 

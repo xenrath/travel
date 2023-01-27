@@ -11,7 +11,7 @@
   <div class="card-body position-relative">
     <div class="row">
       <div class="col-lg-8">
-        <h3>Data Admin</h3>
+        <h3>Data Pelanggan</h3>
         <p class="mb-0">Ubah</p>
       </div>
     </div>
@@ -39,9 +39,9 @@
 @endif
 <div class="card">
   <div class="card-header">
-    <h5>Tambah Admin</h5>
+    <h5>Tambah Pelanggan</h5>
   </div>
-  <form action="{{ url('admin/' . $user->id) }}" method="POST" enctype="multipart/form-data" autocomplete="off">
+  <form action="{{ url('pelanggan/' . $user->id) }}" method="POST" enctype="multipart/form-data" autocomplete="off">
     @csrf
     @method('put')
     <div class="card-body">

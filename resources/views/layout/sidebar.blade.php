@@ -116,7 +116,7 @@
               <span class="nav-link-icon">
                 <i class="fas fa-shopping-cart"></i>
               </span>
-              <span class="nav-link-text ps-1">Buat Peminjaman</span>
+              <span class="nav-link-text ps-1">Pemesanan</span>
             </div>
           </a>
           <!-- parent pages-->

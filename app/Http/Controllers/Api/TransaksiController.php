@@ -31,8 +31,11 @@ class TransaksiController extends Controller
             return $this->error($error[0]);
         }
 
+        $tanggal = date('Y-m-d', strtotime($request->tanggal));
+
         $transaksi = Transaksi::create(array_merge($request->all(), [
             'metode' => 'transfer',
+            'tanggal' => $tanggal,
             'status' => 'menunggu'
         ]));
 

@@ -111,51 +111,40 @@ class ProdukController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $validator = Validator::make($request->all(), [
-            'nama' => 'required',
-            'tahun' => 'required',
-            'plat' => 'required|unique:produks',
-            'warna' => 'required',
-            'kapasitas' => 'required',
-            'fasilitas' => 'required',
-            'gambar' => 'nullable|image|mimes:jpeg,jpg,png|max:2048',
-            'sewa' => 'required',
-        ], [
-            'nama.required' => 'Nama mobil tidak boleh kosong!',
-            'tahun.required' => 'Tahun keluaran tidak boleh kosong!',
-            'plat.required' => 'Plat tidak boleh kosong!',
-            'plat.unique' => 'PLat sudah digunakan!',
-            'warna.required' => 'Warna tidak boleh kosong!',
-            'kapasitas.required' => 'Kapasitas tidak boleh kosong!',
-            'fasilitas.required' => 'Fasilitas tidak boleh kosong!',
-            'gambar.image' => 'Gambar harus berformat jpeg, jpg, png!',
-            'sewa.required' => 'Harga sewa tidak boleh kosong!',
-        ]);
+        if ($request->kategori == "tour") {
+            $validator = Validator::make($request->all(), [
+                'kategori' => 'required',
+                'area' => 'required',
+                'sewa' => 'required',
+            ], [
+                'kategori.required' => 'Kategori harus dipilih!',
+                'area.required' => 'Area harus dipilih!',
+                'sewa.required' => 'Harga sewa harus diisi!',
+            ]);
+        } else {
+            $validator = Validator::make($request->all(), [
+                'kategori' => 'required',
+                'sewa' => 'required',
+            ], [
+                'kategori.required' => 'Kategori harus dipilih!',
+                'sewa.required' => 'Harga sewa harus diisi!',
+            ]);
+        }
 
         if ($validator->fails()) {
             $error = $validator->errors()->all();
             return back()->withInput()->with('status', $error);
         }
 
-        $produk = Produk::findOrFail($id);
-
-        if ($request->gambar) {
-            Storage::disk('local')->delete('public/uploads/' . $produk->gambar);
-            $gambar = str_replace(' ', '', $request->gambar->getClientOriginalName());
-            $namagambar = 'produk/' . date('mYdHs') . rand(1, 10) . '_' . $gambar;
-            $request->gambar->storeAs('public/uploads/', $namagambar);
+        if ($request->kategori == "tour") {
+            $area = $request->area;
         } else {
-            $namagambar = $produk->gambar;
+            $area = null;
         }
 
         Produk::where('id', $id)->update([
-            'nama' => $request->nama,
-            'tahun' => $request->tahun,
-            'plat' => $request->plat,
-            'warna' => $request->warna,
-            'kapasitas' => $request->kapasitas,
-            'fasilitas' => $request->fasilitas,
-            'gambar' => $namagambar,
+            'kategori' => $request->kategori,
+            'area' => $area,
             'sewa' => $request->sewa,
         ]);
 

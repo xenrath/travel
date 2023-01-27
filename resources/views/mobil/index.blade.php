@@ -47,9 +47,9 @@
           </tr>
         </thead>
         <tbody class="list">
-          @foreach ($mobils as $mobil)
+          @foreach ($mobils as $key => $mobil)
           <tr>
-            <td class="text-center">{{ $loop->iteration }}</td>
+            <td class="text-center">{{ $mobils->firstItem() + $key }}</td>
             <td>{{ $mobil->nama }} ({{ $mobil->tahun }})</td>
             <td>
               {{ $mobil->plat }}
@@ -90,7 +90,7 @@
                   <div class="modal-body p-0">
                     <div class="bg-light rounded-top-lg py-3 ps-4 pe-6 text-start">
                       <h4 class="mb-3">Hapus</h4>
-                      <h5 class="fs-0 fw-normal">Yakin hapus sopir
+                      <h5 class="fs-0 fw-normal">Yakin hapus mobil
                         <strong>{{ $mobil->nama }}?</strong>
                       </h5>
                     </div>

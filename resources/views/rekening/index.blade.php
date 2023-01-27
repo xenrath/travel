@@ -78,7 +78,7 @@
                   <div class="modal-body p-0">
                     <div class="bg-light rounded-top-lg py-3 ps-4 pe-6 text-start">
                       <h4 class="mb-3">Hapus</h4>
-                      <h5 class="fs-0 fw-normal">Yakin hapus sopir
+                      <h5 class="fs-0 fw-normal">Yakin hapus rekening
                         <strong>{{ $rekening->nama }}?</strong>
                       </h5>
                     </div>

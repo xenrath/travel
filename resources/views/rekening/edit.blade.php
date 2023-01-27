@@ -50,13 +50,15 @@
           <div class="mb-3">
             <label class="form-label" for="bank">Bank *</label>
             <input class="form-control @error('bank') is-invalid @enderror" id="bank" name="bank" type="text"
+              onkeypress="return ((event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122) || (event.charCode == 32))"
               placeholder="masukan bank" value="{{ old('bank', $rekening->bank) }}" />
           </div>
         </div>
         <div class="col-md-6">
           <div class="mb-3">
             <label class="form-label" for="nama">Nama Rekening *</label>
-            <input class="form-control @error('nama') is-invalid @enderror" id="nama" name="nama" type="year"
+            <input class="form-control @error('nama') is-invalid @enderror" id="nama" name="nama" type="text"
+              onkeypress="return ((event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122) || (event.charCode == 32))"
               placeholder="masukan nama rekening" value="{{ old('nama', $rekening->nama) }}" />
           </div>
         </div>
@@ -66,7 +68,8 @@
           <div class="mb-3">
             <label class="form-label" for="nomor">Nomor Rekening *</label>
             <input class="form-control @error('nomor') is-invalid @enderror" id="nomor" name="nomor" type="text"
-              placeholder="masukan nomor rekening" value="{{ old('nomor', $rekening->nomor) }}" />
+              onkeypress="return event.charCode >= 48 && event.charCode <= 57" placeholder="masukan nomor rekening"
+              value="{{ old('nomor', $rekening->nomor) }}" />
           </div>
         </div>
         <div class="col-md-6">

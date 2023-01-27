@@ -194,10 +194,11 @@ class TransaksiController extends Controller
 
         $produk = Produk::where('id', $transaksi->produk_id)->first();
 
+        Mobil::where('id', $produk->mobil_id)->update([
+            'status' => true
+        ]);
+
         if ($produk->kategori == 'tour') {
-            Mobil::where('id', $produk->mobil_id)->update([
-                'status' => true
-            ]);
             User::where('id', $transaksi->sopir_id)->update([
                 'status' => true
             ]);

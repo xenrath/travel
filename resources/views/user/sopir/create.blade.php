@@ -46,7 +46,7 @@
     <div class="card-body">
       <div class="mb-3">
         <label class="form-label" for="nik">NIK *</label>
-        <input class="form-control @error('nik') is-invalid @enderror" id="nik"  type="text"
+        <input class="form-control @error('nik') is-invalid @enderror" id="nik" type="text" name="nik"
           placeholder="masukan nik" value="{{ old('nik') }}" maxlength="16" />
         @error('nik')
         <span class="invalid-feedback" role="alert">{{ $message }}</span>

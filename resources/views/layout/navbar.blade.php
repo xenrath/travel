@@ -16,13 +16,12 @@
   <ul class="navbar-nav align-items-center d-none d-lg-block">
     <li class="nav-item">
       <h3 class="fw-light overflow-hidden">
-        <span class="typed-text fw-bold"
-          data-typed-text='["Biro Perjalanan Wisata", "CV. Jatibarang Trans 354", "Rental Mobil, Tour & Travel"]'></span>
+        <span class="typed-text fw-bold" data-typed-text='["CV. Jatibarang Trans 354"]'></span>
       </h3>
     </li>
   </ul>
   <ul class="navbar-nav navbar-nav-icons ms-auto flex-row align-items-center">
-    <li class="nav-item dropdown">
+    {{-- <li class="nav-item dropdown">
       <a class="nav-link notification-indicator notification-indicator-primary px-0 fa-icon-wait"
         id="navbarDropdownNotification" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true"
         aria-expanded="false">
@@ -138,7 +137,7 @@
               href="app/social/notifications.html">View all</a></div>
         </div>
       </div>
-    </li>
+    </li> --}}
     <li class="nav-item dropdown"><a class="nav-link pe-0" id="navbarDropdownUser" href="#" role="button"
         data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         <div class="avatar avatar-xl">
