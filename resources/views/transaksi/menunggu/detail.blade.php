@@ -73,7 +73,7 @@
               </h5>
             </td>
           </tr>
-          @if ($transaksi->produk->kategori == 'tour')
+          {{-- @if ($transaksi->sopir)
           <tr height="50">
             <td>
               <h5 class="fs-0">Nama Sopir</h5>
@@ -85,7 +85,7 @@
               <h5 class="fs-0">{{ $transaksi->sopir->nama }}</h5>
             </td>
           </tr>
-          @endif
+          @endif --}}
           <tr height="50">
             <td>
               <h5 class="fs-0">Tanggal Peminjaman</h5>
