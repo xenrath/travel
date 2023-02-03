@@ -263,7 +263,8 @@ class UserController extends Controller
         if ($user) {
             return response()->json([
                 'status' => TRUE,
-                'message' => 'User ditemukan'
+                'message' => 'User ditemukan',
+                'user' => $user
             ]);
         } else {
             return $this->error('User tidak ditemukan!');
