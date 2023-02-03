@@ -48,7 +48,8 @@
       <div class="mb-3">
         <label class="form-label" for="nik">NIK *</label>
         <input class="form-control @error('nik') is-invalid @enderror" id="nik" name="nik" type="text"
-          placeholder="masukan nik" value="{{ old('nik', $user->nik) }}" maxlength="16" />
+          onkeypress="return event.charCode >= 48 && event.charCode <= 57" placeholder="masukan nik"
+          value="{{ old('nik', $user->nik) }}" maxlength="16" />
         @error('nik')
         <span class="invalid-feedback" role="alert">{{ $message }}</span>
         @enderror

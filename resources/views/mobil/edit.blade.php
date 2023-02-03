@@ -70,8 +70,9 @@
         <div class="col-md-6">
           <div class="mb-3">
             <label class="form-label" for="warna">Warna *</label>
-            <input class="form-control" id="warna" name="warna" type="text" placeholder="masukan warna mobil"
-              value="{{ old('warna', $mobil->warna) }}" />
+            <input class="form-control" id="warna" name="warna" type="text"
+              onkeypress="return ((event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122) || (event.charCode == 32))"
+              placeholder="masukan warna mobil" value="{{ old('warna', $mobil->warna) }}" />
           </div>
         </div>
         <div class="col-md-6">

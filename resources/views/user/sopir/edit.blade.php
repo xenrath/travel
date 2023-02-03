@@ -48,8 +48,9 @@
       <div class="mb-3">
         <label class="form-label" for="nik">NIK *</label>
         <input class="form-control @error('nik') is-invalid @enderror" id="nik" name="nik" type="text"
-          placeholder="masukan nik" value="{{ old('nik', $user->nik) }}" maxlength="16" />
-        @error('nik')
+          onkeypress="return event.charCode >= 48 && event.charCode <= 57" placeholder="masukan nik"
+          value="{{ old('nik', $user->nik) }}" maxlength="16" />
+        @error('nik')p
         <span class="invalid-feedback" role="alert">{{ $message }}</span>
         @enderror
       </div>
@@ -86,11 +87,13 @@
         <label class="form-label">Jenis Kelamin *</label>
         <div class="">
           <div class="form-check form-check-inline">
-            <input class="form-check-input" id="L" type="radio" name="gender" value="L" {{ old('gender', $user->gender)=='L' ? 'checked' : '' }} />
+            <input class="form-check-input" id="L" type="radio" name="gender" value="L" {{ old('gender',
+              $user->gender)=='L' ? 'checked' : '' }} />
             <label class="form-check-label" for="L">Laki-laki</label>
           </div>
           <div class="form-check form-check-inline">
-            <input class="form-check-input" id="P" type="radio" name="gender" value="P" {{ old('gender', $user->gender)=='P' ? 'checked' : '' }} />
+            <input class="form-check-input" id="P" type="radio" name="gender" value="P" {{ old('gender',
+              $user->gender)=='P' ? 'checked' : '' }} />
             <label class="form-check-label" for="P">Perempuan</label>
           </div>
         </div>

@@ -46,8 +46,9 @@
     <div class="card-body">
       <div class="mb-3">
         <label class="form-label" for="nik">NIK *</label>
-        <input class="form-control" id="nik" name="nik" type="text" placeholder="masukan nik" value="{{ old('nik') }}"
-          maxlength="16" />
+        <input class="form-control" id="nik" name="nik" type="text"
+          onkeypress="return event.charCode >= 48 && event.charCode <= 57" placeholder="masukan nik"
+          value="{{ old('nik') }}" maxlength="16" />
       </div>
       <div class="mb-3">
         <label class="form-label" for="nama">Nama Lengkap *</label>

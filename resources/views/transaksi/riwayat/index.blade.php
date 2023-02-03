@@ -36,12 +36,12 @@
         <div class="row">
           <div class="col-md-4 mb-3">
             <input class="form-control" id="tanggal_awal" name="tanggal_awal" type="date"
-              value="{{ Request::get('tanggal_awal') }}" />
+              value="{{ Request::get('tanggal_awal') }}" max="{{ date('Y-m-d') }}" />
             <label for="tanggal_awal">(Tanggal Awal)</label>
           </div>
           <div class="col-md-4 mb-3">
             <input class="form-control" id="tanggal_akhir" name="tanggal_akhir" type="date"
-              value="{{ Request::get('tanggal_akhir') }}" />
+              value="{{ Request::get('tanggal_akhir') }}" max="{{ date('Y-m-d') }}" />
             <label for="tanggal_awal">(Tanggal Akhir)</label>
           </div>
           <div class="col-md-4">

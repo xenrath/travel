@@ -101,7 +101,7 @@
     <tr>
       <td class="td" width="120">Tanggal Peminjaman</td>
       <td class="td" style="text-align: center; width: 10px;">:</td>
-      <td class="td">NIK Pelanggan</td>
+      <td class="td">{{ date('d M Y', strtotime($transaksi->tanggal)) }}</td>
     </tr>
     <tr>
       <td class="td" width="120">Lama Peminjaman</td>

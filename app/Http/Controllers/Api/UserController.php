@@ -239,6 +239,37 @@ class UserController extends Controller
         }
     }
 
+    public function check_user(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'nik' => 'required|min:16',
+            'telp' => 'required',
+        ], [
+            'nik.required' => 'NIK tidak boleh kosong!',
+            'nik.min' => 'Masukan NIK dengan benar!',
+            'telp.required' => 'Nomor telepon tidak boleh kosong!',
+        ]);
+
+        if ($validator->fails()) {
+            $error = $validator->errors()->all();
+            return $this->error($error[0]);
+        }
+
+        $user = User::where([
+            ['nik', $request->nik],
+            ['telp', $request->telp]
+        ])->first();
+
+        if ($user) {
+            return response()->json([
+                'status' => TRUE,
+                'message' => 'User ditemukan'
+            ]);
+        } else {
+            return $this->error('User tidak ditemukan!');
+        }
+    }
+
     public function error($message)
     {
         return response()->json([

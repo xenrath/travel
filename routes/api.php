@@ -28,6 +28,7 @@ Route::get('user-detail/{id}', [UserController::class, 'detail']);
 Route::get('user-sopir', [UserController::class, 'sopir']);
 Route::post('user/u_password/{id}', [UserController::class, 'u_password']);
 Route::post('user/u_profile/{id}', [UserController::class, 'u_profile']);
+Route::post('user/check_user', [UserController::class, 'check_user']);
 
 Route::get('produk-list', [ProdukController::class, 'list']);
 Route::get('produk-detail/{id}', [ProdukController::class, 'detail']);

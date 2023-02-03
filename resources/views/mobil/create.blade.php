@@ -70,6 +70,7 @@
           <div class="mb-3">
             <label class="form-label" for="warna">Warna *</label>
             <input class="form-control @error('warna') is-invalid @enderror" id="warna" name="warna" type="text"
+              onkeypress="return ((event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122) || (event.charCode == 32))"
               placeholder="masukan warna mobil" value="{{ old('warna') }}" />
           </div>
         </div>
