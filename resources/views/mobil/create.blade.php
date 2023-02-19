@@ -54,7 +54,7 @@
           <div class="mb-3">
             <label class="form-label" for="tahun">Tahun *</label>
             <input class="form-control @error('tahun') is-invalid @enderror" id="tahun" name="tahun" type="year"
-              placeholder="masukan tahun keluaran" value="{{ old('tahun') }}" />
+            onkeypress="return event.charCode >= 48 && event.charCode <= 57" maxlength="4" placeholder="masukan tahun keluaran" value="{{ old('tahun') }}" />
           </div>
         </div>
         <div class="col-md-6">

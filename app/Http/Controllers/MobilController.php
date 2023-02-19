@@ -42,7 +42,7 @@ class MobilController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'nama' => 'required',
-            'tahun' => 'required',
+            'tahun' => 'required|min:4',
             'plat' => 'required|unique:mobils',
             'warna' => 'required',
             'kapasitas' => 'required',
@@ -51,6 +51,7 @@ class MobilController extends Controller
         ], [
             'nama.required' => 'Nama mobil tidak boleh kosong!',
             'tahun.required' => 'Tahun keluaran tidak boleh kosong!',
+            'tahun.min' => 'Tahun yang dimasukan salah!',
             'plat.required' => 'Plat tidak boleh kosong!',
             'plat.unique' => 'Plat sudah digunakan!',
             'warna.required' => 'Warna tidak boleh kosong!',
@@ -111,7 +112,7 @@ class MobilController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'nama' => 'required',
-            'tahun' => 'required',
+            'tahun' => 'required|min:4',
             'plat' => 'required|unique:mobils,plat,' . $id . ',id',
             'warna' => 'required',
             'kapasitas' => 'required',
@@ -120,6 +121,7 @@ class MobilController extends Controller
         ], [
             'nama.required' => 'Nama mobil tidak boleh kosong!',
             'tahun.required' => 'Tahun keluaran tidak boleh kosong!',
+            'tahun.min' => 'Tahun yang dimasukan salah!',
             'plat.required' => 'Plat tidak boleh kosong!',
             'plat.unique' => 'Plat sudah digunakan!',
             'warna.required' => 'Warna tidak boleh kosong!',
