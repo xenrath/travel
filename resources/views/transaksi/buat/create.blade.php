@@ -149,23 +149,9 @@
       </div>
       @endif
       <div class="mb-3">
-        <label class="form-label" for="datepicker">Tanggal Sewa *</label>
-        <input class="form-control datetimepicker" id="datepicker" name="tanggal" type="text" placeholder="d/m/y"
-          data-options="{'disableMobile':true}" data-id="minDateToday" value="{{ old('tanggal') }}" />
+        <label class="form-label" for="tanggal">Tanggal Sewa *</label>
+        <input class="form-control" id="tanggal" name="tanggal" type="date" value="{{ old('tanggal') }}" />
       </div>
-      {{-- <div class="mb-3">
-        <label class="form-label" for="lama">Lama Peminjaman *</label>
-        <select class="form-select" id="lama" name="lama">
-          <option value="">- Pilih -</option>
-          <option value="1" {{ old('lama')=='1' ? 'selected' : '' }}>1 Hari</option>
-          <option value="2" {{ old('lama')=='2' ? 'selected' : '' }}>2 Hari</option>
-          <option value="3" {{ old('lama')=='3' ? 'selected' : '' }}>3 Hari</option>
-          <option value="4" {{ old('lama')=='4' ? 'selected' : '' }}>4 Hari</option>
-          <option value="5" {{ old('lama')=='5' ? 'selected' : '' }}>5 Hari</option>
-          <option value="6" {{ old('lama')=='6' ? 'selected' : '' }}>6 Hari</option>
-          <option value="7" {{ old('lama')=='7' ? 'selected' : '' }}>7 Hari</option>
-        </select>
-      </div> --}}
       <div class="mb-3">
         <label class="form-label" for="lama">Lama Peminjaman *</label>
         <input class="form-control" id="lama" name="lama" type="text" value="{{ old('lama') }}" />
