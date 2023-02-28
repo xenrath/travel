@@ -109,8 +109,7 @@ class TransaksiController extends Controller
     {
         $transaksis = Transaksi::where([
             ['pelanggan_id', $id],
-            ['metode', 'transfer'],
-            ['status', '!=', 'selesai'],
+            ['status', 'proses'],
         ])->with('produk.mobil', 'pelanggan', 'sopir')->get();
 
         if (count($transaksis) > 0) {

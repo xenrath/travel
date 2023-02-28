@@ -117,11 +117,7 @@
             </td>
             <td class="text-end">
               <h5 class="fs-0">
-                @if (!$transaksi->metode == 'null')
                 {{ ucfirst($transaksi->metode) }}
-                @else
-                Belum dibayar
-                @endif
               </h5>
             </td>
           </tr>
