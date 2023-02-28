@@ -167,8 +167,12 @@
         </div>
       </div>
       <div class="mb-3">
-        <label class="form-label" for="datepicker">Tanggal Sewa *</label>
-        <input class="form-control" id="tanggal" name="tanggal" type="date" min="{{ date('Y-m-d') }}" max="{{ date('Y-m-d', strtotime('+1 days')) }}" value="{{ old('tanggal') }}" />
+        <label class="form-label" for="waktu">Waktu Sewa *</label>
+        <select class="form-select" id="waktu" name="waktu">
+          <option value="">- Pilih Waktu -</option>
+          <option value="0">Hari ini</option>
+          <option value="1">Besok</option>
+        </select>
       </div>
       <div class="mb-3">
         <label class="form-label" for="lama">Lama Peminjaman *</label>

@@ -149,8 +149,13 @@
       </div>
       @endif
       <div class="mb-3">
-        <label class="form-label" for="tanggal">Tanggal Sewa *</label>
-        <input class="form-control" id="tanggal" name="tanggal" type="date" value="{{ old('tanggal') }}" />
+        <label class="form-label" for="waktu">Waktu Sewa *</label>
+        <select class="form-select" id="waktu" name="waktu">
+          <option selected="">Open this select menu</option>
+          <option value="1">One</option>
+          <option value="2">Two</option>
+          <option value="3">Three</option>
+        </select>
       </div>
       <div class="mb-3">
         <label class="form-label" for="lama">Lama Peminjaman *</label>

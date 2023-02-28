@@ -8,6 +8,7 @@ use App\Models\Produk;
 use App\Models\Transaksi;
 use App\Models\User;
 use Barryvdh\DomPDF\Facade\Pdf as PDF;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -47,25 +48,25 @@ class TransaksiController extends Controller
                 'pelanggan_id' => 'required',
                 'produk_id' => 'required',
                 'sopir_id' => 'required',
-                'tanggal' => 'required',
+                'waktu' => 'required',
                 'lama' => 'required'
             ], [
                 'pelanggan_id.required' => 'Pelanggan harus dipilih!',
                 'produk_id.required' => 'Mobil harus dipilih!',
                 'sopir_id.required' => 'Sopir harus dipilih!',
-                'tanggal.required' => 'Tanggal sewa harus diisi!',
+                'waktu.required' => 'Waktu sewa harus diisi!',
                 'lama.required' => 'Lama sewa harus diisi!',
             ]);
         } else {
             $validator = Validator::make($request->all(), [
                 'pelanggan_id' => 'required',
                 'produk_id' => 'required',
-                'tanggal' => 'required',
+                'waktu' => 'required',
                 'lama' => 'required'
             ], [
                 'pelanggan_id.required' => 'Pelanggan harus dipilih!',
                 'produk_id.required' => 'Mobil harus dipilih!',
-                'tanggal.required' => 'Tanggal sewa harus diisi!',
+                'waktu.required' => 'Waktu sewa harus diisi!',
                 'lama.required' => 'Lama sewa harus diisi!',
             ]);
         }
@@ -75,7 +76,10 @@ class TransaksiController extends Controller
             return back()->withInput()->with('error', $error);
         }
 
+        $tanggal = Carbon::now()->addDays($request->waktu)->format('Y-m-d');
+
         Transaksi::create(array_merge($request->all(), [
+            'tanggal' => $tanggal,
             'metode' => 'cash',
             'status' => 'proses'
         ]));
@@ -154,7 +158,14 @@ class TransaksiController extends Controller
             }
         }
 
+        if ($transaksi->metode == 'null') {
+            $metode = 'cash';
+        } else {
+            $metode = $transaksi->metode;
+        }
+
         Transaksi::where('id', $id)->update([
+            'metode' => $metode,
             'status' => 'proses'
         ]);
 

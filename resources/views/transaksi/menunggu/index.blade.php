@@ -64,11 +64,16 @@
               Tour ({{ ucfirst($transaksi->produk->area) }} Kota)
               @endif
             </th>
-            <th>{{ ucfirst($transaksi->metode) }}
+            <th>
+              @if ($transaksi->metode != 'null')
+              {{ ucfirst($transaksi->metode) }}
               @if ($transaksi->metode == 'cash')
               <i class="fas fa-money-bill-wave"></i>
               @else
               <i class="far fa-credit-card"></i>
+              @endif
+              @else
+              Belum bayar <i class="fas fa-times-circle"></i>
               @endif
             </th>
             <th class="text-center">

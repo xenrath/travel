@@ -17,12 +17,12 @@ class TransaksiController extends Controller
         $validator = Validator::make($request->all(), [
             'pelanggan_id' => 'required',
             'produk_id' => 'required',
-            'tanggal' => 'required',
+            'waktu' => 'required',
             'lama' => 'required'
         ], [
             'pelanggan_id.required' => 'Pelanggan harus dipilih!',
             'produk_id.required' => 'Produk harus dipilih!',
-            'tanggal.required' => 'Tanggal sewa harus diisi!',
+            'waktu.required' => 'Waktu sewa harus diisi!',
             'lama.required' => 'Lama sewa harus diisi!',
         ]);
 
@@ -31,10 +31,12 @@ class TransaksiController extends Controller
             return $this->error($error[0]);
         }
 
-        $tanggal = date('Y-m-d', strtotime($request->tanggal));
+        $tanggal = date('Y-m-d', strtotime('+' . $request->waktu . ' days'));
+
+        return response($tanggal);
 
         $transaksi = Transaksi::create(array_merge($request->all(), [
-            'metode' => 'transfer',
+            'metode' => 'null',
             'tanggal' => $tanggal,
             'status' => 'menunggu'
         ]));
@@ -53,9 +55,8 @@ class TransaksiController extends Controller
     {
         $transaksis = Transaksi::where([
             ['pelanggan_id', $id],
-            ['metode', 'transfer'],
+            ['metode', 'null'],
             ['status', 'menunggu'],
-            ['bukti', null]
         ])->with('produk.mobil', 'pelanggan', 'sopir')->get();
 
         if (count($transaksis) > 0) {
@@ -69,13 +70,47 @@ class TransaksiController extends Controller
         }
     }
 
+    public function upload(Request $request, $id)
+    {
+        $validator = Validator::make($request->all(), [
+            'bukti' => 'required|image|mimes:jpeg,jpg,png'
+        ], [
+            'bukti.required' => 'Bukti pembayaran harus diisi!'
+        ]);
+
+        if ($validator->fails()) {
+            $error = $validator->errors()->all();
+            return $this->error($error[0]);
+        }
+
+        $bukti = str_replace(' ', '', $request->bukti->getClientOriginalName());
+        $namabukti = 'bukti/' . date('mYdHs') . rand(1, 10) . '_' . $bukti;
+        $request->bukti->storeAs('public/uploads/', $namabukti);
+
+        $transaksi = Transaksi::where('id', $id);
+        $upload = $transaksi->update([
+            'metode' => 'transfer',
+            'bukti' => $namabukti
+        ]);
+
+        if ($upload) {
+            $produk = Produk::where('id', $transaksi->first()->produk_id)->first();
+            return response()->json([
+                'status' => true,
+                'message' => 'Berhasil membayar transaksi',
+            ]);
+        } else {
+            return $this->error('Gagal membayar transaksi!');
+        }
+    }
+
+
     public function sudahbayar($id)
     {
         $transaksis = Transaksi::where([
             ['pelanggan_id', $id],
             ['metode', 'transfer'],
             ['status', '!=', 'selesai'],
-            ['bukti', '!=', null]
         ])->with('produk.mobil', 'pelanggan', 'sopir')->get();
 
         if (count($transaksis) > 0) {
@@ -119,39 +154,6 @@ class TransaksiController extends Controller
             ]);
         } else {
             return $this->error('Gagal menampilkan transaksi!');
-        }
-    }
-
-    public function upload(Request $request, $id)
-    {
-        $validator = Validator::make($request->all(), [
-            'bukti' => 'required|image|mimes:jpeg,jpg,png'
-        ], [
-            'bukti.required' => 'Bukti pembayaran harus diisi!'
-        ]);
-
-        if ($validator->fails()) {
-            $error = $validator->errors()->all();
-            return $this->error($error[0]);
-        }
-
-        $bukti = str_replace(' ', '', $request->bukti->getClientOriginalName());
-        $namabukti = 'bukti/' . date('mYdHs') . rand(1, 10) . '_' . $bukti;
-        $request->bukti->storeAs('public/uploads/', $namabukti);
-
-        $transaksi = Transaksi::where('id', $id);
-        $upload = $transaksi->update([
-            'bukti' => $namabukti
-        ]);
-
-        if ($upload) {
-            $produk = Produk::where('id', $transaksi->first()->produk_id)->first();
-            return response()->json([
-                'status' => true,
-                'message' => 'Berhasil membayar transaksi',
-            ]);
-        } else {
-            return $this->error('Gagal membayar transaksi!');
         }
     }
 

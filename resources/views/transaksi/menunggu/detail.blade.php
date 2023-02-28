@@ -116,7 +116,13 @@
               <h5 class="fs-0">:</h5>
             </td>
             <td class="text-end">
-              <h5 class="fs-0">{{ ucfirst($transaksi->metode) }}</h5>
+              <h5 class="fs-0">
+                @if (!$transaksi->metode == 'null')
+                {{ ucfirst($transaksi->metode) }}
+                @else
+                Belum dibayar
+                @endif
+              </h5>
             </td>
           </tr>
           @if ($transaksi->metode == 'transfer')
