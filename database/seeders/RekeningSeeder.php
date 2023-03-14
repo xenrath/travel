@@ -16,22 +16,10 @@ class RekeningSeeder extends Seeder
     {
         $rekenings = [
             [
-                'bank' => 'BRI',
-                'nama' => 'Nur Afif',
-                'nomor' => '738234091283902831',
-                'gambar' => 'bank/bri.jpg'
-            ],
-            [
-                'bank' => 'BNI',
-                'nama' => 'Faris Iman',
-                'nomor' => '218973892183',
-                'gambar' => 'bank/bni.png'
-            ],
-            [
                 'bank' => 'BCA',
-                'nama' => 'Dedi Nugroho',
-                'nomor' => '218392891280913',
-                'gambar' => 'bank/bca.png'
+                'nama' => 'Andhika Yusril Dinul Huda',
+                'nomor' => '1330262873',
+                'gambar' => 'bank/bri.jpg'
             ],
         ];
 
