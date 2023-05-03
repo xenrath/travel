@@ -33,8 +33,6 @@ class TransaksiController extends Controller
 
         $tanggal = date('Y-m-d', strtotime('+' . $request->waktu . ' days'));
 
-        return response($tanggal);
-
         $transaksi = Transaksi::create(array_merge($request->all(), [
             'metode' => 'null',
             'tanggal' => $tanggal,

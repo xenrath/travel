@@ -38,7 +38,7 @@
             </div>
           </div>
           <!-- parent pages-->
-          <!-- <a class="nav-link {{ request()->is('admin*') ? 'active' : '' }}" href="{{ url('admin') }}" role="button"
+          <a class="nav-link {{ request()->is('admin*') ? 'active' : '' }}" href="{{ url('admin') }}" role="button"
             aria-expanded="false">
             <div class="d-flex align-items-center">
               <span class="nav-link-icon">
@@ -46,7 +46,7 @@
               </span>
               <span class="nav-link-text ps-1">Data Admin</span>
             </div>
-          </a> -->
+          </a>
           <!-- parent pages-->
           <a class="nav-link {{ request()->is('sopir*') ? 'active' : '' }}" href="{{ url('sopir') }}" role="button"
             aria-expanded="false">

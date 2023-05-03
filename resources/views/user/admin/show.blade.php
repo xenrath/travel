@@ -45,52 +45,13 @@
           </tr>
           <tr height="50">
             <td>
-              <h5 class="fs-0">NIK</h5>
-            </td>
-            <td>
-              <h5 class="fs-0">:</h5>
-            </td>
-            <td class="text-end">
-              <h5 class="fs-0">{{ $user->nik }}</h5>
-            </td>
-          </tr>
-          <tr height="50">
-            <td>
-              <h5 class="fs-0">Jenis Kelamin</h5>
-            </td>
-            <td>
-              <h5 class="fs-0">:</h5>
-            </td>
-            <td class="text-end">
-              <h5 class="fs-0">
-                @if ($user->gender == 'L')
-                Laki-laki
-                @else
-                Perempuan
-                @endif
-              </h5>
-            </td>
-          </tr>
-          <tr height="50">
-            <td>
-              <h5 class="fs-0">Nomor Telepon</h5>
+              <h5 class="fs-0">Username</h5>
             </td>
             <td>
               <h5 class="fs-0">:</h5>
             </td>
             <td class="text-end">
               <h5 class="fs-0">{{ $user->telp }}</h5>
-            </td>
-          </tr>
-          <tr height="50">
-            <td>
-              <h5 class="fs-0">Alamat</h5>
-            </td>
-            <td>
-              <h5 class="fs-0">:</h5>
-            </td>
-            <td class="text-end">
-              <h5 class="fs-0">{{ $user->alamat }}</h5>
             </td>
           </tr>
         </table>

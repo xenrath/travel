@@ -17,6 +17,15 @@
     </div>
   </div>
 </div>
+@if (session('status'))
+<div class="alert alert-success border-2 d-flex align-items-center" role="alert">
+  <div class="bg-success me-3 icon-item">
+    <span class="fas fa-check-circle text-white fs-3"></span>
+  </div>
+  <p class="mb-0 flex-1">{{ session('status') }}</p>
+  <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+@endif
 <div class="card">
   <div class="card-header">
     <h5 class="float-start">Tabel Admin</h5>
@@ -43,9 +52,9 @@
               <a href="{{ url('admin/' . $user->id) }}" class="btn btn-info btn-sm">
                 <i class="fas fa-eye"></i> Lihat
               </a>
-              <a href="{{ url('admin/' . $user->id . '/edit') }}" class="btn btn-warning btn-sm">
+              {{-- <a href="{{ url('admin/' . $user->id . '/edit') }}" class="btn btn-warning btn-sm">
                 <i class="fas fa-pen"></i> Edit
-              </a>
+              </a> --}}
               <a href="" class="btn btn-danger btn-sm" data-bs-toggle="modal"
                 data-bs-target="#modalHapus{{ $user->id }}">
                 <i class="fas fa-trash"></i> Hapus
@@ -70,7 +79,7 @@
                       <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Batal</button>
                       <button class="btn btn-primary" type="button"
                         onclick="event.preventDefault(); document.getElementById('delete{{ $user->id }}').submit();">Hapus</button>
-                      <form action="{{ url('pelanggan/' . $user->id) }}" method="POST" id="delete{{ $user->id }}">
+                      <form action="{{ url('admin/' . $user->id) }}" method="POST" id="delete{{ $user->id }}">
                         @csrf
                         @method('delete')
                       </form>

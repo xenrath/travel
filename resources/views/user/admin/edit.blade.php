@@ -41,7 +41,7 @@
   <div class="card-header">
     <h5>Tambah Pelanggan</h5>
   </div>
-  <form action="{{ url('pelanggan/' . $user->id) }}" method="POST" enctype="multipart/form-data" autocomplete="off">
+  <form action="{{ url('admin/' . $user->id) }}" method="POST" enctype="multipart/form-data" autocomplete="off">
     @csrf
     @method('put')
     <div class="card-body">

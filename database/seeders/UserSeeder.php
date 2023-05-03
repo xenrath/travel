@@ -54,7 +54,7 @@ class UserSeeder extends Seeder
             ],
             [
                 'nik' => $this->generatorNik($num),
-                'nama' => 'Ilham',
+                'nama' => 'Messi',
                 // 'telp' => $this->generatorTelp($num),
                 'telp' => '81234567890',
                 'alamat' => 'Brebes',
@@ -67,7 +67,7 @@ class UserSeeder extends Seeder
             ],
             [
                 'nik' => $this->generatorNik($num),
-                'nama' => 'Siti',
+                'nama' => 'Freya',
                 // 'telp' => $this->generatorTelp($num),
                 'telp' => '82345678901',
                 'alamat' => 'Slawi',

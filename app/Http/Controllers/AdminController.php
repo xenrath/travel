@@ -40,19 +40,15 @@ class AdminController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'nik' => 'required|unique:users|min:16',
             'nama' => 'required',
-            'telp' => 'required|unique:users|min:10',
-            'gender' => 'required',
+            'telp' => 'required|unique:users',
+            'password' => 'required',
             'foto' => 'nullable|image|mimes:jpeg,jpg,png|max:2048',
         ], [
-            'nik.required' => 'NIK tidak boleh kosong!',
-            'nik.unique' => 'NIK sudah digunakan!',
-            'nik.min' => 'NIK yang dimasukan salah!',
-            'nama.required' => 'Nama pelanggan tidak boleh kosong!',
-            'telp.required' => 'Nomor telepon tidak boleh kosong!',
-            'telp.min' => 'Nomor telepon yang dimasukan salah!',
-            'gender.required' => 'Jenis kelamin harus dipilih!',
+            'nama.required' => 'Nama tidak boleh kosong!',
+            'telp.required' => 'Username tidak boleh kosong!',
+            'telp.unique' => 'Username sudah digunakan!',
+            'password.required' => 'Password tidak boleh kosong!',
             'gambar.image' => 'Gambar harus berformat jpeg, jpg, png!',
         ]);
 
@@ -70,12 +66,12 @@ class AdminController extends Controller
         }
 
         User::create(array_merge($request->all(), [
-            'password' => bcrypt($request->nik),
-            'role' => 'pelanggan',
+            'password' => bcrypt($request->password),
+            'role' => 'admin',
             'gambar' => $namagambar,
         ]));
 
-        return redirect('pelanggan')->with('status', 'Berhasil menambahkan pelanggan');
+        return redirect('admin')->with('status', 'Berhasil menambahkan admin');
     }
 
     /**
@@ -114,28 +110,24 @@ class AdminController extends Controller
     public function update(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
-            'nik' => 'required|unique:users,nik,' . $id . '|min:16',
             'nama' => 'required',
-            'telp' => 'required|unique:users,telp,' . $id . '|min:10',
-            'gender' => 'required',
+            'telp' => 'required|unique:users,telp,' . auth()->user()->id . ',id',
+            'password' => 'nullable',
             'foto' => 'nullable|image|mimes:jpeg,jpg,png|max:2048',
         ], [
-            'nik.required' => 'NIK tidak boleh kosong!',
-            'nik.unique' => 'NIK sudah digunakan!',
-            'nik.min' => 'NIK yang dimasukan salah!',
-            'nama.required' => 'Nama pelanggan tidak boleh kosong!',
-            'telp.required' => 'Nomor telepon tidak boleh kosong!',
-            'telp.min' => 'Nomor telepon yang dimasukan salah!',
-            'gender.required' => 'Jenis kelamin harus dipilih!',
-            'foto.image' => 'Foto harus berformat jpeg, jpg, png!',
+            'nama.required' => 'Nama tidak boleh kosong!',
+            'telp.required' => 'Username tidak boleh kosong!',
+            'telp.unique' => 'Username sudah digunakan!',
+            'password.required' => 'Password tidak boleh kosong!',
+            'gambar.image' => 'Gambar harus berformat jpeg, jpg, png!',
         ]);
 
         if ($validator->fails()) {
             $error = $validator->errors()->all();
-            return back()->withInput()->with('status', $error);
+            return back()->withInput()->with('error', $error);
         }
 
-        $user = User::findOrFail($id);
+        $user = User::findOrFail(auth()->user()->id);
 
         if ($request->foto) {
             Storage::disk('local')->delete('public/uploads/' . $user->foto);
@@ -146,16 +138,14 @@ class AdminController extends Controller
             $namafoto = $user->foto;
         }
 
-        User::where('id', $id)->update([
-            'nik' => $request->nik,
+        User::where('id', auth()->user()->id)->update([
             'nama' => $request->nama,
-            'password' => bcrypt($request->nik),
             'telp' => $request->telp,
-            'gender' => $request->gender,
+            'password' => bcrypt($request->password),
             'foto' => $namafoto,
         ]);
 
-        return redirect('pelanggan')->with('status', 'Berhasil memperbarui pelanggan');
+        return redirect('admin')->with('status', 'Berhasil memperbarui admin');
     }
 
     /**
@@ -171,6 +161,6 @@ class AdminController extends Controller
         Storage::disk('local')->delete('public/uploads/' . $user->foto);
         $user->delete();
 
-        return back()->with('status', 'Berhasil menghapus pelanggan');
+        return back()->with('status', 'Berhasil menghapus admin');
     }
 }
