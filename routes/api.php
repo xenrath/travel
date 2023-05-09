@@ -36,7 +36,6 @@ Route::post('produk-search', [ProdukController::class, 'search']);
 
 Route::post('transaksi-store', [TransaksiController::class, 'store']);
 Route::post('transaksi-delete/{id}', [TransaksiController::class, 'delete']);
-// Route::post('transaksi-delete/{id}', [TransaksiController::class, 'delete']);
 Route::get('transaksi-belumbayar/{id}', [TransaksiController::class, 'belumbayar']);
 Route::get('transaksi-sudahbayar/{id}', [TransaksiController::class, 'sudahbayar']);
 Route::get('transaksi-selesai/{id}', [TransaksiController::class, 'selesai']);
