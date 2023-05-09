@@ -77,6 +77,7 @@ class UserController extends Controller
         }
 
         $user = User::create(array_merge($request->all(), [
+            'role' => 'pelanggan',
             'password' => bcrypt($request->password)
         ]));
 

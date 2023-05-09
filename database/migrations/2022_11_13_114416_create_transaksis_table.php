@@ -23,7 +23,7 @@ class CreateTransaksisTable extends Migration
             $table->string('harga');
             $table->enum('metode', ['cash', 'transfer', 'null']);
             $table->string('bukti')->nullable();
-            $table->enum('status', ['menunggu', 'proses', 'selesai']);
+            $table->enum('status', ['menunggu', 'proses', 'selesai', 'batal']);
             $table->timestamps();
         });
     }

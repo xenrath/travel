@@ -49,6 +49,33 @@ class TransaksiController extends Controller
         }
     }
 
+    public function delete($id)
+    {
+        $transaksi = Transaksi::where('id', $id)->first();
+        $transaksi->delete();
+
+        $produk = Produk::where('id', $transaksi->produk_id)->first();
+
+        Mobil::where('id', $produk->mobil_id)->update([
+            'status' => true
+        ]);
+
+        if ($produk->kategori == 'tour') {
+            User::where('id', $transaksi->sopir_id)->update([
+                'status' => true
+            ]);
+        }
+
+        if ($transaksi) {
+            return response()->json([
+                'status' => true,
+                'message' => 'Berhasil membatalkan Peminjaman',
+            ]);
+        } else {
+            $this->error('Gagal membatalkan Peminjaman!');
+        }
+    }
+
     public function belumbayar($id)
     {
         $transaksis = Transaksi::where([
@@ -101,7 +128,6 @@ class TransaksiController extends Controller
             return $this->error('Gagal membayar transaksi!');
         }
     }
-
 
     public function sudahbayar($id)
     {
