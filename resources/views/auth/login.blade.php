@@ -8,7 +8,7 @@
   <!-- ===============================================-->
   <!--    Document Title-->
   <!-- ===============================================-->
-  <title>Login | Travel</title>
+  <title>Login | Trans</title>
   <!-- ===============================================-->
   <!--    Favicons-->
   <!-- ===============================================-->
@@ -54,7 +54,7 @@
               <div class="card">
                 <div class="card-header bg-circle-shape bg-shape text-center p-2"><a
                     class="font-sans-serif fw-bolder fs-4 z-index-1 position-relative link-light light"
-                    href="">Travel</a></div>
+                    href="">Trans</a></div>
                 <div class="card-body p-4">
                   <div class="row flex-between-center mb-3">
                     <div class="col-auto">

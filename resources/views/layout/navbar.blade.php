@@ -8,15 +8,15 @@
   </button>
   <a class="navbar-brand me-1 me-sm-3" href="index.html">
     <div class="d-flex align-items-center">
-      <img class="me-2" src="{{ asset('falcon/public/assets/img/icons/spot-illustrations/falcon.png') }}" alt=""
-        width="40" />
+      <img class="me-2" src="{{ asset('falcon/public/assets/img/icons/spot-illustrations/falcon.png') }}"
+        alt="" width="40" />
       <span class="font-sans-serif">Trans Jtb</span>
     </div>
   </a>
   <ul class="navbar-nav align-items-center d-none d-lg-block">
     <li class="nav-item">
       <h3 class="fw-light overflow-hidden">
-        <span class="typed-text fw-bold" data-typed-text='["CV. Jatibarang Trans 354"]'></span>
+        <span class="typed-text fw-bold">CV. Jatibarang Trans 354</span>
       </h3>
     </li>
   </ul>
