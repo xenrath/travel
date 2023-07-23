@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Models\Mobil;
 use App\Models\Produk;
 use App\Models\Transaksi;
@@ -20,14 +21,13 @@ class HomeController extends Controller
         $this->middleware('auth');
     }
 
+    /**
+     * Show the application dashboard.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
     public function index()
     {
-        if (auth()->user()->isAdmin()) {
-            return redirect('admin');
-        } elseif (auth()->user()->isOwner()) {
-            return redirect('owner');
-        }
-        
         $admin = User::where('role', 'admin')->get();
         $sopir = User::where('role', 'sopir')->get();
         $pelanggan = User::where('role', 'pelanggan')->get();

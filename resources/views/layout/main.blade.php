@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en-US" dir="ltr">
+
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -43,6 +44,7 @@
     integrity="sha512-aVKKRRi/Q/YV+4mjoKBsE4x3H+BkegoM/em46NNlCqNTmUYADjBbeNefNxYV7giUp0VxICtqdrbqU7iVaeZNXA=="
     crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </head>
+
 <body>
   <!-- ===============================================-->
   <!--    Main Content-->
@@ -52,7 +54,12 @@
 
       <!-- Start Main Sidebar -->
 
-      @include('layout.sidebar')
+      @if (auth()->user()->isAdmin())
+        @include('layout.menu.admin')
+      @endif
+      @if (auth()->user()->isOwner())
+        @include('layout.menu.owner')
+      @endif
 
       <!-- End Main Sidebar -->
 
@@ -105,4 +112,5 @@
   <script src="{{ asset('falcon/public/assets/js/flatpickr.js') }}"></script>
   <script src="{{ asset('falcon/public/vendors/prism/prism.js') }}"></script>
 </body>
+
 </html>

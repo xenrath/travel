@@ -25,8 +25,7 @@ class CreateUsersTable extends Migration
             $table->text('alamat')->nullable();
             $table->string('foto')->nullable();
             $table->enum('role', ['admin', 'sopir', 'pelanggan']);
-            $table->boolean('status')->default(true);
-            $table->rememberToken();
+            $table->boolean('status')->default(true);`
             $table->timestamps();
         });
     }

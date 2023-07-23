@@ -1,16 +1,6 @@
 <?php
 
-use App\Http\Controllers\AdminController;
-use App\Http\Controllers\BuatController;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\MobilController;
-use App\Http\Controllers\PelangganController;
-use App\Http\Controllers\PemesananController;
-use App\Http\Controllers\ProdukController;
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\RekeningController;
-use App\Http\Controllers\SopirController;
-use App\Http\Controllers\TransaksiController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -29,41 +19,39 @@ Auth::routes();
 
 Route::get('/', [HomeController::class, 'index']);
 
-Route::middleware('auth')->group(function () {
-  Route::get('profile', [ProfileController::class, 'index']);
-  Route::post('profile/update', [ProfileController::class, 'update']);
+// Route::get('get-harga/{id}', [ProdukController::class, 'get_harga']);
 
-  Route::resource('admin', AdminController::class);
-  Route::resource('sopir', SopirController::class);
-  Route::resource('pelanggan', PelangganController::class);
-
-  Route::get('mobil/detail/{id}', [MobilController::class, 'detail']);
-  Route::resource('mobil', MobilController::class);
-
-  Route::get('produk/detail/{id}', [ProdukController::class, 'detail']);
-  Route::resource('produk', ProdukController::class);
-
-  Route::get('buat', [BuatController::class, 'index']);
-  Route::get('buat/create/{id}', [BuatController::class, 'create']);
-  Route::post('buat/store/{id}', [BuatController::class, 'store']);
-
-  Route::get('transaksi/menunggu', [TransaksiController::class, 'menunggu']);
-  Route::get('transaksi/menunggu/{id}', [TransaksiController::class, 'menunggu_detail']);
-  Route::post('transaksi/konfirmasi/{id}', [TransaksiController::class, 'konfirmasi']);
-
-  Route::get('transaksi/proses', [TransaksiController::class, 'proses']);
-  Route::get('transaksi/proses/{id}', [TransaksiController::class, 'proses_detail']);
-  Route::get('transaksi/selesai/{id}', [TransaksiController::class, 'selesai']);
-
-  Route::get('transaksi/riwayat', [TransaksiController::class, 'riwayat']);
-  Route::get('transaksi/riwayat/{id}', [TransaksiController::class, 'riwayat_detail']);
-
-  Route::get('transaksi/print', [TransaksiController::class, 'print']);
-  Route::get('invoice', [TransaksiController::class, 'invoice']);
-
-  Route::resource('transaksi', TransaksiController::class);
-
-  Route::resource('rekening', RekeningController::class);
+Route::middleware('admin')->prefix('admin')->group(function () {
+    Route::get('/', [\App\Http\Controllers\Admin\DashboardController::class, 'index']);
+    Route::resource('profile', \App\Http\Controllers\Admin\ProfileController::class);
+    Route::resource('admin', \App\Http\Controllers\Admin\AdminController::class);
+    Route::resource('sopir', \App\Http\Controllers\Admin\SopirController::class);
+    Route::resource('pelanggan', \App\Http\Controllers\Admin\PelangganController::class);
+    Route::get('mobil/detail/{id}', [\App\Http\Controllers\Admin\MobilController::class, 'detail']);
+    Route::resource('mobil', \App\Http\Controllers\Admin\MobilController::class);
+    Route::get('produk/detail/{id}', [\App\Http\Controllers\Admin\ProdukController::class, 'detail']);
+    Route::resource('produk', \App\Http\Controllers\Admin\ProdukController::class);
+    Route::get('buat', [\App\Http\Controllers\Admin\BuatController::class, 'index']);
+    Route::get('buat/create/{id}', [\App\Http\Controllers\Admin\BuatController::class, 'create']);
+    Route::post('buat/store/{id}', [\App\Http\Controllers\Admin\BuatController::class, 'store']);
+    Route::get('transaksi/menunggu', [\App\Http\Controllers\Admin\TransaksiController::class, 'menunggu']);
+    Route::get('transaksi/menunggu/{id}', [\App\Http\Controllers\Admin\TransaksiController::class, 'menunggu_detail']);
+    Route::post('transaksi/konfirmasi/{id}', [\App\Http\Controllers\Admin\TransaksiController::class, 'konfirmasi']);
+    Route::get('transaksi/proses', [\App\Http\Controllers\Admin\TransaksiController::class, 'proses']);
+    Route::get('transaksi/proses/{id}', [\App\Http\Controllers\Admin\TransaksiController::class, 'proses_detail']);
+    Route::get('transaksi/selesai/{id}', [\App\Http\Controllers\Admin\TransaksiController::class, 'selesai']);
+    Route::get('transaksi/riwayat', [\App\Http\Controllers\Admin\TransaksiController::class, 'riwayat']);
+    Route::get('transaksi/riwayat/{id}', [\App\Http\Controllers\Admin\TransaksiController::class, 'riwayat_detail']);
+    Route::get('transaksi/print', [\App\Http\Controllers\Admin\TransaksiController::class, 'print']);
+    Route::get('invoice', [\App\Http\Controllers\Admin\TransaksiController::class, 'invoice']);
+    Route::resource('transaksi', \App\Http\Controllers\Admin\TransaksiController::class);
+    Route::resource('rekening', \App\Http\Controllers\Admin\RekeningController::class);
 });
 
-// Route::get('get-harga/{id}', [ProdukController::class, 'get_harga']);
+Route::middleware('owner')->prefix('owner')->group(function () {
+    Route::get('/', [\App\Http\Controllers\Owner\DashboardController::class, 'index']);
+    Route::get('transaksi/riwayat', [\App\Http\Controllers\Owner\TransaksiController::class, 'riwayat']);
+    Route::get('transaksi/riwayat/{id}', [\App\Http\Controllers\Owner\TransaksiController::class, 'riwayat_detail']);
+    Route::get('transaksi/print', [\App\Http\Controllers\Owner\TransaksiController::class, 'print']);
+    Route::get('invoice', [\App\Http\Controllers\Owner\TransaksiController::class, 'invoice']);
+});

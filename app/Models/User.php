@@ -35,4 +35,20 @@ class User extends Authenticatable
     {
         return $this->hasMany(Transaksi::class);
     }
+
+    public function isAdmin()
+    {
+        if ($this->role == 'admin') {
+            return true;
+        }
+        return false;
+    }
+
+    public function isOwner()
+    {
+        if ($this->role == 'owner') {
+            return true;
+        }
+        return false;
+    }
 }
