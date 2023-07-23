@@ -24,7 +24,7 @@ class CreateUsersTable extends Migration
             $table->string('longitude')->nullable();
             $table->text('alamat')->nullable();
             $table->string('foto')->nullable();
-            $table->enum('role', ['admin', 'sopir', 'pelanggan']);
+            $table->enum('role', ['admin', 'owner', 'sopir', 'pelanggan']);
             $table->boolean('status')->default(true);
             $table->timestamps();
         });

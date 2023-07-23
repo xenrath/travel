@@ -30,6 +30,18 @@ class UserSeeder extends Seeder
             ],
             [
                 'nik' => $this->generatorNik($num),
+                'nama' => 'Owner',
+                'telp' => 'owner',
+                'alamat' => '',
+                'latitude' => '',
+                'longitude' => '',
+                'gender' => 'L',
+                'password' => bcrypt('owner'),
+                'foto' => '',
+                'role' => 'owner'
+            ],
+            [
+                'nik' => $this->generatorNik($num),
                 'nama' => 'Ahmad',
                 'telp' => $this->generatorTelp($num),
                 'alamat' => 'Tegal',
