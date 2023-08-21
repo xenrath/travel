@@ -11,16 +11,9 @@ use Illuminate\Support\Facades\Validator;
 
 class ProdukController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-        $produks = Produk::whereHas('mobil', function ($query) {
-            $query->orderBy('status', 'DESC');
-        })->paginate(6);
+        $produks = Produk::join('mobils', 'mobils.id', '=', 'produks.mobil_id')->select('produks.*', 'mobils.status')->orderBy('status', 'desc')->paginate(6);
 
         return view('admin.produk.index', compact('produks'));
     }

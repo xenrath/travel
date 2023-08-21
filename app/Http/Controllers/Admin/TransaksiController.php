@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Exports\RekapExport;
 use App\Http\Controllers\Controller;
 use App\Models\Mobil;
 use App\Models\Order;
@@ -12,6 +13,7 @@ use Barryvdh\DomPDF\Facade\Pdf as PDF;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Maatwebsite\Excel\Facades\Excel;
 
 class TransaksiController extends Controller
 {
@@ -109,21 +111,6 @@ class TransaksiController extends Controller
         return view('admin.transaksi.show', compact('transaksi'));
     }
 
-    public function edit($id)
-    {
-        //
-    }
-
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    public function destroy($id)
-    {
-        //
-    }
-
     public function menunggu()
     {
         $transaksis = Transaksi::where('status', 'menunggu')->orderBy('id', 'DESC')->paginate(10);
@@ -168,6 +155,12 @@ class TransaksiController extends Controller
         Transaksi::where('id', $id)->update([
             'metode' => $metode,
             'status' => 'proses'
+        ]);
+
+        $produk = Produk::where('id', $transaksi->produk_id)->first();
+
+        Mobil::where('id', $produk->mobil_id)->update([
+            'status' => false
         ]);
 
         if ($transaksi->produk->kategori == 'tour') {
@@ -276,5 +269,11 @@ class TransaksiController extends Controller
         $pdf = PDF::loadView('admin.transaksi.invoice', compact('transaksi'));
 
         return $pdf->stream('Cetak PDF');
+    }
+
+    public function rekapexport()
+    {
+        $filename = 'rekap_transaksi.xlsx';
+        return Excel::download(new RekapExport(), $filename);
     }
 }

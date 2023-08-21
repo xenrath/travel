@@ -43,6 +43,7 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::get('transaksi/riwayat', [\App\Http\Controllers\Admin\TransaksiController::class, 'riwayat']);
     Route::get('transaksi/riwayat/{id}', [\App\Http\Controllers\Admin\TransaksiController::class, 'riwayat_detail']);
     Route::get('transaksi/print', [\App\Http\Controllers\Admin\TransaksiController::class, 'print']);
+    Route::get('transaksi/rekapexport', [\App\Http\Controllers\Admin\TransaksiController::class, 'rekapexport']);
     Route::get('invoice', [\App\Http\Controllers\Admin\TransaksiController::class, 'invoice']);
     Route::resource('transaksi', \App\Http\Controllers\Admin\TransaksiController::class);
     Route::resource('rekening', \App\Http\Controllers\Admin\RekeningController::class);
